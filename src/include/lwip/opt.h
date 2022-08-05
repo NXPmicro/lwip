@@ -932,7 +932,8 @@
  * LWIP_DHCP_DOES_ACD_CHECK==1: Perform address conflict detection on the dhcp address.
  */
 #if !defined LWIP_DHCP_DOES_ACD_CHECK || defined __DOXYGEN__
-#define LWIP_DHCP_DOES_ACD_CHECK        LWIP_DHCP
+/* NXP changed default to 0 even if DHCP is on */
+#define LWIP_DHCP_DOES_ACD_CHECK        0
 #endif
 
 /**
@@ -2046,6 +2047,16 @@
 #endif
 
 /**
+ * LWIP_TCP_USER_TIMEOUT==1: Enable socket send timeout.
+ * It specifies the maximum amount of time in milliseconds 
+ * that transmitted data may remain unacknowledged before 
+ * TCP will forcibly close.
+ */
+#if !defined LWIP_TCP_USER_TIMEOUT || defined __DOXYGEN__
+#define LWIP_TCP_USER_TIMEOUT           0
+#endif
+
+/**
  * LWIP_SO_SNDRCVTIMEO_NONSTANDARD==1: SO_RCVTIMEO/SO_SNDTIMEO take an int
  * (milliseconds, much like winsock does) instead of a struct timeval (default).
  */
@@ -2060,6 +2071,14 @@
 #define LWIP_SO_RCVBUF                  0
 #endif
 
+/**
+ * LWIP_SIOCOUTQ==1: Enable LWIP_SIOCOUTQ reading.
+ * It returns count of (not sent + not acked) data bytes in send buffer.
+ */
+#if !defined LWIP_SIOCOUTQ || defined __DOXYGEN__
+#define LWIP_SIOCOUTQ                  0
+#endif
+     
 /**
  * LWIP_SO_LINGER==1: Enable SO_LINGER processing.
  */
