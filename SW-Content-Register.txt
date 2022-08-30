@@ -13,5 +13,5 @@ lwip       Name: lwIP TCP/IP Stack
            Release Location: https://github.com/nxpmicro/lwip
            Location: ./                                      
            Origin:
-               NXP
+               NXP (BSD-3-Clause)
                Swedish Institute of Computer Science and community (BSD-3-Clause) - http://savannah.nongnu.org/projects/lwip
