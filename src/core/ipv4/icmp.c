@@ -360,11 +360,13 @@ icmp_send_response(struct pbuf *p, u8_t type, u8_t code)
               (q->len >= (sizeof(struct icmp_echo_hdr) + IP_HLEN + ICMP_DEST_UNREACH_DATASIZE)));
 
   iphdr = (struct ip_hdr *)p->payload;
+#if 0 /* Warnings.*/
   LWIP_DEBUGF(ICMP_DEBUG, ("icmp_time_exceeded from "));
   ip4_addr_debug_print_val(ICMP_DEBUG, iphdr->src);
   LWIP_DEBUGF(ICMP_DEBUG, (" to "));
   ip4_addr_debug_print_val(ICMP_DEBUG, iphdr->dest);
   LWIP_DEBUGF(ICMP_DEBUG, ("\n"));
+#endif
 
   icmphdr = (struct icmp_hdr *)q->payload;
   icmphdr->type = type;

@@ -340,7 +340,9 @@ lwip_init(void)
 {
 #ifndef LWIP_SKIP_CONST_CHECK
   int a = 0;
+#ifdef LWIP_NOASSERT /* Caused compiler warning. */
   LWIP_UNUSED_ARG(a);
+#endif
   LWIP_ASSERT("LWIP_CONST_CAST not implemented correctly. Check your lwIP port.", LWIP_CONST_CAST(void *, &a) == &a);
 #endif
 #ifndef LWIP_SKIP_PACKING_CHECK
