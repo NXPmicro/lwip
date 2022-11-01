@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ksdk:manifest xmlns:ksdk="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="SDK_2.x_middleware_adam_dunkels_lwip_MIMXRT1052_manifest_v3_10" name="lwIP" brief="Lightweight IP open-source TCP/IP stack" format_version="3.10" api_version="2.0.0" xsi:schemaLocation="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd http://nxp.com/mcuxpresso/sdk/sdk_manifest_v3.10.xsd">
-  <!--Timestamp (UTC): 2022-08-04 15:20:06.325613-->
+<ksdk:manifest xmlns:ksdk="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="SDK_2.x_middleware_adam_dunkels_lwip_LPC54628_manifest_v3_10" name="lwIP" brief="Lightweight IP open-source TCP/IP stack" format_version="3.10" api_version="2.0.0" xsi:schemaLocation="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd http://nxp.com/mcuxpresso/sdk/sdk_manifest_v3.10.xsd">
+  <!--Timestamp (UTC): 2022-08-04 15:20:29.474712-->
   <!--This manifest is generated based on sdk repo commit: 7fb442914f92023b395b260777eb2355254fd71d-->
   <externalDefinitions>
-    <definition extID="MIMXRT1052xxxxB"/>
-    <definition extID="middleware.wifi.MIMXRT1052"/>
-    <definition extID="core0_MIMXRT1052xxxxB"/>
+    <definition extID="LPC54628J512"/>
+    <definition extID="core0_LPC54628J512"/>
     <definition extID="armgcc"/>
-    <definition extID="middleware.freertos-kernel.MIMXRT1052"/>
-    <definition extID="middleware.mbedtls.MIMXRT1052"/>
-    <definition extID="middleware.baremetal.MIMXRT1052"/>
-    <definition extID="driver.phy-common.MIMXRT1052"/>
-    <definition extID="platform.drivers.enet.MIMXRT1052"/>
-    <definition extID="middleware.usb.host_cdc.MIMXRT1052"/>
-    <definition extID="middleware.usb.host_cdc_rndis.MIMXRT1052"/>
-    <definition extID="middleware.usb.host_controller_ehci.MIMXRT1052"/>
+    <definition extID="middleware.freertos-kernel.LPC54628"/>
+    <definition extID="middleware.mbedtls.LPC54628"/>
+    <definition extID="middleware.baremetal.LPC54628"/>
+    <definition extID="driver.phy-common.LPC54628"/>
+    <definition extID="platform.drivers.lpc_enet.LPC54628"/>
+    <definition extID="middleware.usb.host_cdc.LPC54628"/>
+    <definition extID="middleware.usb.host_cdc_rndis.LPC54628"/>
+    <definition extID="middleware.usb.host_controller_ohci.LPC54628"/>
   </externalDefinitions>
-  <ksdk id="MCUXpressoSDK2120_middleware_adam_dunkels_lwip_MIMXRT1052_manifest_v3_10" name="MCUXpressoSDK2120_middleware_adam_dunkels_lwip_MIMXRT1052_manifest_v3_10" version="2.12.0"/>
+  <ksdk id="MCUXpressoSDK2120_middleware_adam_dunkels_lwip_LPC54628_manifest_v3_10" name="MCUXpressoSDK2120_middleware_adam_dunkels_lwip_LPC54628_manifest_v3_10" version="2.12.0"/>
   <components>
-    <component id="middleware.lwip.MIMXRT1052" name="lwIP" brief="lwIP - A Lightweight TCP/IP Stack" version="2.2.0" revision="6" full_name="lwIP" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.LPC54628" name="lwIP" brief="lwIP - A Lightweight TCP/IP Stack" version="2.2.0" revision="6" full_name="lwIP" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.template.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.template.LPC54628"/>
           <any_of>
-            <component_dependency value="middleware.lwip.empty_ethernetif.MIMXRT1052"/>
-            <component_dependency value="middleware.wifi.MIMXRT1052"/>
-            <component_dependency value="middleware.lwip.enet_ethernetif.MIMXRT1052"/>
-            <component_dependency value="middleware.lwip.usb_ethernetif.MIMXRT1052"/>
+            <component_dependency value="middleware.lwip.empty_ethernetif.LPC54628"/>
+            <component_dependency value="middleware.lwip.enet_ethernetif.LPC54628"/>
+            <component_dependency value="middleware.lwip.usb_ethernetif.LPC54628"/>
           </any_of>
         </all>
       </dependencies>
@@ -331,7 +329,7 @@
         <files mask="README" hidden="true"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
@@ -339,23 +337,23 @@
         <include_path relative_path="./src/include" project_relative_path="src/include" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.httpd.MIMXRT1052" name="lwIP_HTTPD" brief="lwIP HTTP Daemon" version="2.2.0" revision="6" full_name="lwIP HTTP Daemon" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpd.LPC54628" name="lwIP_HTTPD" brief="lwIP HTTP Daemon" version="2.2.0" revision="6" full_name="lwIP HTTP Daemon" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.MIMXRT1052"/>
-          <component_dependency value="middleware.lwip.apps.httpd.support.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.LPC54628"/>
+          <component_dependency value="middleware.lwip.apps.httpd.support.LPC54628"/>
         </all>
       </dependencies>
       <source relative_path="./src/apps/http" project_relative_path="src/apps/http" type="src">
         <files mask="httpd.c"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_apps_httpd_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_apps_httpd_LPC54628.cmake" hidden="true"/>
       </source>
     </component>
-    <component id="middleware.lwip.apps.httpd.support.MIMXRT1052" name="lwIP_HTTPD_support" brief="lwIP HTTP Daemon Implementation Support Files" version="2.2.0" revision="6" full_name="lwIP HTTP Daemon Implementation Support Files" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpd.support.LPC54628" name="lwIP_HTTPD_support" brief="lwIP HTTP Daemon Implementation Support Files" version="2.2.0" revision="6" full_name="lwIP HTTP Daemon Implementation Support Files" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./src/apps/http" project_relative_path="src/apps/http" type="src">
         <files mask="fs.c"/>
@@ -392,18 +390,18 @@
         <files mask="makefsdata" hidden="true"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_apps_httpd_support_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_apps_httpd_support_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./src/apps/http" project_relative_path="src/apps/http" type="c_include"/>
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.httpsrv.MIMXRT1052" name="lwIP_HTTP_srv" brief="lwIP HTTP Server Implementation" version="2.2.0" revision="6" full_name="lwIP HTTP Server" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpsrv.LPC54628" name="lwIP_HTTP_srv" brief="lwIP HTTP Server Implementation" version="2.2.0" revision="6" full_name="lwIP HTTP Server" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.MIMXRT1052"/>
-          <component_dependency value="middleware.freertos-kernel.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.LPC54628"/>
+          <component_dependency value="middleware.freertos-kernel.LPC54628"/>
         </all>
       </dependencies>
       <source relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="src">
@@ -438,33 +436,33 @@
         <files mask="mkfs.pl" hidden="true"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_apps_httpsrv_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_apps_httpsrv_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.httpssrv.MIMXRT1052" name="lwIP_HTTPS_srv" brief="lwIP HTTPS Server Implementation" version="2.2.0" revision="6" full_name="lwIP HTTPS Server" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpssrv.LPC54628" name="lwIP_HTTPS_srv" brief="lwIP HTTPS Server Implementation" version="2.2.0" revision="6" full_name="lwIP HTTPS Server" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.apps.httpsrv.MIMXRT1052"/>
-          <component_dependency value="middleware.mbedtls.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.apps.httpsrv.LPC54628"/>
+          <component_dependency value="middleware.mbedtls.LPC54628"/>
         </all>
       </dependencies>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_apps_httpssrv_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_apps_httpssrv_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.lwiperf.MIMXRT1052" name="lwIP_IPERF" brief="lwIP IPERF Implementation" version="2.2.0" revision="6" full_name="lwIP IPERF" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.lwiperf.LPC54628" name="lwIP_IPERF" brief="lwIP IPERF Implementation" version="2.2.0" revision="6" full_name="lwIP IPERF" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.LPC54628"/>
           <any_of>
-            <component_dependency value="middleware.freertos-kernel.MIMXRT1052"/>
-            <component_dependency value="middleware.baremetal.MIMXRT1052"/>
+            <component_dependency value="middleware.freertos-kernel.LPC54628"/>
+            <component_dependency value="middleware.baremetal.LPC54628"/>
           </any_of>
         </all>
       </dependencies>
@@ -475,15 +473,15 @@
         <files mask="lwiperf.h"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_apps_lwiperf_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_apps_lwiperf_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.mdns.MIMXRT1052" name="lwIP_MDNS" brief="lwIP mDNS Implementation" version="2.2.0" revision="6" full_name="lwIP mDNS" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.mdns.LPC54628" name="lwIP_MDNS" brief="lwIP mDNS Implementation" version="2.2.0" revision="6" full_name="lwIP mDNS" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./src/apps/mdns" project_relative_path="src/apps/mdns" type="src">
         <files mask="mdns.c"/>
@@ -498,15 +496,15 @@
         <files mask="mdns_out.h"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_apps_mdns_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_apps_mdns_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.mqtt.MIMXRT1052" name="lwIP_MQTT" brief="lwIP MQTT Client" version="2.2.0" revision="6" full_name="lwIP MQTT Client" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.mqtt.LPC54628" name="lwIP_MQTT" brief="lwIP MQTT Client" version="2.2.0" revision="6" full_name="lwIP MQTT Client" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./src/apps/mqtt" project_relative_path="src/apps/mqtt" type="src">
         <files mask="mqtt.c"/>
@@ -517,15 +515,15 @@
         <files mask="mqtt_priv.h"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_apps_mqtt_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_apps_mqtt_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.sntp.MIMXRT1052" name="lwIP_SNTP" brief="lwIP SNTP" version="2.2.0" revision="6" full_name="lwIP SNTP" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.apps.sntp.LPC54628" name="lwIP_SNTP" brief="lwIP SNTP" version="2.2.0" revision="6" full_name="lwIP SNTP" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include">
         <files mask="sntp.h"/>
@@ -538,9 +536,9 @@
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.ping.MIMXRT1052" name="lwIP_ping" brief="lwIP Ping Sender contrib" version="2.2.0" revision="6" full_name="lwIP Ping Sender" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.ping.LPC54628" name="lwIP_ping" brief="lwIP Ping Sender contrib" version="2.2.0" revision="6" full_name="lwIP Ping Sender" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./contrib/apps/ping" project_relative_path="contrib/apps/ping" type="c_include">
         <files mask="ping.h"/>
@@ -549,15 +547,15 @@
         <files mask="ping.c"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_contrib_ping_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_contrib_ping_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./contrib/apps/ping" project_relative_path="contrib/apps/ping" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.tcpecho.MIMXRT1052" name="lwIP_tcpecho" brief="lwIP TCP Echo contrib" version="2.2.0" revision="6" full_name="lwIP TCP Echo" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.tcpecho.LPC54628" name="lwIP_tcpecho" brief="lwIP TCP Echo contrib" version="2.2.0" revision="6" full_name="lwIP TCP Echo" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./contrib/apps/tcpecho" project_relative_path="contrib/apps/tcpecho" type="c_include">
         <files mask="tcpecho.h"/>
@@ -566,15 +564,15 @@
         <files mask="tcpecho.c"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_contrib_tcpecho_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_contrib_tcpecho_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./contrib/apps/tcpecho" project_relative_path="contrib/apps/tcpecho" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.tcpecho_raw.MIMXRT1052" name="lwIP_tcpecho_raw" brief="lwIP TCP Echo Raw API contrib" version="2.2.0" revision="6" full_name="lwIP TCP Echo Raw API" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.tcpecho_raw.LPC54628" name="lwIP_tcpecho_raw" brief="lwIP TCP Echo Raw API contrib" version="2.2.0" revision="6" full_name="lwIP TCP Echo Raw API" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./contrib/apps/tcpecho_raw" project_relative_path="contrib/apps/tcpecho_raw" type="src">
         <files mask="tcpecho_raw.c"/>
@@ -586,9 +584,9 @@
         <include_path relative_path="./contrib/apps/tcpecho_raw" project_relative_path="contrib/apps/tcpecho_raw" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.udpecho.MIMXRT1052" name="lwIP_udpecho" brief="lwIP UDP Echo contrib" version="2.2.0" revision="6" full_name="lwIP UDP Echo" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.udpecho.LPC54628" name="lwIP_udpecho" brief="lwIP UDP Echo contrib" version="2.2.0" revision="6" full_name="lwIP UDP Echo" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./contrib/apps/udpecho" project_relative_path="contrib/apps/udpecho" type="c_include">
         <files mask="udpecho.h"/>
@@ -600,9 +598,9 @@
         <include_path relative_path="./contrib/apps/udpecho" project_relative_path="contrib/apps/udpecho" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.udpecho_raw.MIMXRT1052" name="lwIP_udpecho_raw" brief="lwIP UDP Echo Raw API contrib" version="2.2.0" revision="6" full_name="lwIP UDP Echo Raw API" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.udpecho_raw.LPC54628" name="lwIP_udpecho_raw" brief="lwIP UDP Echo Raw API contrib" version="2.2.0" revision="6" full_name="lwIP UDP Echo Raw API" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
-        <component_dependency value="middleware.lwip.MIMXRT1052"/>
+        <component_dependency value="middleware.lwip.LPC54628"/>
       </dependencies>
       <source relative_path="./contrib/apps/udpecho_raw" project_relative_path="contrib/apps/udpecho_raw" type="src">
         <files mask="udpecho_raw.c"/>
@@ -614,24 +612,21 @@
         <include_path relative_path="./contrib/apps/udpecho_raw" project_relative_path="contrib/apps/udpecho_raw" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.empty_ethernetif.MIMXRT1052" name="lwIP_empty_ethernetif" brief="lwIP Empty Ethernet Layer (do not use)" version="2.2.0" revision="6" full_name="lwIP Empty Ethernet Layer (do not use)" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.empty_ethernetif.LPC54628" name="lwIP_empty_ethernetif" brief="lwIP Empty Ethernet Layer (do not use)" version="2.2.0" revision="6" full_name="lwIP Empty Ethernet Layer (do not use)" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.MIMXRT1052"/>
-          <component_dependency value="middleware.lwip.template.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.LPC54628"/>
+          <component_dependency value="middleware.lwip.template.LPC54628"/>
         </all>
       </dependencies>
-      <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_empty_ethernetif_MIMXRT1052.cmake" hidden="true"/>
-      </source>
     </component>
-    <component id="middleware.lwip.enet_ethernetif.MIMXRT1052" name="Enet ethernet interface" brief="Enet ethernet interface" version="2.2.0" revision="6" full_name="Enet ethernet interface" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.enet_ethernetif.LPC54628" name="Enet ethernet interface" brief="Enet ethernet interface" version="2.2.0" revision="6" full_name="Enet ethernet interface" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.MIMXRT1052"/>
-          <component_dependency value="middleware.lwip.template.MIMXRT1052"/>
-          <component_dependency value="driver.phy-common.MIMXRT1052"/>
-          <component_dependency value="platform.drivers.enet.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.LPC54628"/>
+          <component_dependency value="middleware.lwip.template.LPC54628"/>
+          <component_dependency value="driver.phy-common.LPC54628"/>
+          <component_dependency value="platform.drivers.lpc_enet.LPC54628"/>
         </all>
       </dependencies>
       <source relative_path="./port" project_relative_path="port" type="src">
@@ -641,17 +636,17 @@
         <files mask="enet_ethernetif.h"/>
         <files mask="enet_ethernetif_priv.h"/>
       </source>
-      <source condition="platform.drivers.enet.MIMXRT1052" relative_path="./port" project_relative_path="port" type="src">
-        <files mask="enet_ethernetif_kinetis.c"/>
+      <source condition="platform.drivers.lpc_enet.LPC54628" relative_path="./port" project_relative_path="port" type="src">
+        <files mask="enet_ethernetif_lpc.c"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_enet_ethernetif_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_enet_ethernetif_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.template.MIMXRT1052" name="lwIP_template" brief="lwIP Template" version="2.2.0" revision="6" full_name="lwIP Template Application" devices="MIMXRT1052xxxxB" user_visible="false" type="project_template" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.template.LPC54628" name="lwIP_template" brief="lwIP Template" version="2.2.0" revision="6" full_name="lwIP Template Application" devices="LPC54628J512" user_visible="false" type="project_template" package_base_path=".././" project_base_path="lwip">
       <source relative_path="./template" project_relative_path="template" type="c_include">
         <files mask="lwipopts.h"/>
       </source>
@@ -659,7 +654,7 @@
         <include_path relative_path="./template" project_relative_path="template" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.unused_files.MIMXRT1052" name="lwIP_unused_files" brief="lwIP files unused by projects" version="2.2.0" revision="6" full_name="lwIP - Files Unused by Projects" devices="MIMXRT1052xxxxB" user_visible="false" type="other" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.unused_files.LPC54628" name="lwIP_unused_files" brief="lwIP files unused by projects" version="2.2.0" revision="6" full_name="lwIP - Files Unused by Projects" devices="LPC54628J512" user_visible="false" type="other" package_base_path=".././" project_base_path="lwip">
       <source exclude="true" relative_path="./" type="other">
         <files mask="CMakeLists.txt" hidden="true"/>
       </source>
@@ -1234,26 +1229,26 @@
         <files mask="FILES" hidden="true"/>
       </source>
     </component>
-    <component id="middleware.lwip.usb_ethernetif.MIMXRT1052" name="lwIP_usb_ethernetif" brief="USB network layer" version="2.2.0" revision="6" full_name="lwIP Adaptation for USB Network Layer" devices="MIMXRT1052xxxxB" device_cores="core0_MIMXRT1052xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path="./" project_base_path="lwip">
+    <component id="middleware.lwip.usb_ethernetif.LPC54628" name="lwIP_usb_ethernetif" brief="USB network layer" version="2.2.0" revision="6" full_name="lwIP Adaptation for USB Network Layer" devices="LPC54628J512" device_cores="core0_LPC54628J512" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
-          <component_dependency value="middleware.lwip.MIMXRT1052"/>
-          <component_dependency value="middleware.usb.host_cdc.MIMXRT1052"/>
-          <component_dependency value="middleware.usb.host_cdc_rndis.MIMXRT1052"/>
-          <component_dependency value="middleware.usb.host_controller_ehci.MIMXRT1052"/>
+          <component_dependency value="middleware.lwip.LPC54628"/>
+          <component_dependency value="middleware.usb.host_cdc.LPC54628"/>
+          <component_dependency value="middleware.usb.host_cdc_rndis.LPC54628"/>
+          <component_dependency value="middleware.usb.host_controller_ohci.LPC54628"/>
         </all>
       </dependencies>
-      <source condition="middleware.baremetal.MIMXRT1052" relative_path="./port" project_relative_path="port" type="src">
+      <source condition="middleware.baremetal.LPC54628" relative_path="./port" project_relative_path="port" type="src">
         <files mask="usb_ethernetif_bm.c"/>
       </source>
-      <source condition="middleware.freertos-kernel.MIMXRT1052" relative_path="./port" project_relative_path="port" type="src">
+      <source condition="middleware.freertos-kernel.LPC54628" relative_path="./port" project_relative_path="port" type="src">
         <files mask="usb_ethernetif_freertos.c"/>
       </source>
       <source relative_path="./port" project_relative_path="port" type="c_include">
         <files mask="usb_ethernetif.h"/>
       </source>
       <source toolchain="armgcc" relative_path="./" project_relative_path="." type="workspace">
-        <files mask="middleware_lwip_usb_ethernetif_MIMXRT1052.cmake" hidden="true"/>
+        <files mask="middleware_lwip_usb_ethernetif_LPC54628.cmake" hidden="true"/>
       </source>
       <include_paths>
         <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
