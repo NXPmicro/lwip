@@ -34,4 +34,4 @@ if(CONFIG_USE_driver_enet)
 endif()
 
 include(middleware_lwip)
-include(driver_phy-common_MIMXRT1176_cm7)
+include(driver_phy-common)

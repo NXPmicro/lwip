@@ -21,5 +21,5 @@ target_include_directories(${MCUX_SDK_PROJECT_NAME} PUBLIC
 
 
 include(middleware_lwip)
-include(driver_phy-common_MIMXRT1042)
+include(driver_phy-common)
 include(driver_enet)

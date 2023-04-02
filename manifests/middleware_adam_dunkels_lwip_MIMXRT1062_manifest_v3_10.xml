@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ksdk:manifest xmlns:ksdk="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="SDK_2.x_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_10" name="lwIP" brief="Lightweight IP open-source TCP/IP stack" format_version="3.10" api_version="2.0.0" xsi:schemaLocation="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd http://nxp.com/mcuxpresso/sdk/sdk_manifest_v3.10.xsd">
-  <!--Timestamp (UTC): 2023-01-09 15:35:18.510070-->
-  <!--This manifest is generated based on sdk repo commit: dcc319a0105d6a9ebec0bc625dd7aae64718cd3d-->
+  <!--Timestamp (UTC): 2023-03-27 10:46:25.386657-->
+  <!--This manifest is generated based on sdk repo commit: 7a3cf97dd3582e3ee8a98ede814ff1f2a45ea519-->
   <externalDefinitions>
     <definition extID="MIMXRT1062xxxxA"/>
-    <definition extID="MIMXRT1062xxxxB"/>
     <definition extID="middleware.wifi.MIMXRT1062"/>
     <definition extID="core0_MIMXRT1062xxxxA"/>
-    <definition extID="core0_MIMXRT1062xxxxB"/>
     <definition extID="armgcc"/>
     <definition extID="middleware.freertos-kernel.MIMXRT1062"/>
     <definition extID="middleware.mbedtls.MIMXRT1062"/>
@@ -20,7 +18,7 @@
   </externalDefinitions>
   <ksdk id="MCUXpressoSDK2130_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_10" name="MCUXpressoSDK2130_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_10" version="2.13.0"/>
   <components>
-    <component id="middleware.lwip.MIMXRT1062" name="lwIP" brief="lwIP - A Lightweight TCP/IP Stack" version="2.2.0" revision="7" full_name="lwIP" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.MIMXRT1062" name="lwIP" brief="lwIP - A Lightweight TCP/IP Stack" version="2.2.0" revision="7" full_name="lwIP" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
@@ -341,7 +339,7 @@
         <include_path relative_path="./src/include" project_relative_path="src/include" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.httpd.MIMXRT1062" name="lwIP_HTTPD" brief="lwIP HTTP Daemon" version="2.2.0" revision="7" full_name="lwIP HTTP Daemon" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpd.MIMXRT1062" name="lwIP_HTTPD" brief="lwIP HTTP Daemon" version="2.2.0" revision="7" full_name="lwIP HTTP Daemon" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
@@ -355,7 +353,7 @@
         <files mask="middleware_lwip_apps_httpd_MIMXRT1062.cmake" hidden="true"/>
       </source>
     </component>
-    <component id="middleware.lwip.apps.httpd.support.MIMXRT1062" name="lwIP_HTTPD_support" brief="lwIP HTTP Daemon Implementation Support Files" version="2.2.0" revision="7" full_name="lwIP HTTP Daemon Implementation Support Files" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpd.support.MIMXRT1062" name="lwIP_HTTPD_support" brief="lwIP HTTP Daemon Implementation Support Files" version="2.2.0" revision="7" full_name="lwIP HTTP Daemon Implementation Support Files" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -401,7 +399,7 @@
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.httpsrv.MIMXRT1062" name="lwIP_HTTP_srv" brief="lwIP HTTP Server Implementation" version="2.2.0" revision="7" full_name="lwIP HTTP Server" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpsrv.MIMXRT1062" name="lwIP_HTTP_srv" brief="lwIP HTTP Server Implementation" version="2.2.0" revision="7" full_name="lwIP HTTP Server" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
@@ -446,7 +444,7 @@
         <include_path relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.httpssrv.MIMXRT1062" name="lwIP_HTTPS_srv" brief="lwIP HTTPS Server Implementation" version="2.2.0" revision="7" full_name="lwIP HTTPS Server" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.httpssrv.MIMXRT1062" name="lwIP_HTTPS_srv" brief="lwIP HTTPS Server Implementation" version="2.2.0" revision="7" full_name="lwIP HTTPS Server" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.apps.httpsrv.MIMXRT1062"/>
@@ -460,7 +458,7 @@
         <include_path relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.lwiperf.MIMXRT1062" name="lwIP_IPERF" brief="lwIP IPERF Implementation" version="2.2.0" revision="7" full_name="lwIP IPERF" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.lwiperf.MIMXRT1062" name="lwIP_IPERF" brief="lwIP IPERF Implementation" version="2.2.0" revision="7" full_name="lwIP IPERF" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
@@ -483,7 +481,7 @@
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.mdns.MIMXRT1062" name="lwIP_MDNS" brief="lwIP mDNS Implementation" version="2.2.0" revision="7" full_name="lwIP mDNS" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.mdns.MIMXRT1062" name="lwIP_MDNS" brief="lwIP mDNS Implementation" version="2.2.0" revision="7" full_name="lwIP mDNS" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -506,7 +504,7 @@
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.mqtt.MIMXRT1062" name="lwIP_MQTT" brief="lwIP MQTT Client" version="2.2.0" revision="7" full_name="lwIP MQTT Client" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.mqtt.MIMXRT1062" name="lwIP_MQTT" brief="lwIP MQTT Client" version="2.2.0" revision="7" full_name="lwIP MQTT Client" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -525,7 +523,7 @@
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.apps.sntp.MIMXRT1062" name="lwIP_SNTP" brief="lwIP SNTP" version="2.2.0" revision="7" full_name="lwIP SNTP" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.apps.sntp.MIMXRT1062" name="lwIP_SNTP" brief="lwIP SNTP" version="2.2.0" revision="7" full_name="lwIP SNTP" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -540,7 +538,7 @@
         <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.ping.MIMXRT1062" name="lwIP_ping" brief="lwIP Ping Sender contrib" version="2.2.0" revision="7" full_name="lwIP Ping Sender" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.ping.MIMXRT1062" name="lwIP_ping" brief="lwIP Ping Sender contrib" version="2.2.0" revision="7" full_name="lwIP Ping Sender" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -557,7 +555,7 @@
         <include_path relative_path="./contrib/apps/ping" project_relative_path="contrib/apps/ping" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.tcpecho.MIMXRT1062" name="lwIP_tcpecho" brief="lwIP TCP Echo contrib" version="2.2.0" revision="7" full_name="lwIP TCP Echo" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.tcpecho.MIMXRT1062" name="lwIP_tcpecho" brief="lwIP TCP Echo contrib" version="2.2.0" revision="7" full_name="lwIP TCP Echo" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -574,7 +572,7 @@
         <include_path relative_path="./contrib/apps/tcpecho" project_relative_path="contrib/apps/tcpecho" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.tcpecho_raw.MIMXRT1062" name="lwIP_tcpecho_raw" brief="lwIP TCP Echo Raw API contrib" version="2.2.0" revision="7" full_name="lwIP TCP Echo Raw API" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.tcpecho_raw.MIMXRT1062" name="lwIP_tcpecho_raw" brief="lwIP TCP Echo Raw API contrib" version="2.2.0" revision="7" full_name="lwIP TCP Echo Raw API" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -588,7 +586,7 @@
         <include_path relative_path="./contrib/apps/tcpecho_raw" project_relative_path="contrib/apps/tcpecho_raw" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.udpecho.MIMXRT1062" name="lwIP_udpecho" brief="lwIP UDP Echo contrib" version="2.2.0" revision="7" full_name="lwIP UDP Echo" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.udpecho.MIMXRT1062" name="lwIP_udpecho" brief="lwIP UDP Echo contrib" version="2.2.0" revision="7" full_name="lwIP UDP Echo" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -602,7 +600,7 @@
         <include_path relative_path="./contrib/apps/udpecho" project_relative_path="contrib/apps/udpecho" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.contrib.udpecho_raw.MIMXRT1062" name="lwIP_udpecho_raw" brief="lwIP UDP Echo Raw API contrib" version="2.2.0" revision="7" full_name="lwIP UDP Echo Raw API" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.contrib.udpecho_raw.MIMXRT1062" name="lwIP_udpecho_raw" brief="lwIP UDP Echo Raw API contrib" version="2.2.0" revision="7" full_name="lwIP UDP Echo Raw API" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <component_dependency value="middleware.lwip.MIMXRT1062"/>
       </dependencies>
@@ -616,7 +614,7 @@
         <include_path relative_path="./contrib/apps/udpecho_raw" project_relative_path="contrib/apps/udpecho_raw" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.empty_ethernetif.MIMXRT1062" name="lwIP_empty_ethernetif" brief="lwIP Empty Ethernet Layer (do not use)" version="2.2.0" revision="7" full_name="lwIP Empty Ethernet Layer (do not use)" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.empty_ethernetif.MIMXRT1062" name="lwIP_empty_ethernetif" brief="lwIP Empty Ethernet Layer (do not use)" version="2.2.0" revision="7" full_name="lwIP Empty Ethernet Layer (do not use)" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
@@ -627,7 +625,7 @@
         <files mask="middleware_lwip_empty_ethernetif_MIMXRT1062.cmake" hidden="true"/>
       </source>
     </component>
-    <component id="middleware.lwip.enet_ethernetif.MIMXRT1062" name="Enet ethernet interface" brief="Enet ethernet interface" version="2.2.0" revision="7" full_name="Enet ethernet interface" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.enet_ethernetif.MIMXRT1062" name="Enet ethernet interface" brief="Enet ethernet interface" version="2.2.0" revision="7" full_name="Enet ethernet interface" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
@@ -657,7 +655,7 @@
         <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.template.MIMXRT1062" name="lwIP_template" brief="lwIP Template" version="2.2.0" revision="7" full_name="lwIP Template Application" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" user_visible="false" type="project_template" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.template.MIMXRT1062" name="lwIP_template" brief="lwIP Template" version="2.2.0" revision="7" full_name="lwIP Template Application" devices="MIMXRT1062xxxxA" user_visible="false" type="project_template" package_base_path=".././" project_base_path="lwip">
       <source relative_path="./template" project_relative_path="template" type="c_include">
         <files mask="lwipopts.h"/>
       </source>
@@ -665,7 +663,7 @@
         <include_path relative_path="./template" project_relative_path="template" type="c_include"/>
       </include_paths>
     </component>
-    <component id="middleware.lwip.unused_files.MIMXRT1062" name="lwIP_unused_files" brief="lwIP files unused by projects" version="2.2.0" revision="7" full_name="lwIP - Files Unused by Projects" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" user_visible="false" type="other" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.unused_files.MIMXRT1062" name="lwIP_unused_files" brief="lwIP files unused by projects" version="2.2.0" revision="7" full_name="lwIP - Files Unused by Projects" devices="MIMXRT1062xxxxA" user_visible="false" type="other" package_base_path=".././" project_base_path="lwip">
       <source exclude="true" relative_path="./" type="other">
         <files mask="CMakeLists.txt" hidden="true"/>
       </source>
@@ -1240,7 +1238,7 @@
         <files mask="FILES" hidden="true"/>
       </source>
     </component>
-    <component id="middleware.lwip.usb_ethernetif.MIMXRT1062" name="lwIP_usb_ethernetif" brief="USB network layer" version="2.2.0" revision="7" full_name="lwIP Adaptation for USB Network Layer" devices="MIMXRT1062xxxxA MIMXRT1062xxxxB" device_cores="core0_MIMXRT1062xxxxA core0_MIMXRT1062xxxxB" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+    <component id="middleware.lwip.usb_ethernetif.MIMXRT1062" name="lwIP_usb_ethernetif" brief="USB network layer" version="2.2.0" revision="7" full_name="lwIP Adaptation for USB Network Layer" devices="MIMXRT1062xxxxA" device_cores="core0_MIMXRT1062xxxxA" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <dependencies>
         <all>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
