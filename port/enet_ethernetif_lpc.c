@@ -32,7 +32,7 @@
 
 /*
  * Copyright (c) 2013-2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2022 NXP
+ * Copyright 2016-2023 NXP
  * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
@@ -134,14 +134,13 @@ typedef struct mem_range
 
 /* Configured memory regions not usable by ENET DMA. */
 #ifndef BOARD_ENET_NON_DMA_MEMORY_ARRAY
-#error "BOARD_ENET_NON_DMA_MEMORY_ARRAY is not set in board.h or on command line."
-/* If the above error directive is commented out,
- * the following default will make it work without zero-copy for TX: */
-#define BOARD_ENET_NON_DMA_MEMORY_ARRAY \
-    {                                   \
-        {0x00000000U, 0xFFFFFFFFU} {    \
-            0x00000000U, 0x00000000U    \
-        }                               \
+#warning \
+    "BOARD_ENET_NON_DMA_MEMORY_ARRAY is not set in board.h or on a command line. \
+LwIP transmit over ethernet will not use zero-copy."
+/* The following default will make it work without zero-copy for TX: */
+#define BOARD_ENET_NON_DMA_MEMORY_ARRAY                         \
+    {                                                           \
+        {0x00000000U, 0xFFFFFFFFU}, {0x00000000U, 0x00000000U}, \
     }
 #endif /* BOARD_ENET_NON_DMA_MEMORY_ARRAY */
 
@@ -412,17 +411,17 @@ void ethernetif_plat_init(struct netif *netif,
     status_t status;
 
     /* prepare the buffer configuration. */
-    buffCfg[0].rxRingLen = ENET_RXBD_NUM; /* The length of receive buffer descriptor ring. */
-    buffCfg[0].txRingLen = ENET_TXBD_NUM; /* The length of transmit buffer descriptor ring. */
+    buffCfg[0].rxRingLen = ENET_RXBD_NUM;                  /* The length of receive buffer descriptor ring. */
+    buffCfg[0].txRingLen = ENET_TXBD_NUM;                  /* The length of transmit buffer descriptor ring. */
     buffCfg[0].txDescStartAddrAlign =
-        ethernetif_get_tx_desc(ethernetif, 0U); /* Aligned transmit descriptor start address. */
+        ethernetif_get_tx_desc(ethernetif, 0U);            /* Aligned transmit descriptor start address. */
     buffCfg[0].txDescTailAddrAlign =
         ethernetif_get_tx_desc(ethernetif, 0U);            /* Aligned transmit descriptor tail address. */
     buffCfg[0].txDirtyStartAddr = &ethernetif->txDirty[0]; /* Start address of the dirty tx frame information. */
     buffCfg[0].rxDescStartAddrAlign =
-        ethernetif_get_rx_desc(ethernetif, 0U); /* Aligned receive descriptor start address. */
+        ethernetif_get_rx_desc(ethernetif, 0U);            /* Aligned receive descriptor start address. */
     buffCfg[0].rxDescTailAddrAlign =
-        ethernetif_get_rx_desc(ethernetif, ENET_RXBD_NUM);            /* Aligned receive descriptor tail address. */
+        ethernetif_get_rx_desc(ethernetif, ENET_RXBD_NUM); /* Aligned receive descriptor tail address. */
     buffCfg[0].rxBufferStartAddr = &ethernetif->rxBufferStartAddr[0]; /* Holds addresses of the rx buffers. */
     buffCfg[0].rxBuffSizeAlign   = sizeof(rx_buffer_t);               /* Aligned receive data buffer size. */
 

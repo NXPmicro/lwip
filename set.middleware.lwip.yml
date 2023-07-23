@@ -1,0 +1,3332 @@
+---
+middleware.lwip.template:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: template
+      target_file:
+      - lwipopts.h
+      project_relative_path: template
+      package_relative_path: template
+    files:
+    - source: middleware/lwip/template/lwipopts.h
+      repo_relative_path: template
+      project_relative_path: template
+      package_relative_path: template
+      type: c_include
+      config: true
+    - source: middleware/lwip/middleware_lwip_template.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP Template
+    version: 2.2.0_rev9
+    type: project_template
+    full_name: lwIP Template Application
+    user_visible: never
+    taxonomy:
+      csub: template
+      cclass: Network
+      cgroup: lwIP TCPIP Networking Stack
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_template
+    vendor: NXP
+  meta-name: middleware.lwip.template
+  cmake_module_name: middleware_lwip_template
+middleware.lwip.unused_files:
+  section-type: container
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: middleware/lwip/CMakeLists.txt
+      hidden: true
+      exclude: true
+      type: other
+    - source: middleware/lwip/src/Filelists.cmake
+      hidden: true
+      exclude: true
+      type: other
+    - source: middleware/lwip/src/Filelists.mk
+      hidden: true
+      exclude: true
+      type: other
+    - source: middleware/lwip/test/sockets/sockets_stresstest.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/sockets/sockets_stresstest.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/fuzz3.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/fuzz_common.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/fuzz2.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/config.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/inputs/arp/arp_req.bin
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/inputs/ipv6/neighbor_solicitation.bin
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/inputs/ipv6/router_adv.bin
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/inputs/icmp/icmp_ping.bin
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/inputs/udp/udp_port_5000.bin
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/inputs/tcp/tcp_syn.bin
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/Makefile
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/output_to_pcap.sh
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/lwipopts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/fuzz_common.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/fuzz/fuzz.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/arch/sys_arch.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/arch/sys_arch.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/lwip_check.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/ip6/test_ip6.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/ip6/test_ip6.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/Filelists.cmake
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/dhcp/test_dhcp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/dhcp/test_dhcp.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/mqtt/test_mqtt.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/mqtt/test_mqtt.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/api/test_sockets.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/api/test_sockets.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/Makefile
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/udp/test_udp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/udp/test_udp.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/tcp/test_tcp_oos.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/tcp/test_tcp.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/tcp/tcp_helper.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/tcp/test_tcp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/tcp/test_tcp_oos.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/tcp/tcp_helper.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/mdns/test_mdns.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/mdns/test_mdns.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/lwip_unittests.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/lwipopts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/Filelists.mk
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/etharp/test_etharp.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/etharp/test_etharp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/ip4/test_ip4.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/ip4/test_ip4.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_timers.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_pbuf.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_mem.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_timers.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_dns.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_netif.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_mem.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_dns.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_def.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_def.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_pbuf.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/test/unit/core/test_netif.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/Filelists.cmake
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/Filelists.mk
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/tcp_isn/tcp_isn.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/tcp_isn/tcp_isn.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/ipv6_static_routing/ip6_route_table.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/ipv6_static_routing/ip6_route_table.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/ipv6_static_routing/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/netconn/external_resolve/dnssd.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/netconn/external_resolve/dnssd.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/tcp_md5/tcp_md5.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/tcp_md5/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/addons/tcp_md5/tcp_md5.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/chargen/chargen.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/chargen/chargen.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/chargen/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/httpserver/httpserver-netconn.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/httpserver/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/httpserver/httpserver-netconn.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/netio/netio.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/netio/netio.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/rtp/rtpdata.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/rtp/rtp.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/rtp/rtp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/shell/shell.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/shell/shell.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/socket_examples/socket_examples.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/apps/socket_examples/socket_examples.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/Coverity/coverity.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/genfiles_example/genfiles_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/genfiles_example/genfiles_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/post_example/post_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/https_example/https_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/https_example/https_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/cgi_example/cgi_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/cgi_example/cgi_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/fs_example/fs_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/fs_example/fs_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fs/loginfail.html
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fs/index.html
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fs/ssi.shtml
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fs/session.html
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fs/login.html
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fs/img/sics.gif
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fs/404.html
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/ssi_example/ssi_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/ssi_example/ssi_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/httpd/examples_fsdata.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/ethernetif/ethernetif.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/tftp/tftp_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/tftp/tftp_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/lwiperf/lwiperf_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/lwiperf/lwiperf_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/mqtt/mqtt_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/mqtt/mqtt_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/ppp/pppos_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/ppp/pppos_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/snmp/snmp_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/snmp/snmp_private_mib/private_mib.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/snmp/snmp_private_mib/lwip_prvmib.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/snmp/snmp_v3/snmpv3_dummy.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/snmp/snmp_v3/snmpv3_dummy.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/snmp/snmp_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/lwippools.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/lwipcfg.h.example
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/lwipcfg.h.ci
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/default_netif.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/ppp_settings.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_nosys_ipv6.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_no_tcp_dualstack.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_ipv6only.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_nosys_dual.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_no_udp_ipv6only.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_default.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_nosys_ipv4.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_no_tcp_ipv4only.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_none.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_no_udp_dualstack.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_no_tcp_ipv6only.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_dualstack.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_no_udp_ipv4only.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test_configs/opt_ipv4only.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/lwipopts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/example_app/test.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/mdns/mdns_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/mdns/mdns_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/sntp/sntp_example.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/examples/sntp/sntp_example.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/freertos/include/arch/sys_arch.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/freertos/sys_arch.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/Filelists.cmake
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/setup-tapif
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/perf.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/arch/sys_arch.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/arch/perf.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/arch/cc.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/netif/list.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/netif/pcapif.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/netif/sio.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/netif/fifo.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/include/netif/tapif.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/netif/list.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/netif/tapif.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/netif/pcapif.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/netif/sio.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/netif/fifo.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/port/sys_arch.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/example_app/CMakeLists.txt
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/example_app/Makefile
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/example_app/iteropts.sh
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/example_app/default_netif.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/lib/CMakeLists.txt
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/lib/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/lib/lwipopts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/Common.mk
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/check/config.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/check/CMakeLists.txt
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/check/Makefile
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/unix/check/README
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/pcapif.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/Filelists.cmake
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/include/arch/epstruct.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/include/arch/sys_arch.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/include/arch/bpstruct.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/include/arch/perf.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/include/arch/cc.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/readme.txt
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/pcapif.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwip_unittests.vcxproj.filters
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/makefsdata.vcxproj.filters
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP.vcxproj
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP_unittests.sln
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP_Test.vcxproj
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwip_unittests.vcxproj
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP.vcxproj.filters
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP_pcapif.vcxproj.filters
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/makefsdata.vcxproj
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/libcheck.vcxproj
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/libcheck.vcxproj.filters
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/build_coverity.cmd
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP_pcapif.vcxproj
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP_Test.sln
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/msvc/lwIP_Test.vcxproj.filters
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/example_app/CMakeLists.txt
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/example_app/Makefile
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/example_app/default_netif.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/sio.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/pcapif_helper.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/Common.mk
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/sys_arch.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/check/stdbool.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/check/check_stdint.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/check/sys/time.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/check/config.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/check/unistd.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/check/time.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/win32/pcapif_helper.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/Common.allports.mk
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/contrib/ports/CMakeCommon.cmake
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/altcp_tls/altcp_tls_mbedtls_mem.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/altcp_tls/altcp_tls_mbedtls_mem.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/altcp_tls/altcp_tls_mbedtls.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/altcp_tls/altcp_tls_mbedtls_structs.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/http/altcp_proxyconnect.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/http/http_client.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/netbiosns/netbiosns.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/smtp/smtp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2_tcp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_table.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_asn1.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_scalar.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_netconn.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2_ip.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_core_priv.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_traps.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_msg.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2_udp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmpv3_priv.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2_icmp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2_snmp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_pbuf_stream.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmpv3.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_raw.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_threadsync.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_snmpv2_usm.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_pbuf_stream.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_snmpv2_framework.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2_interfaces.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_msg.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmpv3_mbedtls.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_mib2_system.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_asn1.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/snmp/snmp_core.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/apps/tftp/tftp.c
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/init.h.cmake.in
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/altcp_proxyconnect.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/altcp_tls_mbedtls_opts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/FILES
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/http_client.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/netbiosns.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/netbiosns_opts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/smtp.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/smtp_opts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmpv3.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_core.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_mib2.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_opts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_scalar.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_snmpv2_framework.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_snmpv2_usm.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_table.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/snmp_threadsync.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/tftp_client.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/tftp_common.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/tftp_opts.h
+      hidden: true
+      exclude: true
+    - source: middleware/lwip/src/include/lwip/apps/tftp_server.h
+      hidden: true
+      exclude: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP files unused by projects
+    version: 2.2.0_rev9
+    type: other
+    user_visible: never
+    full_name: lwIP - Files Unused by Projects
+    display_name: lwIP_unused_files
+set.middleware.lwip:
+  section-type: set
+  belong_to: set.middleware.lwip
+  section_info:
+    fixed_id: adam_dunkels_lwip
+    version: 2.2.0_rev9
+    display_name: lwIP
+    description: Lightweight IP open-source TCP/IP stack
+    set_location:
+      repo_base_path: middleware/lwip
+    type: middleware
+    vendor: NXP
+    product:
+      kex_package:
+        kex_web_ui:
+          ui_control: true
+          ui_release_specific: true
+          ui_control_default: false
+          ui_category: Middleware
+        scr:
+        - scr.middleware.lwip
+      cmsis_pack:
+        vendor: NXP
+        supported: true
+        pack_root:
+          pack_type: SWP
+          pack_name: LWIP
+          pack_version: 1.0.0
+        scr:
+        - scr.middleware.lwip
+    component_taxonomy:
+      lwip:
+        cclass: Network
+        cgroup: lwIP TCPIP Networking Stack
+        cbundle: lwIP
+        cbundle_version: 2.2.0
+      lwip_app:
+        cclass: Network
+        cgroup: lwIP TCPIP Application protocols
+        cbundle: lwIP
+        cbundle_version: 2.2.0
+  dependency:
+    anyOf:
+    - device_id:
+      - MIMX8ML3xxxLZ
+      - MIMX8ML3xxxKZ
+      - MIMX8ML4xxxLZ
+      - MIMX8ML4xxxKZ
+      - MIMX8ML6xxxLZ
+      - MIMX8ML6xxxKZ
+      - MIMX8ML8xxxLZ
+      - MIMX8ML8xxxKZ
+      - MIMX8MM1xxxLZ
+      - MIMX8MM1xxxKZ
+      - MIMX8MM2xxxLZ
+      - MIMX8MM2xxxKZ
+      - MIMX8MM3xxxLZ
+      - MIMX8MM3xxxKZ
+      - MIMX8MM4xxxLZ
+      - MIMX8MM4xxxKZ
+      - MIMX8MM5xxxLZ
+      - MIMX8MM5xxxKZ
+      - MIMX8MM6xxxLZ
+      - MIMX8MM6xxxKZ
+      - MIMX8MN1xxxJZ
+      - MIMX8MN1xxxIZ
+      - MIMX8MN2xxxJZ
+      - MIMX8MN2xxxIZ
+      - MIMX8MN3xxxJZ
+      - MIMX8MN3xxxIZ
+      - MIMX8MN4xxxJZ
+      - MIMX8MN4xxxIZ
+      - MIMX8MN5xxxJZ
+      - MIMX8MN5xxxIZ
+      - MIMX8MN6xxxJZ
+      - MIMX8MN6xxxIZ
+      - MIMXRT1021xxxxx
+      - MIMXRT1024xxxxx
+      - MIMXRT1041xxxxB
+      - MIMXRT1042xxxxB
+      - MIMXRT1051xxxxB
+      - MIMXRT1052xxxxB
+      - MIMXRT1061xxxxA
+      - MIMXRT1061xxxxB
+      - MIMXRT1062xxxxA
+      - MIMXRT1062xxxxB
+      - MIMXRT1064xxxxA
+      - MIMXRT1165xxxxx
+      - MIMXRT1166xxxxx
+      - MIMXRT1171xxxxx
+      - MIMXRT1172xxxxx
+      - MIMXRT1173xxxxx
+      - MIMXRT1175xxxxx
+      - MIMXRT1176xxxxx
+    - device_id:
+      - MIMX8ML3xxxLZ
+      - MIMX8ML3xxxKZ
+      - MIMX8ML4xxxLZ
+      - MIMX8ML4xxxKZ
+      - MIMX8ML6xxxLZ
+      - MIMX8ML6xxxKZ
+      - MIMX8ML8xxxLZ
+      - MIMX8ML8xxxKZ
+      - MIMXRT1171xxxxx
+      - MIMXRT1172xxxxx
+      - MIMXRT1173xxxxx
+      - MIMXRT1175xxxxx
+      - MIMXRT1176xxxxx
+    - device_id:
+      - LPC54016
+      - LPC54018
+      - LPC54018J2M
+      - LPC54018J4M
+      - LPC54606J512
+      - LPC54606J256
+      - LPC54608J512
+      - LPC54616J512
+      - LPC54616J256
+      - LPC54618J512
+      - LPC54628J512
+      - LPC54S016
+      - LPC54S018
+      - LPC54S018J2M
+      - LPC54S018J4M
+    - board:
+      - evkmimxrt595
+    - board:
+      - evkmimxrt685
+    - board:
+      - mimxrt685audevk
+license.lwip_license:
+  section-type: license
+  belong_to: set.middleware.lwip
+  contents:
+    repo_base_path: middleware/lwip
+    files:
+    - source: middleware/lwip/COPYING
+    package_base_path: middleware/lwip
+  section_info:
+    Outgoing License: BSD-3-Clause
+scr.middleware.lwip:
+  belong_to: set.middleware.lwip
+  section-type: scr
+  contents:
+    license:
+    - license.lwip_license
+    Name: lwIP TCP/IP Stack
+    Version: 'lwIP git repository (2023-01-03, branch: master, SHA-1: 3fe8d2fc43a9b69f7ed28c63d44a7744f9c0def9)'
+    Format: source code
+    Description: A light-weight TCP/IP stack
+    Location: middleware/lwip
+    Origin: NXP (BSD-3-Clause) Swedish Institute of Computer Science (BSD-3-Clause)
+      - http://savannah.nongnu.org/projects/lwip
+middleware.lwip:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+    - repo_relative_path: src
+      project_relative_path: src
+      package_relative_path: src
+    - repo_relative_path: src/include
+      project_relative_path: src/include
+      package_relative_path: src/include
+    files:
+    - source: middleware/lwip/BUILDING
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/CHANGELOG
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/COPYING
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/FEATURES
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/FILES
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/README
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/UPGRADING
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/ChangeLogKSDK.txt
+      hidden: true
+      type: doc
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/doc/contrib.txt
+      hidden: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/mdns.txt
+      hidden: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/mqtt_client.txt
+      hidden: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/ppp.txt
+      hidden: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/savannah.txt
+      hidden: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/NO_SYS_SampleCode.c
+      hidden: true
+      exclude: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/ZeroCopyRx.c
+      hidden: true
+      exclude: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/FILES
+      hidden: true
+      type: doc
+      repo_relative_path: doc
+      project_relative_path: doc
+      package_relative_path: doc
+    - source: middleware/lwip/doc/doxygen/main_page.h
+      hidden: true
+      type: doc
+      repo_relative_path: doc/doxygen
+      project_relative_path: doc/doxygen
+      package_relative_path: doc/doxygen
+    - source: middleware/lwip/doc/doxygen/generate.sh
+      hidden: true
+      type: doc
+      repo_relative_path: doc/doxygen
+      project_relative_path: doc/doxygen
+      package_relative_path: doc/doxygen
+    - source: middleware/lwip/doc/doxygen/lwip.Doxyfile.cmake.in
+      hidden: true
+      type: doc
+      repo_relative_path: doc/doxygen
+      project_relative_path: doc/doxygen
+      package_relative_path: doc/doxygen
+    - source: middleware/lwip/doc/doxygen/output/index.html
+      hidden: true
+      type: doc
+      repo_relative_path: doc/doxygen/output
+      project_relative_path: doc/doxygen/output
+      package_relative_path: doc/doxygen/output
+    - source: middleware/lwip/doc/doxygen/lwip.Doxyfile
+      hidden: true
+      type: doc
+      repo_relative_path: doc/doxygen
+      project_relative_path: doc/doxygen
+      package_relative_path: doc/doxygen
+    - source: middleware/lwip/doc/doxygen/generate.bat
+      hidden: true
+      type: doc
+      repo_relative_path: doc/doxygen
+      project_relative_path: doc/doxygen
+      package_relative_path: doc/doxygen
+    - source: middleware/lwip/port/sys_arch.c
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/arch/cc.h
+      repo_relative_path: port/arch
+      project_relative_path: port/arch
+      package_relative_path: port/arch
+      type: c_include
+    - source: middleware/lwip/port/arch/perf.h
+      repo_relative_path: port/arch
+      project_relative_path: port/arch
+      package_relative_path: port/arch
+      type: c_include
+    - source: middleware/lwip/port/arch/sys_arch.h
+      repo_relative_path: port/arch
+      project_relative_path: port/arch
+      package_relative_path: port/arch
+      type: c_include
+    - source: middleware/lwip/src/FILES
+      hidden: true
+      type: doc
+      repo_relative_path: src
+      project_relative_path: src
+      package_relative_path: src
+    - source: middleware/lwip/src/api/sockets.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/netifapi.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/netdb.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/netbuf.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/tcpip.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/api_msg.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/err.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/if_api.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/api/api_lib.c
+      repo_relative_path: src/api
+      project_relative_path: src/api
+      package_relative_path: src/api
+      type: src
+    - source: middleware/lwip/src/core/memp.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/def.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/ip.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/pbuf.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/altcp.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/ipv6/ethip6.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/dhcp6.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/ip6_addr.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/nd6.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/mld6.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/icmp6.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/ip6_frag.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/ip6.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/ipv6/inet6.c
+      repo_relative_path: src/core/ipv6
+      project_relative_path: src/core/ipv6
+      package_relative_path: src/core/ipv6
+      type: src
+    - source: middleware/lwip/src/core/tcp_out.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/raw.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/altcp_tcp.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/sys.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/init.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/inet_chksum.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/timeouts.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/tcp_in.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/netif.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/mem.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/udp.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/ipv4/dhcp.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/ip4.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/autoip.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/icmp.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/acd.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/etharp.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/ip4_addr.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/igmp.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/ipv4/ip4_frag.c
+      repo_relative_path: src/core/ipv4
+      project_relative_path: src/core/ipv4
+      package_relative_path: src/core/ipv4
+      type: src
+    - source: middleware/lwip/src/core/tcp.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/stats.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/dns.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/core/altcp_alloc.c
+      repo_relative_path: src/core
+      project_relative_path: src/core
+      package_relative_path: src/core
+      type: src
+    - source: middleware/lwip/src/include/compat/stdc/errno.h
+      repo_relative_path: src/include/compat/stdc
+      project_relative_path: src/include/compat/stdc
+      package_relative_path: src/include/compat/stdc
+      type: c_include
+    - source: middleware/lwip/src/include/compat/posix/netdb.h
+      repo_relative_path: src/include/compat/posix
+      project_relative_path: src/include/compat/posix
+      package_relative_path: src/include/compat/posix
+      type: c_include
+    - source: middleware/lwip/src/include/compat/posix/sys/socket.h
+      repo_relative_path: src/include/compat/posix/sys
+      project_relative_path: src/include/compat/posix/sys
+      package_relative_path: src/include/compat/posix/sys
+      type: c_include
+    - source: middleware/lwip/src/include/compat/posix/net/if.h
+      repo_relative_path: src/include/compat/posix/net
+      project_relative_path: src/include/compat/posix/net
+      package_relative_path: src/include/compat/posix/net
+      type: c_include
+    - source: middleware/lwip/src/include/compat/posix/arpa/inet.h
+      repo_relative_path: src/include/compat/posix/arpa
+      project_relative_path: src/include/compat/posix/arpa
+      package_relative_path: src/include/compat/posix/arpa
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/acd.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/altcp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/altcp_tcp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/altcp_tls.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/api.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/arch.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/autoip.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/debug.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/def.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/dhcp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/dhcp6.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/dns.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/err.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/errno.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/etharp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ethip6.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/icmp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/icmp6.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/if_api.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/igmp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/inet.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/inet_chksum.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/init.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip4.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip4_addr.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip4_frag.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip6.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip6_addr.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip6_frag.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip6_zone.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/ip_addr.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/mem.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/memp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/mld6.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/nd6.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/netbuf.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/netdb.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/netif.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/netifapi.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/opt.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/pbuf.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/raw.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/sio.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/snmp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/sockets.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/stats.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/sys.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/tcp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/tcpbase.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/tcpip.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/timeouts.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/udp.h
+      repo_relative_path: src/include/lwip
+      project_relative_path: src/include/lwip
+      package_relative_path: src/include/lwip
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/altcp_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/mem_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/memp_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/memp_std.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/api_msg.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/nd6_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/tcpip_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/tcp_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/raw_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/priv/sockets_priv.h
+      repo_relative_path: src/include/lwip/priv
+      project_relative_path: src/include/lwip/priv
+      package_relative_path: src/include/lwip/priv
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/ip6.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/udp.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/mld6.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/ip4.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/icmp.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/igmp.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/dhcp.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/tcp.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/autoip.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/iana.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/ieee.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/dns.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/icmp6.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/ethernet.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/nd6.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/ip.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/acd.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/dhcp6.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/prot/etharp.h
+      repo_relative_path: src/include/lwip/prot
+      project_relative_path: src/include/lwip/prot
+      package_relative_path: src/include/lwip/prot
+      type: c_include
+    - source: middleware/lwip/src/include/netif/bridgeif.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/zepif.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/lowpan6.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ieee802154.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ethernet.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/ipv6cp.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/pppapi.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/magic.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/ppp.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/upap.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/mppe.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/pppol2tp.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/pppoe.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/ipcp.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/polarssl/sha1.h
+      repo_relative_path: src/include/netif/ppp/polarssl
+      project_relative_path: src/include/netif/ppp/polarssl
+      package_relative_path: src/include/netif/ppp/polarssl
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/polarssl/des.h
+      repo_relative_path: src/include/netif/ppp/polarssl
+      project_relative_path: src/include/netif/ppp/polarssl
+      package_relative_path: src/include/netif/ppp/polarssl
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/polarssl/md5.h
+      repo_relative_path: src/include/netif/ppp/polarssl
+      project_relative_path: src/include/netif/ppp/polarssl
+      package_relative_path: src/include/netif/ppp/polarssl
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/polarssl/md4.h
+      repo_relative_path: src/include/netif/ppp/polarssl
+      project_relative_path: src/include/netif/ppp/polarssl
+      package_relative_path: src/include/netif/ppp/polarssl
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/polarssl/arc4.h
+      repo_relative_path: src/include/netif/ppp/polarssl
+      project_relative_path: src/include/netif/ppp/polarssl
+      package_relative_path: src/include/netif/ppp/polarssl
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/pppdebug.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/eap.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/pppos.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/ppp_opts.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/pppcrypt.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/vj.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/chap-new.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/eui64.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/chap_ms.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/ccp.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/ecp.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/lcp.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/fsm.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/ppp_impl.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/ppp/chap-md5.h
+      repo_relative_path: src/include/netif/ppp
+      project_relative_path: src/include/netif/ppp
+      package_relative_path: src/include/netif/ppp
+      type: c_include
+    - source: middleware/lwip/src/include/netif/lowpan6_common.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/lowpan6_opts.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/bridgeif_opts.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/slipif.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/lowpan6_ble.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/include/netif/etharp.h
+      repo_relative_path: src/include/netif
+      project_relative_path: src/include/netif
+      package_relative_path: src/include/netif
+      type: c_include
+    - source: middleware/lwip/src/netif/bridgeif.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/bridgeif_fdb.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/ethernet.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/lowpan6.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/lowpan6_ble.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/lowpan6_common.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/slipif.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/zepif.c
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+      type: src
+    - source: middleware/lwip/src/netif/FILES
+      hidden: true
+      type: doc
+      repo_relative_path: src/netif
+      project_relative_path: src/netif
+      package_relative_path: src/netif
+    - source: middleware/lwip/src/netif/ppp/auth.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/ccp.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/chap-md5.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/chap-new.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/chap_ms.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/demand.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/eap.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/ecp.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/eui64.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/fsm.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/ipcp.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/ipv6cp.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/lcp.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/magic.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/mppe.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/multilink.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/ppp.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/pppapi.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/pppcrypt.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/pppoe.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/pppol2tp.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/pppos.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/upap.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/utils.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/vj.c
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+      type: src
+    - source: middleware/lwip/src/netif/ppp/PPPD_FOLLOWUP
+      hidden: true
+      type: doc
+      repo_relative_path: src/netif/ppp
+      project_relative_path: src/netif/ppp
+      package_relative_path: src/netif/ppp
+    - source: middleware/lwip/src/netif/ppp/polarssl/arc4.c
+      exclude: true
+      hidden: true
+      repo_relative_path: src/netif/ppp/polarssl
+      project_relative_path: src/netif/ppp/polarssl
+      package_relative_path: src/netif/ppp/polarssl
+      type: src
+    - source: middleware/lwip/src/netif/ppp/polarssl/des.c
+      exclude: true
+      hidden: true
+      repo_relative_path: src/netif/ppp/polarssl
+      project_relative_path: src/netif/ppp/polarssl
+      package_relative_path: src/netif/ppp/polarssl
+      type: src
+    - source: middleware/lwip/src/netif/ppp/polarssl/md4.c
+      exclude: true
+      hidden: true
+      repo_relative_path: src/netif/ppp/polarssl
+      project_relative_path: src/netif/ppp/polarssl
+      package_relative_path: src/netif/ppp/polarssl
+      type: src
+    - source: middleware/lwip/src/netif/ppp/polarssl/md5.c
+      exclude: true
+      hidden: true
+      repo_relative_path: src/netif/ppp/polarssl
+      project_relative_path: src/netif/ppp/polarssl
+      package_relative_path: src/netif/ppp/polarssl
+      type: src
+    - source: middleware/lwip/src/netif/ppp/polarssl/sha1.c
+      exclude: true
+      hidden: true
+      repo_relative_path: src/netif/ppp/polarssl
+      project_relative_path: src/netif/ppp/polarssl
+      package_relative_path: src/netif/ppp/polarssl
+      type: src
+    - source: middleware/lwip/src/netif/ppp/polarssl/README
+      exclude: true
+      hidden: true
+      type: doc
+      repo_relative_path: src/netif/ppp/polarssl
+      project_relative_path: src/netif/ppp/polarssl
+      package_relative_path: src/netif/ppp/polarssl
+    - source: middleware/lwip/middleware_lwip.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    configuration:
+      tools:
+        armgcc:
+          cc-define:
+            LWIP_TIMEVAL_PRIVATE: 0
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP - A Lightweight TCP/IP Stack
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP
+    taxonomy:
+      csub: lwip
+      cclass: Network
+      cgroup: lwIP TCPIP Networking Stack
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip.template
+    - anyOf:
+      - middleware.lwip.usb_ethernetif
+      - middleware.lwip.enet_ethernetif
+      - middleware.wifi
+  meta-name: middleware.lwip
+  cmake_module_name: middleware_lwip
+middleware.lwip.enet_ethernetif:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+    files:
+    - source: middleware/lwip/port/enet_ethernetif.c
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/ethernetif.c
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/ethernetif.h
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: c_include
+    - source: middleware/lwip/port/ethernetif_mmac.c
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/ethernetif_mmac.h
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: c_include
+    - source: middleware/lwip/port/ethernetif_priv.h
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: c_include
+    - source: middleware/lwip/port/enet_sanitychecks.h
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: c_include
+    - source: middleware/lwip/port/enet_ethernetif_kinetis.c
+      components: driver.enet
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/enet_ethernetif_lpc.c
+      components: driver.lpc_enet
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/enet_ethernetif_qos.c
+      components: driver.enet_qos
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/middleware_lwip_enet_ethernetif.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    configuration:
+      cc-define:
+        LWIP_DISABLE_PBUF_POOL_SIZE_SANITY_CHECKS: 1
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    full_name: Enet ethernet interface
+    description: Enet ethernet interface
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    taxonomy:
+      csub: enet_ethernetif
+      cclass: Network
+      cgroup: lwIP TCPIP Networking Stack
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: Enet ethernet interface
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.lwip.template
+    - driver.phy-common
+    - anyOf:
+      - driver.enet
+      - driver.lpc_enet
+      - driver.enet_qos
+  meta-name: middleware.lwip.enet_ethernetif
+  cmake_module_name: middleware_lwip_enet_ethernetif
+middleware.lwip.usb_ethernetif:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+    files:
+    - source: middleware/lwip/port/usb_ethernetif_bm.c
+      components: middleware.baremetal
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/usb_ethernetif_freertos.c
+      components: middleware.freertos-kernel
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: src
+    - source: middleware/lwip/port/usb_ethernetif.h
+      repo_relative_path: port
+      project_relative_path: port
+      package_relative_path: port
+      type: c_include
+    - source: middleware/lwip/middleware_lwip_usb_ethernetif.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: USB network layer
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP Adaptation for USB Network Layer
+    taxonomy:
+      csub: usb_ethernetif
+      cclass: Network
+      cgroup: lwIP TCPIP Networking Stack
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_usb_ethernetif
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.usb.host.cdc
+    - middleware.usb.host.cdc_rndis
+    - anyOf:
+      - middleware.usb.host.khci
+      - middleware.usb.host.ehci
+      - middleware.usb.host.ohci
+  meta-name: middleware.lwip.usb_ethernetif
+  cmake_module_name: middleware_lwip_usb_ethernetif
+middleware.lwip.apps.httpd.support:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/apps/http
+      project_relative_path: src/apps/http
+      package_relative_path: src/apps/http
+    - repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+    files:
+    - source: middleware/lwip/src/apps/http/fs.c
+      repo_relative_path: src/apps/http
+      project_relative_path: src/apps/http
+      package_relative_path: src/apps/http
+      type: src
+    - source: middleware/lwip/src/apps/http/fsdata.h
+      repo_relative_path: src/apps/http
+      project_relative_path: src/apps/http
+      package_relative_path: src/apps/http
+      type: c_include
+    - source: middleware/lwip/src/apps/http/httpd_structs.h
+      repo_relative_path: src/apps/http
+      project_relative_path: src/apps/http
+      package_relative_path: src/apps/http
+      type: c_include
+    - source: middleware/lwip/src/apps/http/fsdata.c
+      hidden: true
+      exclude: true
+      type: src
+      repo_relative_path: src/apps/http
+      project_relative_path: src/apps/http
+      package_relative_path: src/apps/http
+    - source: middleware/lwip/src/include/lwip/apps/fs.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/httpd.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/httpd_opts.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/apps/http/fs/index.html
+      hidden: true
+      type: other
+      repo_relative_path: src/apps/http/fs
+      project_relative_path: src/apps/http/fs
+      package_relative_path: src/apps/http/fs
+    - source: middleware/lwip/src/apps/http/fs/img/sics.gif
+      hidden: true
+      type: other
+      repo_relative_path: src/apps/http/fs/img
+      project_relative_path: src/apps/http/fs/img
+      package_relative_path: src/apps/http/fs/img
+    - source: middleware/lwip/src/apps/http/fs/404.html
+      hidden: true
+      type: other
+      repo_relative_path: src/apps/http/fs
+      project_relative_path: src/apps/http/fs
+      package_relative_path: src/apps/http/fs
+    - source: middleware/lwip/src/apps/http/makefsdata/tinydir.h
+      hidden: true
+      exclude: true
+      repo_relative_path: src/apps/http/makefsdata
+      project_relative_path: src/apps/http/makefsdata
+      package_relative_path: src/apps/http/makefsdata
+      type: c_include
+    - source: middleware/lwip/src/apps/http/makefsdata/makefsdata.c
+      hidden: true
+      exclude: true
+      repo_relative_path: src/apps/http/makefsdata
+      project_relative_path: src/apps/http/makefsdata
+      package_relative_path: src/apps/http/makefsdata
+      type: src
+    - source: middleware/lwip/src/apps/http/makefsdata/readme.txt
+      hidden: true
+      type: doc
+      repo_relative_path: src/apps/http/makefsdata
+      project_relative_path: src/apps/http/makefsdata
+      package_relative_path: src/apps/http/makefsdata
+    - source: middleware/lwip/src/apps/http/makefsdata/makefsdata
+      hidden: true
+      type: other
+      repo_relative_path: src/apps/http/makefsdata
+      project_relative_path: src/apps/http/makefsdata
+      package_relative_path: src/apps/http/makefsdata
+    - source: middleware/lwip/middleware_lwip_apps_httpd_support.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTP Daemon Implementation Support Files
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTP Daemon Implementation Support Files
+    taxonomy:
+      csub: support
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_HTTPD_support
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.apps.httpd.support
+  cmake_module_name: middleware_lwip_apps_httpd_support
+middleware.lwip.apps.httpd:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: middleware/lwip/src/apps/http/httpd.c
+      repo_relative_path: src/apps/http
+      project_relative_path: src/apps/http
+      package_relative_path: src/apps/http
+      type: src
+    - source: middleware/lwip/middleware_lwip_apps_httpd.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTP Daemon
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTP Daemon
+    taxonomy:
+      csub: httpd
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_HTTPD
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.lwip.apps.httpd.support
+  meta-name: middleware.lwip.apps.httpd
+  cmake_module_name: middleware_lwip_apps_httpd
+middleware.lwip.apps.httpsrv:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+    files:
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_base64.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_base64.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_config.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_fs.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_fs.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_port.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_prv.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_script.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_script.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_sha1.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_sha1.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_supp.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_supp.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_task.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_tls.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_tls.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_utf8.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_utf8.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_ws.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_ws.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_ws_api.c
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: src
+    - source: middleware/lwip/src/apps/httpsrv/httpsrv_ws_prv.h
+      repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+      type: c_include
+    - source: middleware/lwip/src/apps/httpsrv/mkfs/mkfs.pl
+      hidden: true
+      type: other
+      repo_relative_path: src/apps/httpsrv/mkfs
+      project_relative_path: src/apps/httpsrv/mkfs
+      package_relative_path: src/apps/httpsrv/mkfs
+    - source: middleware/lwip/middleware_lwip_apps_httpsrv.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    configuration:
+      cc-define:
+        USE_RTOS: 1
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTP Server Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTP Server
+    taxonomy:
+      csub: httpsrv
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_HTTP_srv
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.freertos-kernel
+  meta-name: middleware.lwip.apps.httpsrv
+  cmake_module_name: middleware_lwip_apps_httpsrv
+middleware.lwip.apps.httpssrv:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/apps/httpsrv
+      project_relative_path: src/apps/httpsrv
+      package_relative_path: src/apps/httpsrv
+    files:
+    - source: middleware/lwip/README
+      type: doc
+      hidden: true
+      repo_relative_path: "./"
+      project_relative_path: "./"
+      package_relative_path: "./"
+    - source: middleware/lwip/middleware_lwip_apps_httpssrv.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    configuration:
+      cc-define:
+        MBEDTLS_THREADING_C: 
+        MBEDTLS_THREADING_ALT: 
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTPS Server Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTPS Server
+    taxonomy:
+      csub: httpssrv
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_HTTPS_srv
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip.apps.httpsrv
+    - middleware.mbedtls
+  meta-name: middleware.lwip.apps.httpssrv
+  cmake_module_name: middleware_lwip_apps_httpssrv
+middleware.lwip.apps.mdns:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+    files:
+    - source: middleware/lwip/src/apps/mdns/mdns.c
+      repo_relative_path: src/apps/mdns
+      project_relative_path: src/apps/mdns
+      package_relative_path: src/apps/mdns
+      type: src
+    - source: middleware/lwip/src/apps/mdns/mdns_domain.c
+      repo_relative_path: src/apps/mdns
+      project_relative_path: src/apps/mdns
+      package_relative_path: src/apps/mdns
+      type: src
+    - source: middleware/lwip/src/apps/mdns/mdns_out.c
+      repo_relative_path: src/apps/mdns
+      project_relative_path: src/apps/mdns
+      package_relative_path: src/apps/mdns
+      type: src
+    - source: middleware/lwip/src/include/lwip/apps/mdns.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/mdns_domain.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/mdns_priv.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/mdns_opts.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/mdns_out.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/middleware_lwip_apps_mdns.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP mDNS Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP mDNS
+    taxonomy:
+      csub: mdns
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_MDNS
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.apps.mdns
+  cmake_module_name: middleware_lwip_apps_mdns
+middleware.lwip.apps.lwiperf:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+    files:
+    - source: middleware/lwip/src/apps/lwiperf/lwiperf.c
+      repo_relative_path: src/apps/lwiperf
+      project_relative_path: src/apps/lwiperf
+      package_relative_path: src/apps/lwiperf
+      type: src
+    - source: middleware/lwip/src/include/lwip/apps/lwiperf.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/middleware_lwip_apps_lwiperf.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    configuration:
+      cc-define:
+        SO_REUSE: 1
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP IPERF Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP IPERF
+    taxonomy:
+      csub: lwiperf
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_IPERF
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+    - anyOf:
+      - middleware.freertos-kernel
+      - middleware.baremetal
+  meta-name: middleware.lwip.apps.lwiperf
+  cmake_module_name: middleware_lwip_apps_lwiperf
+middleware.lwip.apps.mqtt:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+    files:
+    - source: middleware/lwip/src/apps/mqtt/mqtt.c
+      repo_relative_path: src/apps/mqtt
+      project_relative_path: src/apps/mqtt
+      package_relative_path: src/apps/mqtt
+      type: src
+    - source: middleware/lwip/src/include/lwip/apps/mqtt.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/mqtt_opts.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/mqtt_priv.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/middleware_lwip_apps_mqtt.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP MQTT Client
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP MQTT Client
+    taxonomy:
+      csub: mqtt
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_MQTT
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.apps.mqtt
+  cmake_module_name: middleware_lwip_apps_mqtt
+middleware.lwip.apps.sntp:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+    files:
+    - source: middleware/lwip/src/include/lwip/apps/sntp.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/include/lwip/apps/sntp_opts.h
+      repo_relative_path: src/include/lwip/apps
+      project_relative_path: src/include/lwip/apps
+      package_relative_path: src/include/lwip/apps
+      type: c_include
+    - source: middleware/lwip/src/apps/sntp/sntp.c
+      repo_relative_path: src/apps/sntp
+      project_relative_path: src/apps/sntp
+      package_relative_path: src/apps/sntp
+      type: src
+    - source: middleware/lwip/middleware_lwip_apps_sntp.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP SNTP
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP SNTP
+    taxonomy:
+      csub: sntp
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_SNTP
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.apps.sntp
+  cmake_module_name: middleware_lwip_apps_sntp
+middleware.lwip.contrib.ping:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: middleware/lwip/contrib/apps/ping/ping.h
+      repo_relative_path: contrib/apps/ping
+      project_relative_path: contrib/apps/ping
+      package_relative_path: contrib/apps/ping
+      type: c_include
+    - source: middleware/lwip/contrib/apps/ping/ping.c
+      repo_relative_path: contrib/apps/ping
+      project_relative_path: contrib/apps/ping
+      package_relative_path: contrib/apps/ping
+      type: src
+    - source: middleware/lwip/middleware_lwip_contrib_ping.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    cc-include:
+    - repo_relative_path: contrib/apps/ping
+      project_relative_path: contrib/apps/ping
+      package_relative_path: contrib/apps/ping
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP Ping Sender contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP Ping Sender
+    taxonomy:
+      csub: ping
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_ping
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.contrib.ping
+  cmake_module_name: middleware_lwip_contrib_ping
+middleware.lwip.contrib.tcpecho:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: middleware/lwip/contrib/apps/tcpecho/tcpecho.h
+      repo_relative_path: contrib/apps/tcpecho
+      project_relative_path: contrib/apps/tcpecho
+      package_relative_path: contrib/apps/tcpecho
+      type: c_include
+    - source: middleware/lwip/contrib/apps/tcpecho/tcpecho.c
+      repo_relative_path: contrib/apps/tcpecho
+      project_relative_path: contrib/apps/tcpecho
+      package_relative_path: contrib/apps/tcpecho
+      type: src
+    - source: middleware/lwip/middleware_lwip_contrib_tcpecho.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    cc-include:
+    - repo_relative_path: contrib/apps/tcpecho
+      project_relative_path: contrib/apps/tcpecho
+      package_relative_path: contrib/apps/tcpecho
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP TCP Echo contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP TCP Echo
+    taxonomy:
+      csub: tcpecho
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_tcpecho
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.contrib.tcpecho
+  cmake_module_name: middleware_lwip_contrib_tcpecho
+middleware.lwip.contrib.tcpecho_raw:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: middleware/lwip/contrib/apps/tcpecho_raw/tcpecho_raw.c
+      repo_relative_path: contrib/apps/tcpecho_raw
+      project_relative_path: contrib/apps/tcpecho_raw
+      package_relative_path: contrib/apps/tcpecho_raw
+      type: src
+    - source: middleware/lwip/contrib/apps/tcpecho_raw/tcpecho_raw.h
+      repo_relative_path: contrib/apps/tcpecho_raw
+      project_relative_path: contrib/apps/tcpecho_raw
+      package_relative_path: contrib/apps/tcpecho_raw
+      type: c_include
+    - source: middleware/lwip/middleware_lwip_contrib_tcpecho_raw.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    cc-include:
+    - repo_relative_path: contrib/apps/tcpecho_raw
+      project_relative_path: contrib/apps/tcpecho_raw
+      package_relative_path: contrib/apps/tcpecho_raw
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP TCP Echo Raw API contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP TCP Echo Raw API
+    taxonomy:
+      csub: tcpecho_raw
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_tcpecho_raw
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.contrib.tcpecho_raw
+  cmake_module_name: middleware_lwip_contrib_tcpecho_raw
+middleware.lwip.contrib.udpecho:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: middleware/lwip/contrib/apps/udpecho/udpecho.h
+      repo_relative_path: contrib/apps/udpecho
+      project_relative_path: contrib/apps/udpecho
+      package_relative_path: contrib/apps/udpecho
+      type: c_include
+    - source: middleware/lwip/contrib/apps/udpecho/udpecho.c
+      repo_relative_path: contrib/apps/udpecho
+      project_relative_path: contrib/apps/udpecho
+      package_relative_path: contrib/apps/udpecho
+      type: src
+    - source: middleware/lwip/middleware_lwip_contrib_udpecho.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    cc-include:
+    - repo_relative_path: contrib/apps/udpecho
+      project_relative_path: contrib/apps/udpecho
+      package_relative_path: contrib/apps/udpecho
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP UDP Echo contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP UDP Echo
+    taxonomy:
+      csub: udpecho
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_udpecho
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.contrib.udpecho
+  cmake_module_name: middleware_lwip_contrib_udpecho
+middleware.lwip.contrib.udpecho_raw:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: middleware/lwip/contrib/apps/udpecho_raw/udpecho_raw.c
+      repo_relative_path: contrib/apps/udpecho_raw
+      project_relative_path: contrib/apps/udpecho_raw
+      package_relative_path: contrib/apps/udpecho_raw
+      type: src
+    - source: middleware/lwip/contrib/apps/udpecho_raw/udpecho_raw.h
+      repo_relative_path: contrib/apps/udpecho_raw
+      project_relative_path: contrib/apps/udpecho_raw
+      package_relative_path: contrib/apps/udpecho_raw
+      type: c_include
+    - source: middleware/lwip/middleware_lwip_contrib_udpecho_raw.cmake
+      type: workspace
+      toolchains: armgcc
+      hidden: true
+    cc-include:
+    - repo_relative_path: contrib/apps/udpecho_raw
+      project_relative_path: contrib/apps/udpecho_raw
+      package_relative_path: contrib/apps/udpecho_raw
+    package_base_path: middleware/lwip
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP UDP Echo Raw API contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP UDP Echo Raw API
+    taxonomy:
+      csub: udpecho_raw
+      cclass: Network
+      cgroup: lwIP TCPIP Application protocols
+      cbundle: lwIP
+      cbundle_version: 2.2.0
+    display_name: lwIP_udpecho_raw
+    vendor: NXP
+  dependency:
+    allOf:
+    - middleware.lwip
+  meta-name: middleware.lwip.contrib.udpecho_raw
+  cmake_module_name: middleware_lwip_contrib_udpecho_raw
