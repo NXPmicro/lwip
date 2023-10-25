@@ -1,0 +1,26 @@
+set.board.${board}.lwip:
+  section-type: set
+  belong_to: set.board.${board}.lwip
+  section_info:
+    fixed_id: board_${board}
+    display_name: "${board}"
+    full_name: NXP board ${board}
+    description: NXP MCUXpresso board ${board}
+    type: board
+    version: 1.0.0
+    set_location:
+      repo_base_path: "./boards/${board}/lwip_examples"
+    product:
+      cmsis_pack:
+        scr:
+          - scr.SDK_Examples
+          - scr.middleware.lwip
+        vendor: NXP
+        pack_root:
+          pack_type: sBSP
+          pack_name: "${board}_LWIP_BSP"
+      kex_package:
+        supported: false
+  dependency:
+    allOf:
+      - set.middleware.lwip

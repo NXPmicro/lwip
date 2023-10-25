@@ -1,0 +1,2536 @@
+---
+__hierarchy__:
+  tmp_lwip_examples_set:
+    section-type: application
+    configuration:
+      tools:
+        __common__:
+          config:
+            __common__: {}
+            debug:
+              cc-define:
+                DEBUG:
+              cx-define:
+                DEBUG:
+        iar:
+          config:
+            __common__: {}
+            release: {}
+        mdk:
+          config:
+            release: {}
+    modules:
+      boardset:
+        required: true
+        cc-include:
+        - path: boards/${board}
+          package_path: project-root-path
+          project_path: board
+        files:
+        - source: boards/${board}/board.c
+          package_path: project-root-path
+          project_path: board
+        - source: boards/${board}/board.h
+          package_path: project-root-path
+          project_path: board
+        - source: boards/${board}/clock_config.c
+          package_path: project-root-path
+          project_path: board
+        - source: boards/${board}/clock_config.h
+          package_path: project-root-path
+          project_path: board
+      device_configuration_data:
+        required: false
+        cc-include:
+        - path: boards/${board}
+          package_path: project-root-path
+          project_path: board
+        files:
+        - source: boards/${board}/dcd.c
+          package_path: project-root-path
+          project_path: board
+        - source: boards/${board}/dcd.h
+          package_path: project-root-path
+          project_path: board
+      httpsrv_fs_data:
+        required: false
+        files:
+        - source: boards/src/httpsrv_common/fs_data/httpsrv_fs_data.c
+          package_path: project-root-path
+          project_path: source
+        - source: boards/src/httpsrv_common/fs_data/webpage/httpsrv.css
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/auth.html
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/cgi.html
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/index.html
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/poll.html
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/websocket.html
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/welcome.html
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/favicon.ico
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/request.js
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/NXP_logo.png
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+        - source: boards/src/httpsrv_common/fs_data/webpage/ssi.shtml
+          hidden: true
+          exclude: true
+          type: other
+          package_path: project-root-path/webpage
+          project_path: src/lwip_examples/lwip_httpsrv_fs_data/webpage
+      readme:
+        files:
+        - source: project-root-path/readme.txt
+          toolchains: iar mdk mcux armgcc
+          project_path: doc
+    __requires__:
+    - middleware.lwip.default_heap_stack
+lwip_ping_freertos_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=2048
+            - __heap_size__=25600
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=2048"
+            - --predefine="-D__heap_size__=25600"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+lwip_ping_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            cc-flags:
+            - "-Og"
+            cx-flags:
+            - "-g3"
+            __remove__:
+              cc-flags:
+              - "-O0"
+    document:
+      name: lwip_ping_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_ping/freertos/board.readme
+      - middleware/lwip/example/lwip_ping/freertos/lwip_ping.readme
+      category: lwip_examples
+      brief: The lwip_ping demo application demonstrates a Ping Demo on the lwIP TCP/IP
+        stack which using the ICMP protocol. Theapplication periodically sends the
+        ICMP echo request to a PC and processes the PC reply. Type the "ping $board_address"in
+        the PC command window to send an ICMP echo request to the board. The lwIP
+        stack sends the ICMP echo reply back to thePC.
+    outdir: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_ping/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_ping/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_ping/freertos/lwip_ping_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ping/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ping/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.contrib.ping
+    driver.port driver.sim driver.clock middleware.freertos-kernel.heap_3 lwip_ping_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_ping_enet_qos_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            cc-flags:
+            - "-Og"
+            cx-flags:
+            - "-g3"
+            __remove__:
+              cc-flags:
+              - "-O0"
+    document:
+      name: lwip_ping_enet_qos_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/board.readme
+      - middleware/lwip/example/lwip_ping/freertos/lwip_ping.readme
+      category: lwip_examples
+      brief: The lwip_ping demo application demonstrates a Ping Demo on the lwIP TCP/IP
+        stack which using the ICMP protocol. Theapplication periodically sends the
+        ICMP echo request to a PC and processes the PC reply. Type the "ping $board_address"in
+        the PC command window to send an ICMP echo request to the board. The lwIP
+        stack sends the ICMP echo reply back to thePC.
+    outdir: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_ping/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_ping/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_ping/freertos/lwip_ping_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ping/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ping/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.contrib.ping
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.port driver.sim driver.clock middleware.freertos-kernel.heap_3 lwip_ping_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_ping_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+    document:
+      name: lwip_ping_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_ping/bm/board.readme
+      - middleware/lwip/example/lwip_ping/bm/lwip_ping.readme
+      category: lwip_examples
+      brief: The lwip_ping demo application demonstrates a Ping Demo on the lwIP TCP/IP
+        stack, which uses the ICMP protocol. Theapplication periodically sends the
+        ICMP echo request to a PC, and processes the PC reply. Type "ping $board_address"in
+        the PC command window to send an ICMP echo request to the board. The lwIP
+        stack sends the ICMP echo reply back to thePC.
+    outdir: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_ping/bm
+        package_path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_ping/bm/lwip_ping_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ping/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.contrib.ping
+    driver.port driver.sim driver.clock
+lwip_ping_enet_qos_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+    document:
+      name: lwip_ping_enet_qos_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/board.readme
+      - middleware/lwip/example/lwip_ping/bm/lwip_ping.readme
+      category: lwip_examples
+      brief: The lwip_ping_enet_qos demo application demonstrates a Ping Demo on the
+        lwIP TCP/IP stack, which uses the ICMP protocol. Theapplication periodically
+        sends the ICMP echo request to a PC, and processes the PC reply. Type "ping
+        $board_address"in the PC command window to send an ICMP echo request to the
+        board. The lwIP stack sends the ICMP echo reply back to thePC.
+    outdir: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_ping/bm
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_ping/bm/lwip_ping_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ping/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ping_enet_qos/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.contrib.ping
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.port driver.sim driver.clock
+lwip_iperf_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+              SDK_DEBUGCONSOLE: 1
+              DEBUG_CONSOLE_TRANSFER_NON_BLOCKING:
+              ENET_RXBUFF_NUM: 14
+              ENET_RXBD_NUM: 9
+    document:
+      name: lwip_iperf_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_iperf/bm/board.readme
+      - middleware/lwip/example/lwip_iperf/bm/lwip_iperf.readme
+      category: lwip_examples
+      brief: 'This is the IPerf server example to check your bandwidth using the network
+        performance measurement IPerf application on a PC as a client.It is currently
+        a minimal implementation providing an IPv4 TCP server only.Instead of the
+        command line IPerf application, for more convenience, it is recommended to
+        use the JPerf2 graphical tool, which can be downloaded here: https://sourceforge.net/projects/iperf/files/jperf/jperf%202.0.0/jperf-2.0.0.zip/download'
+    outdir: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_iperf/bm
+        package_path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_iperf/bm/lwip_iperf_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_iperf/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_iperf/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.lwiperf(middleware.baremetal)
+    driver.port driver.sim driver.clock
+lwip_iperf_enet_qos_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+              SDK_DEBUGCONSOLE: 1
+              DEBUG_CONSOLE_TRANSFER_NON_BLOCKING:
+              ENET_RXBUFF_NUM: 14
+              ENET_RXBD_NUM: 9
+    document:
+      name: lwip_iperf_enet_qos_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/board.readme
+      - middleware/lwip/example/lwip_iperf/bm/lwip_iperf.readme
+      category: lwip_examples
+      brief: 'This is the IPerf server example to check your bandwidth using the network
+        performance measurement IPerf application on a PC as a client.It is currently
+        a minimal implementation providing an IPv4 TCP server only.Instead of the
+        command line IPerf application, for more convenience, it is recommended to
+        use the JPerf2 graphical tool, which can be downloaded here: https://sourceforge.net/projects/iperf/files/jperf/jperf%202.0.0/jperf-2.0.0.zip/download'
+    outdir: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_iperf/bm
+        package_path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_iperf/bm/lwip_iperf_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_iperf/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_iperf_enet_qos/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.lwiperf(middleware.baremetal)
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.port driver.sim driver.clock
+lwip_httpsrv_freertos_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=2048
+            - __heap_size__=60000
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=2048"
+            - --predefine="-D__heap_size__=60000"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=60000"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=60000"
+lwip_httpsrv_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+              HTTPSRV_CFG_WEBSOCKET_ENABLED: 1
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            cc-flags:
+            - "-Og"
+            cx-flags:
+            - "-g3"
+            __remove__:
+              cc-flags:
+              - "-O0"
+    document:
+      name: lwip_httpsrv_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpsrv/freertos/board.readme
+      - middleware/lwip/example/lwip_httpsrv/freertos/lwip_httpsrv.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv demo application demonstrates an HTTPServer on the lwIP
+        TCP/IP stack with bare metal SDK or FreeRTOS.The user uses an Internet browser
+        to send a request for connection. The board acts as an HTTP server and sends
+        a Webpage back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpsrv/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_httpsrv/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_httpsrv/freertos/lwip_httpsrv_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpsrv/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpsrv/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: board
+    httpsrv_common_freertos:
+      required: true
+      cc-include:
+      - path: boards/src/httpsrv_common/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      files:
+      - source: boards/src/httpsrv_common/freertos/httpsrv_freertos.c
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/httpsrv_common/freertos/httpsrv_freertos.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+    httpsrv_fs_data:
+      required: true
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpsrv middleware.lwip.apps.mdns
+    driver.port driver.sim driver.clock middleware.freertos-kernel.heap_3 lwip_httpsrv_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_httpsrv_enet_qos_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+              HTTPSRV_CFG_WEBSOCKET_ENABLED: 1
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            cc-flags:
+            - "-Og"
+            cx-flags:
+            - "-g3"
+            __remove__:
+              cc-flags:
+              - "-O0"
+    document:
+      name: lwip_httpsrv_enet_qos_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/board.readme
+      - middleware/lwip/example/lwip_httpsrv/freertos/lwip_httpsrv.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv demo application demonstrates an HTTPServer on the lwIP
+        TCP/IP stack with bare metal SDK or FreeRTOS.The user uses an Internet browser
+        to send a request for connection. The board acts as an HTTP server and sends
+        a Webpage back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpsrv/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_httpsrv/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_httpsrv/freertos/lwip_httpsrv_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpsrv/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpsrv/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+    httpsrv_common_freertos:
+      required: true
+      cc-include:
+      - path: boards/src/httpsrv_common/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      files:
+      - source: boards/src/httpsrv_common/freertos/httpsrv_freertos.c
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/httpsrv_common/freertos/httpsrv_freertos.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/freertos/${multicore_foldername}
+        project_path: source
+    httpsrv_fs_data:
+      required: true
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpsrv middleware.lwip.apps.mdns
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.port driver.sim driver.clock middleware.freertos-kernel.heap_3 lwip_httpsrv_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_httpsrv_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+    document:
+      name: lwip_httpsrv_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpsrv/bm/board.readme
+      - middleware/lwip/example/lwip_httpsrv/bm/lwip_httpsrv.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv demo application demonstrates an HTTPServer on the lwIP
+        TCP/IP stack with bare metal SDK or FreeRTOS.The user uses an Internet browser
+        to send a request for connection. The board acts as an HTTP server and sends
+        a Webpage back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpsrv/bm
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_httpsrv/bm/lwip_httpsrv_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpsrv/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpd
+    driver.port driver.sim driver.clock
+lwip_httpsrv_enet_qos_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+    document:
+      name: lwip_httpsrv_enet_qos_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/board.readme
+      - middleware/lwip/example/lwip_httpsrv/bm/lwip_httpsrv.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv demo application demonstrates an HTTPServer on the lwIP
+        TCP/IP stack with bare metal SDK or FreeRTOS.The user uses an Internet browser
+        to send a request for connection. The board acts as an HTTP server and sends
+        a Webpage back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpsrv/bm
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_httpsrv/bm/lwip_httpsrv_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpsrv/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpsrv_enet_qos/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpd
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.port driver.sim driver.clock
+lwip_httpssrv_mbedTLS_bm_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=1000
+            - __heap_size__=40000
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=1000"
+            - --predefine="-D__heap_size__=40000"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=1000"
+            - "-Xlinker --defsym=__heap_size__=40000"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=1000"
+            - "-Xlinker --defsym=__heap_size__=42000"
+lwip_httpssrv_mbedTLS_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+              MBEDTLS_CONFIG_FILE: '"ksdk_mbedtls_config.h"'
+    document:
+      name: lwip_httpssrv_mbedTLS_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/board.readme
+      - middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/lwip_httpssrv_mbedTLS_bm.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv_mbedTSL_bm demo application demonstrates an HTTPS Serverset
+        up on lwIP TCP/IP and the mbedTLS stack with bare metal. The useruses an Internet
+        browser to send an https request for connection.The board acts as an HTTPS
+        server and sends a Web page back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: lwip_httpd_mbedtls
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/httpd_mbedtls.c
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: lwip_httpd_mbedtls
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/httpd_mbedtls.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: lwip_httpd_mbedtls
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/lwip_httpssrv_mbedTLS_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpd
+    middleware.mbedtls.default_heap_stack middleware.mbedtls 
+    driver.port driver.sim driver.clock
+    lwip_httpssrv_mbedTLS_bm_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+  - middleware.mbedtls.default_heap_stack
+lwip_httpssrv_mbedTLS_enet_qos_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              PRINTF_ADVANCED_ENABLE: 1
+              MBEDTLS_CONFIG_FILE: '"ksdk_mbedtls_config.h"'
+    document:
+      name: lwip_httpssrv_mbedTLS_enet_qos_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/board.readme
+      - middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/lwip_httpssrv_mbedTLS_bm.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv_mbedTSL_bm demo application demonstrates an HTTPS Serverset
+        up on lwIP TCP/IP and the mbedTLS stack with bare metal. The useruses an Internet
+        browser to send an https request for connection.The board acts as an HTTPS
+        server and sends a Web page back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: lwip_httpd_mbedtls
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/httpd_mbedtls.c
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: lwip_httpd_mbedtls
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/httpd_mbedtls.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: lwip_httpd_mbedtls
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/lwip_httpssrv_mbedTLS_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpd
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    middleware.mbedtls.default_heap_stack middleware.mbedtls 
+    driver.port driver.sim driver.clock
+    lwip_httpssrv_mbedTLS_bm_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+  - middleware.mbedtls.default_heap_stack
+lwip_httpssrv_mbedTLS_freertos_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=1000
+            - __heap_size__=100000
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=1000"
+            - --predefine="-D__heap_size__=100000"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=1000"
+            - "-Xlinker --defsym=__heap_size__=100000"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=1000"
+            - "-Xlinker --defsym=__heap_size__=100000"
+lwip_httpssrv_mbedTLS_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+              HTTPSRV_CFG_WEBSOCKET_ENABLED: 1
+              HTTPSRV_CFG_MBEDTLS_ENABLE: 1
+              MBEDTLS_CONFIG_FILE: '"ksdk_mbedtls_config.h"'
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            __remove__:
+              cc-flags:
+              - "-g"
+              cx-flags:
+              - "-g"
+            cc-flags:
+            - "-g1"
+            cx-flags:
+            - "-g1"
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            cc-flags:
+            - "-Og"
+            cx-flags:
+            - "-g3"
+            __remove__:
+              cc-flags:
+              - "-O0"
+    document:
+      name: lwip_httpssrv_mbedTLS_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/board.readme
+      - middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/lwip_httpssrv_mbedTLS_freertos.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv_mbedTLS demo application demonstrates an HTTPServer
+        set up on lwIP TCP/IP and the MbedTLS stack withFreeRTOS. The user uses an
+        Internet browser to send an https request for connection. The board acts as
+        an HTTP serverand sends a Web page back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/lwip_httpssrv_mbedTLS_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: board
+    httpsrv_fs_data:
+      required: true
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpssrv
+    middleware.mbedtls.default_heap_stack middleware.mbedtls 
+    driver.port driver.sim driver.clock
+    middleware.freertos-kernel.heap_3 lwip_httpssrv_mbedTLS_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+  - middleware.mbedtls.default_heap_stack
+lwip_httpssrv_mbedTLS_enet_qos_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+              HTTPSRV_CFG_WEBSOCKET_ENABLED: 1
+              HTTPSRV_CFG_MBEDTLS_ENABLE: 1
+              MBEDTLS_CONFIG_FILE: '"ksdk_mbedtls_config.h"'
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            __remove__:
+              cc-flags:
+              - "-g"
+              cx-flags:
+              - "-g"
+            cc-flags:
+            - "-g1"
+            cx-flags:
+            - "-g1"
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+          debug:
+            cc-flags:
+            - "-Og"
+            cx-flags:
+            - "-g3"
+            __remove__:
+              cc-flags:
+              - "-O0"
+    document:
+      name: lwip_httpssrv_mbedTLS_enet_qos_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/board.readme
+      - middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/lwip_httpssrv_mbedTLS_freertos.readme
+      category: lwip_examples
+      brief: The lwip_httpsrv_mbedTLS demo application demonstrates an HTTPServer
+        set up on lwIP TCP/IP and the MbedTLS stack withFreeRTOS. The user uses an
+        Internet browser to send an https request for connection. The board acts as
+        an HTTP serverand sends a Web page back to the PC.
+    outdir: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/lwip_httpssrv_mbedTLS_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_httpssrv_mbedTLS/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+    httpsrv_fs_data:
+      required: true
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_httpssrv_mbedTLS_enet_qos/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.httpssrv
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    middleware.mbedtls.default_heap_stack middleware.mbedtls driver.port driver.sim driver.clock
+    middleware.freertos-kernel.heap_3 lwip_httpssrv_mbedTLS_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+  - middleware.mbedtls.default_heap_stack
+lwip_mqtt_freertos_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=1000
+            - __heap_size__=25600
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=1000"
+            - --predefine="-D__heap_size__=25600"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=1000"
+            - "-Xlinker --defsym=__heap_size__=25600"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=1000"
+            - "-Xlinker --defsym=__heap_size__=25600"
+lwip_mqtt_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+    document:
+      name: lwip_mqtt_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_mqtt/freertos/board.readme
+      - middleware/lwip/example/lwip_mqtt/freertos/lwip_mqtt.readme
+      category: lwip_examples
+      brief: The lwip_mqtt demo application demonstrates MQTT client connecting to
+        MQTT broker via unsecured socket. The application obtains IP and DNS addresses
+        from DHCP and resolves broker's hostname if needed. Then it connects to the
+        broker and subscribes to the "lwip_topic/#" and "lwip_other/#" topics. Further
+        it publishes five messages to the "lwip_topic/100" which are also received
+        back as the board is subscribed to the "lwip_topic/#". Meanwhile it continues
+        to receive messages published to the subscribed topics from other clients.
+    outdir: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_mqtt/freertos
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_mqtt/freertos
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_mqtt/freertos/lwip_mqtt_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_mqtt/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_mqtt/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: board
+    mqtt_common:
+      required: true
+      cc-include:
+      - path: boards/src/mqtt_common
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      files:
+      - source: boards/src/mqtt_common/mqtt_freertos.c
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/mqtt_common/mqtt_freertos.h
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.mqtt
+    driver.clock driver.port driver.sim middleware.freertos-kernel.heap_3 lwip_mqtt_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_mqtt_enet_qos_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+      armgcc:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+      mcux:
+        config:
+          __common__:
+            cc-define:
+              _POSIX_SOURCE:
+    document:
+      name: lwip_mqtt_enet_qos_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/board.readme
+      - middleware/lwip/example/lwip_mqtt/freertos/lwip_mqtt.readme
+      category: lwip_examples
+      brief: The lwip_mqtt demo application demonstrates MQTT client connecting to
+        MQTT broker via unsecured socket. The application obtains IP and DNS addresses
+        from DHCP and resolves broker's hostname if needed. Then it connects to the
+        broker and subscribes to the "lwip_topic/#" and "lwip_other/#" topics. Further
+        it publishes five messages to the "lwip_topic/100" which are also received
+        back as the board is subscribed to the "lwip_topic/#". Meanwhile it continues
+        to receive messages published to the subscribed topics from other clients.
+    outdir: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_mqtt/freertos
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_mqtt/freertos
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_mqtt/freertos/lwip_mqtt_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_mqtt/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_mqtt/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+    mqtt_common:
+      required: true
+      cc-include:
+      - path: boards/src/mqtt_common
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      files:
+      - source: boards/src/mqtt_common/mqtt_freertos.c
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/mqtt_common/mqtt_freertos.h
+        package_path: boards/${board}/lwip_examples/lwip_mqtt/freertos/${multicore_foldername}
+        project_path: source
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_mqtt_enet_qos/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.apps.mqtt
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.clock driver.port driver.sim middleware.freertos-kernel.heap_3 lwip_mqtt_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_ipv4_ipv6_echo_freertos_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=2048
+            - __heap_size__=25600
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=2048"
+            - --predefine="-D__heap_size__=25600"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+lwip_ipv4_ipv6_echo_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+    document:
+      name: lwip_ipv4_ipv6_echo_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/board.readme
+      - middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/lwip_ipv4_ipv6_echo_freertos.readme
+      category: lwip_examples
+      brief: The lwip_ipv4_ipv6_echo demo application demonstrates a TCP or UDP echo demo on
+        the lwIP TCP/IP stack with FreeRTOS. The demo uses the TCP or UDP protocol over both IPv4 and IPv6
+        and acts as an echo server. The application sends back the received TCP or UDP packets
+        from the PC, which can be used to test whether a TCP or UDP is available.
+    outdir: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/lwip_ipv4_ipv6_echo_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: board
+    ipv4_ipv6_echo_common:
+      required: true
+      cc-include:
+      - path: boards/src/ipv4_ipv6_echo_common
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      files:
+      - source: boards/src/ipv4_ipv6_echo_common/shell_task.c
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/shell_task.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/shell_task_mode.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/socket_task.c
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/socket_task.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: source
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.contrib.tcpecho
+    driver.port driver.sim driver.clock middleware.freertos-kernel.heap_3 lwip_ipv4_ipv6_echo_freertos_heap_stack
+    utility.shell
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_mcast_filter:
+  internal: true
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+              DEBUG_CONSOLE_RX_ENABLE: 1
+    document:
+      name: lwip_mcast_filter
+      category: lwip_examples
+      brief: Internal tool for testing multicast traffic.
+    outdir: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_mcast_filter/freertos
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_mcast_filter/freertos
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_mcast_filter/freertos/lwip_mcast_filter.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_mcast_filter/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_mcast_filter/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: board
+      - source: middleware/lwip/example/lwip_mcast_filter/freertos/test_task.c
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_mcast_filter/freertos/test_task.h
+        package_path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: source
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_mcast_filter/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.contrib.tcpecho
+    driver.port driver.sim driver.clock middleware.freertos-kernel.heap_3 lwip_ipv4_ipv6_echo_freertos_heap_stack
+    utility.shell
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_ipv4_ipv6_echo_enet_qos_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+    document:
+      name: lwip_ipv4_ipv6_echo_enet_qos_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/board.readme
+      - middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/lwip_ipv4_ipv6_echo_freertos.readme
+      category: lwip_examples
+      brief: The lwip_ipv4_ipv6_echo demo application demonstrates a TCP or UDP echo demo on
+        the lwIP TCP/IP stack with FreeRTOS. The demo uses the TCP or UDP protocol over both IPv4 and IPv6
+        and acts as an echo server. The application sends back the received TCP or UDP packets
+        from the PC, which can be used to test whether a TCP or UDP is available.
+    outdir: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/lwip_ipv4_ipv6_echo_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_ipv4_ipv6_echo/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+    ipv4_ipv6_echo_common:
+      required: true
+      cc-include:
+      - path: boards/src/ipv4_ipv6_echo_common
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      files:
+      - source: boards/src/ipv4_ipv6_echo_common/shell_task.c
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/shell_task.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/shell_task_mode.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/socket_task.c
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/src/ipv4_ipv6_echo_common/socket_task.h
+        package_path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_ipv4_ipv6_echo_enet_qos/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.contrib.tcpecho
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.port driver.sim driver.clock middleware.freertos-kernel.heap_3 lwip_ipv4_ipv6_echo_freertos_heap_stack
+    utility.shell
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_dhcp_freertos_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=2048
+            - __heap_size__=25600
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=2048"
+            - --predefine="-D__heap_size__=25600"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+lwip_dhcp_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+      mcux:
+        config:
+          debug:
+            cc-flags:
+            - "-Og"
+            cx-flags:
+            - "-g3"
+            __remove__:
+              cc-flags:
+              - "-O0"
+    document:
+      name: lwip_dhcp_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_dhcp/freertos/board.readme
+      - middleware/lwip/example/lwip_dhcp/freertos/lwip_dhcp.readme
+      category: lwip_examples
+      brief: The lwip_dhcp demo application demonstrates a DHCP demo on the lwIP TCP/IP
+        stack.The application acts as a DHCP client and prints the status as it is
+        progressing.Once the interface is being bound to an IP address obtained from
+        DHCP server, address information is printed.
+    outdir: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_dhcp/freertos
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_dhcp/freertos
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_dhcp/freertos/lwip_dhcp_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - driver.port driver.sim
+    driver.clock middleware.freertos-kernel.heap_3 lwip_dhcp_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_dhcp_enet_qos_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              PRINTF_ADVANCED_ENABLE: 1
+    document:
+      name: lwip_dhcp_enet_qos_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/board.readme
+      - middleware/lwip/example/lwip_dhcp/freertos/lwip_dhcp.readme
+      category: lwip_examples
+      brief: The lwip_dhcp demo application demonstrates a DHCP demo on the lwIP TCP/IP
+        stack.The application acts as a DHCP client and prints the status as it is
+        progressing.Once the interface is being bound to an IP address obtained from
+        DHCP server, address information is printed.
+    outdir: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_dhcp/freertos
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_dhcp/freertos
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_dhcp/freertos/lwip_dhcp_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+    driver.port driver.sim driver.clock
+    middleware.freertos-kernel.heap_3 lwip_dhcp_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_dhcp_usb_freertos_heap_stack:
+  section-type: configuration
+  configuration:
+    tools:
+      iar:
+        config:
+          __common__:
+            ad-flags:
+            - __stack_size__=2048
+            - __heap_size__=25600
+      mdk:
+        config:
+          __common__:
+            ad-flags:
+            - --predefine="-D__stack_size__=2048"
+            - --predefine="-D__heap_size__=25600"
+      armgcc:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+      mcux:
+        config:
+          __common__:
+            ad-flags:
+            - "-Xlinker --defsym=__stack_size__=2048"
+            - "-Xlinker --defsym=__heap_size__=25600"
+lwip_dhcp_usb_freertos:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USE_RTOS: 1
+              USB_STACK_FREERTOS:
+              PRINTF_ADVANCED_ENABLE: 1
+              SDK_DEBUGCONSOLE: 1
+    document:
+      name: lwip_dhcp_usb_freertos
+      readme:
+      - boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/board.readme
+      - middleware/lwip/example/lwip_dhcp_usb/freertos/lwip_dhcp.readme
+      category: lwip_examples
+      brief: The lwip_dhcp demo application demonstrates a DHCP demo on the lwIP TCP/IP
+        stack.The application acts as a DHCP client and prints the status as it is
+        progressing.Once the interface is being bound to an IP address obtained from
+        DHCP server, address information is printed.
+    outdir: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_dhcp_usb/freertos
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: board
+      as-include:
+      - path: middleware/lwip/example/lwip_dhcp_usb/freertos
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}
+        project_path: source
+      files:
+      - source: middleware/lwip/example/lwip_dhcp_usb/freertos/lwip_dhcp_usb_freertos.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp_usb/freertos/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp_usb/MCUXpresso SDK USB
+          RNDIS & LWIP User Guide.pdf
+        hidden: true
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: src/lwip_examples/lwip_dhcp_usb/freertos
+      - source: middleware/lwip/example/lwip_dhcp_usb/freertos/usb_host_config.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp_usb/freertos/FreeRTOSConfig.h
+        merge-to-freertosconfig: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/FreeRTOSConfigBoard.h
+        merge-to-freertosconfig: sub
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/freertos/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - middleware.lwip(middleware.lwip.usb_ethernetif)
+    driver.port driver.sim driver.clock
+    middleware.freertos-kernel.heap_3   driver.sysmpu middleware.lwip.contrib.ping
+    middleware.usb.host.cdc_rndis  middleware.usb.host.cdc lwip_dhcp_usb_freertos_heap_stack
+  remove_components:
+  - middleware.lwip.default_heap_stack
+lwip_dhcp_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__: {}
+    document:
+      name: lwip_dhcp_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_dhcp/bm/board.readme
+      - middleware/lwip/example/lwip_dhcp/bm/lwip_dhcp.readme
+      category: lwip_examples
+      brief: The lwip_dhcp demo application demonstrates a DHCP demo on the lwIP TCP/IP
+        stack.The application acts as a DHCP client and prints the status as it is
+        progressing.Once the interface is being bound to an IP address obtained from
+        DHCP server, address information is printed.
+    outdir: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_dhcp/bm
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_dhcp/bm/lwip_dhcp_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - driver.port driver.clock
+lwip_dhcp_enet_qos_bm:
+  configuration:
+    document:
+      name: lwip_dhcp_enet_qos_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/board.readme
+      - middleware/lwip/example/lwip_dhcp/bm/lwip_dhcp.readme
+      category: lwip_examples
+      brief: The lwip_dhcp demo application demonstrates a DHCP demo on the lwIP TCP/IP
+        stack.The application acts as a DHCP client and prints the status as it is
+        progressing.Once the interface is being bound to an IP address obtained from
+        DHCP server, address information is printed.
+    outdir: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_dhcp/bm
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_dhcp/bm/lwip_dhcp_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_enet_qos/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - driver.port driver.clock
+    middleware.lwip.enet_ethernetif(driver.enet_qos)
+    middleware.lwip(middleware.lwip.enet_ethernetif)
+lwip_dhcp_usb_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              USB_STACK_BM:
+              SDK_DEBUGCONSOLE: 1
+    document:
+      name: lwip_dhcp_usb_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_dhcp_usb/bm/board.readme
+      - middleware/lwip/example/lwip_dhcp_usb/bm/lwip_dhcp.readme
+      category: lwip_examples
+      brief: The lwip_dhcp_usb demo application demonstrates a DHCP demo on the lwIP
+        TCP/IP stack.The application acts as a DHCP client and prints the status as
+        it is progressing.Once the interface is being bound to an IP address obtained
+        from DHCP server, address information is printed.
+    outdir: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_dhcp_usb/bm
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_dhcp_usb/bm/lwip_dhcp_usb_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp_usb/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_dhcp_usb/MCUXpresso SDK USB RNDIS
+          & LWIP User Guide.pdf
+        hidden: true
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: src/lwip_examples/lwip_dhcp_usb/bm
+      - source: middleware/lwip/example/lwip_dhcp_usb/bm/usb_host_config.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_dhcp_usb/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - driver.port driver.clock  middleware.lwip(middleware.lwip.usb_ethernetif) driver.sysmpu
+    middleware.lwip.contrib.ping middleware.usb.host.cdc_rndis middleware.usb.host.cdc
+    middleware.baremetal
+lwip_tahi_bm:
+  configuration:
+    tools:
+      __common__:
+        config:
+          __common__:
+            cc-define:
+              ENET_RXBD_NUM: 8
+              ENET_TXBD_NUM: 4
+    document:
+      name: lwip_tahi_bm
+      readme:
+      - boards/${board}/lwip_examples/lwip_tahi/bm/board.readme
+      - middleware/lwip/example/lwip_tahi/bm/lwip_tahi.readme
+      category: lwip_examples
+      brief: The lwip_tahi demo is an application which can be used to test IPv6 conformance
+        of lwIP TCP/IP stack.The intention is to connect the device to a testing computer
+        running TAHI test tools.The lwip_tahi application initializes the stack to
+        use IPv6 protocol and opens a shell on a serial line.This shell listens to
+        text commands from TAHI test tools.
+    outdir: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+  modules:
+    demo:
+      required: true
+      cc-include:
+      - path: middleware/lwip/example/lwip_tahi/bm
+        package_path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        project_path: source
+      - path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        package_path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: middleware/lwip/example/lwip_tahi/bm/lwip_tahi_bm.c
+        merge-to-main: main
+        package_path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        project_path: source
+      - source: middleware/lwip/example/lwip_tahi/bm/lwipopts.h
+        package_path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        project_path: source
+      - source: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}/pin_mux.c
+        package_path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}/pin_mux.h
+        package_path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        project_path: board
+    pinset:
+      required: true
+      cc-include:
+      - path: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}
+        project_path: board
+      files:
+      - source: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}/hardware_init.c
+        merge-to-main: sub
+        project_path: board
+      - source: boards/${board}/lwip_examples/lwip_tahi/bm/${multicore_foldername}/app.h
+        merge-to-main: sub
+        project_path: board
+  section-type: application
+  __requires__:
+  - driver.port driver.clock utility.shell

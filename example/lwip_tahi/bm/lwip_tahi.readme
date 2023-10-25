@@ -1,0 +1,37 @@
+Overview
+========
+
+The lwip_tahi demo is an application which can be used to test IPv6 conformance of lwIP TCP/IP stack.
+The intention is to connect the device to a testing computer running TAHI test tools.
+The lwip_tahi application initializes the stack to use IPv6 protocol and opens a shell on a serial line.
+This shell listens to text commands from TAHI test tools.
+
+Prepare the Demo
+===============
+1.  Connect a USB cable between the PC host running TAHI test tools and the OpenSDA USB port on the target board.
+2.  Set the parameters of serial connection in the PC host:
+    - 115200 baud rate
+    - 8 data bits
+    - No parity
+    - One stop bit
+    - No flow control
+3.  Insert the Ethernet Cable into the target board's RJ45 port and connect it to the PC host.
+4.  Download the program to the target board.
+5.  Either press the reset button on your board or launch the debugger in your IDE to begin running the demo.
+6.  Launch TAHI tests.
+
+Running the demo
+===============
+When the demo runs, the log would be seen on the terminal like:
+
+Initializing PHY...
+
+starting lwIP TAHI bm application
+sleep 10000 ms
+
+SHELL (build: Jun 19 2017)
+Copyright  2017  NXP
+shell>
+initializing network interface
+IPv6 address: FE80::200:5EFF:FEA8:16
+shell>

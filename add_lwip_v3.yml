@@ -1,0 +1,903 @@
+---
+middleware.lwip.template:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: template
+      target_file:
+      - lwipopts.h
+    files:
+    - source: template/lwipopts.h
+      attribute: config
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP Template
+    version: 2.2.0_rev9
+    type: project_template
+    full_name: lwIP Template Application
+    user_visible: never
+    taxonomy:
+      csub: template
+      belong_to: lwip
+    display_name: lwIP_template
+middleware.lwip:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+    - repo_relative_path: src
+    - repo_relative_path: src/include
+    files:
+    - source: "*"
+      hidden: true
+      type: doc
+    - source: ChangeLogKSDK.txt
+      hidden: true
+      type: doc
+    - source: doc/*.txt
+      hidden: true
+      type: doc
+    - source: doc/*.c
+      hidden: true
+      exclude: true
+      type: doc
+    - source: doc/*
+      hidden: true
+      type: doc
+    - source: doc/doxygen/**
+      hidden: true
+      type: doc
+    - source: port/sys_arch.c
+    - source: port/arch/cc.h
+    - source: port/arch/perf.h
+    - source: port/arch/sys_arch.h
+    - source: src/*
+      hidden: true
+      type: doc
+    - source: src/api/**
+    - source: src/core/**
+    - source: src/include/compat/**
+    - source: src/include/lwip/*.h
+    - source: src/include/lwip/priv/**
+    - source: src/include/lwip/prot/**
+    - source: src/include/netif/**
+    - source: src/netif/*.c
+    - source: src/netif/*
+      hidden: true
+      type: doc
+    - source: src/netif/ppp/*.c
+    - source: src/netif/ppp/PPPD_FOLLOWUP
+      hidden: true
+      type: doc
+    - source: src/netif/ppp/polarssl/*.c
+      exclude: true
+      hidden: true
+    - source: src/netif/ppp/polarssl/README
+      exclude: true
+      hidden: true
+      type: doc
+    configuration:
+      tools:
+        armgcc:
+          cc-define:
+            LWIP_TIMEVAL_PRIVATE: 0
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP - A Lightweight TCP/IP Stack
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP
+    taxonomy:
+      csub: lwip
+      belong_to: lwip
+    display_name: lwIP
+  dependency:
+    allOf:
+    - middleware.lwip.template
+    - anyOf:
+      - middleware.lwip.usb_ethernetif
+      - middleware.lwip.enet_ethernetif
+      - middleware.lwip.netc_ethernetif
+      - middleware.lwip.mcx_ethernetif
+      - middleware.wifi_wiced.MURATA_TYPE1LV
+      - middleware.wifi_wiced.MURATA_TYPE1DX
+      - middleware.wifi_wiced.AW_NM372SM
+      - middleware.wifi
+middleware.lwip.default_heap_stack:
+  section-type: project_segment
+  belong_to: set.board.${board}
+  contents:
+    configuration:
+      tools:
+        iar:
+          config:
+            __common__:
+              ad-flags:
+              - __stack_size__=0x1000
+              - __heap_size__=0x1000
+        mdk:
+          config:
+            __common__:
+              ad-flags:
+              - --predefine="-D__stack_size__=0x1000"
+              - --predefine="-D__heap_size__=0x1000"
+        armgcc:
+          config:
+            __common__:
+              ad-flags:
+              - "-Xlinker --defsym=__stack_size__=0x1000"
+              - "-Xlinker --defsym=__heap_size__=0x1000"
+        mcux:
+          config:
+            __common__:
+              ad-flags:
+              - "-Xlinker --defsym=__stack_size__=0x1000"
+              - "-Xlinker --defsym=__heap_size__=0x1000"
+middleware.lwip.enet_ethernetif:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+    files:
+    - source: port/enet_ethernetif.c
+    - source: port/ethernetif.c
+    - source: port/ethernetif.h
+    - source: port/ethernetif_mmac.c
+    - source: port/ethernetif_mmac.h
+    - source: port/ethernetif_priv.h
+    - source: port/enet_sanitychecks.h
+    - source: port/enet_ethernetif_kinetis.c
+      components: driver.enet
+    - source: port/enet_ethernetif_lpc.c
+      components: driver.lpc_enet
+    - source: port/enet_ethernetif_qos.c
+      components: driver.enet_qos
+    configuration:
+      cc-define:
+        LWIP_DISABLE_PBUF_POOL_SIZE_SANITY_CHECKS: 1
+  belong_to: set.middleware.lwip
+  section_info:
+    full_name: Enet ethernet interface
+    description: Enet ethernet interface
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    taxonomy:
+      csub: enet_ethernetif
+      belong_to: lwip
+    display_name: Enet ethernet interface
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.lwip.template
+    - driver.phy-common
+    - anyOf:
+      - driver.enet
+      - driver.lpc_enet
+      - driver.enet_qos
+middleware.lwip.netc_ethernetif:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+    files:
+    - source: port/ethernetif.c
+    - source: port/ethernetif.h
+    - source: port/ethernetif_mmac.h
+    - source: port/ethernetif_mmac.c
+    - source: port/ethernetif_priv.h
+    - source: port/netc_sanitychecks.h
+    - source: port/netc_ethernetif.c
+    configuration:
+      cc-define:
+        LWIP_DISABLE_PBUF_POOL_SIZE_SANITY_CHECKS: 1
+  belong_to: set.middleware.lwip
+  section_info:
+    full_name: NETC ethernet interface
+    description: NETC ethernet interface
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    taxonomy:
+      csub: netc_ethernetif
+      belong_to: lwip
+    display_name: NETC ethernet interface
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.lwip.template
+    - driver.phy-common
+    - driver.netc
+middleware.lwip.mcx_ethernetif:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+    files:
+    - source: port/enet_ethernetif.c
+    - source: port/ethernetif.c
+    - source: port/ethernetif.h
+    - source: port/ethernetif_mmac.c
+    - source: port/ethernetif_mmac.h
+    - source: port/ethernetif_priv.h
+    - source: port/enet_sanitychecks.h
+    - source: port/enet_ethernetif_lpc.c
+    configuration:
+      cc-define:
+        LWIP_DISABLE_PBUF_POOL_SIZE_SANITY_CHECKS: 1
+  belong_to: set.middleware.lwip
+  section_info:
+    full_name: MCX ethernet interface
+    description: MCX ethernet interface
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    taxonomy:
+      csub: mcx_ethernetif
+      belong_to: lwip
+    display_name: MCX ethernet interface
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.lwip.template
+    - driver.phy-common
+    - driver.mcx_enet
+middleware.lwip.usb_ethernetif:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: port
+    files:
+    - source: port/usb_ethernetif_bm.c
+      components: middleware.baremetal
+    - source: port/usb_ethernetif_freertos.c
+      components: middleware.freertos-kernel
+    - source: port/usb_ethernetif.h
+  belong_to: set.middleware.lwip
+  section_info:
+    description: USB network layer
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP Adaptation for USB Network Layer
+    taxonomy:
+      csub: usb_ethernetif
+      belong_to: lwip
+    display_name: lwIP_usb_ethernetif
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.usb.host.cdc
+    - middleware.usb.host.cdc_rndis
+    - anyOf:
+      - middleware.usb.host.khci
+      - middleware.usb.host.ehci
+      - middleware.usb.host.ohci
+      - middleware.usb.host.ip3511hs
+middleware.lwip.unused_files:
+  section-type: container
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: CMakeLists.txt
+      hidden: true
+      exclude: true
+      type: other
+    - source: src/Filelists.cmake
+      hidden: true
+      exclude: true
+      type: other
+    - source: src/Filelists.mk
+      hidden: true
+      exclude: true
+      type: other
+    - source: test/**
+      hidden: true
+      exclude: true
+    - source: contrib/*.*
+      hidden: true
+      exclude: true
+    - source: contrib/addons/**
+      hidden: true
+      exclude: true
+    - source: contrib/apps/*.*
+      hidden: true
+      exclude: true
+    - source: contrib/apps/chargen/**
+      hidden: true
+      exclude: true
+    - source: contrib/apps/httpserver/**
+      hidden: true
+      exclude: true
+    - source: contrib/apps/netio/**
+      hidden: true
+      exclude: true
+    - source: contrib/apps/rtp/**
+      hidden: true
+      exclude: true
+    - source: contrib/apps/shell/**
+      hidden: true
+      exclude: true
+    - source: contrib/apps/socket_examples/**
+      hidden: true
+      exclude: true
+    - source: contrib/Coverity/**
+      hidden: true
+      exclude: true
+    - source: contrib/examples/**
+      hidden: true
+      exclude: true
+    - source: contrib/ports/**
+      hidden: true
+      exclude: true
+    - source: src/apps/altcp_tls/**
+      hidden: true
+      exclude: true
+    - source: src/apps/http/altcp_proxyconnect.c
+      hidden: true
+      exclude: true
+    - source: src/apps/http/http_client.c
+      hidden: true
+      exclude: true
+    - source: src/apps/netbiosns/**
+      hidden: true
+      exclude: true
+    - source: src/apps/smtp/**
+      hidden: true
+      exclude: true
+    - source: src/apps/snmp/**
+      hidden: true
+      exclude: true
+    - source: src/apps/tftp/**
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/init.h.cmake.in
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/altcp_proxyconnect.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/altcp_tls_mbedtls_opts.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/FILES
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/http_client.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/netbiosns.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/netbiosns_opts.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/smtp.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/smtp_opts.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmpv3.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_core.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_mib2.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_opts.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_scalar.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_snmpv2_framework.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_snmpv2_usm.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_table.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/snmp_threadsync.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/tftp_client.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/tftp_common.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/tftp_opts.h
+      hidden: true
+      exclude: true
+    - source: src/include/lwip/apps/tftp_server.h
+      hidden: true
+      exclude: true
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP files unused by projects
+    version: 2.2.0_rev9
+    type: other
+    user_visible: never
+    full_name: lwIP - Files Unused by Projects
+    display_name: lwIP_unused_files
+middleware.lwip.apps.httpd.support:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/apps/http
+    - repo_relative_path: src/include/lwip/apps
+    files:
+    - source: src/apps/http/fs.c
+    - source: src/apps/http/fsdata.h
+    - source: src/apps/http/httpd_structs.h
+    - source: src/apps/http/fsdata.c
+      hidden: true
+      exclude: true
+      type: src
+    - source: src/include/lwip/apps/fs.h
+    - source: src/include/lwip/apps/httpd.h
+    - source: src/include/lwip/apps/httpd_opts.h
+    - source: src/apps/http/fs/**
+      hidden: true
+      type: other
+    - source: src/apps/http/makefsdata/*.h
+      hidden: true
+      exclude: true
+    - source: src/apps/http/makefsdata/*.c
+      hidden: true
+      exclude: true
+    - source: src/apps/http/makefsdata/*.txt
+      hidden: true
+      type: doc
+    - source: src/apps/http/makefsdata/makefsdata
+      hidden: true
+      type: other
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTP Daemon Implementation Support Files
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTP Daemon Implementation Support Files
+    taxonomy:
+      csub: support
+      belong_to: lwip_app
+    display_name: lwIP_HTTPD_support
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.apps.httpd:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: src/apps/http/httpd.c
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTP Daemon
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTP Daemon
+    taxonomy:
+      csub: httpd
+      belong_to: lwip_app
+    display_name: lwIP_HTTPD
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.lwip.apps.httpd.support
+middleware.lwip.apps.httpsrv:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/apps/httpsrv
+    files:
+    - source: src/apps/httpsrv/httpsrv.c
+    - source: src/apps/httpsrv/httpsrv.h
+    - source: src/apps/httpsrv/httpsrv_base64.c
+    - source: src/apps/httpsrv/httpsrv_base64.h
+    - source: src/apps/httpsrv/httpsrv_config.h
+    - source: src/apps/httpsrv/httpsrv_fs.c
+    - source: src/apps/httpsrv/httpsrv_fs.h
+    - source: src/apps/httpsrv/httpsrv_port.h
+    - source: src/apps/httpsrv/httpsrv_prv.h
+    - source: src/apps/httpsrv/httpsrv_script.c
+    - source: src/apps/httpsrv/httpsrv_script.h
+    - source: src/apps/httpsrv/httpsrv_sha1.c
+    - source: src/apps/httpsrv/httpsrv_sha1.h
+    - source: src/apps/httpsrv/httpsrv_supp.c
+    - source: src/apps/httpsrv/httpsrv_supp.h
+    - source: src/apps/httpsrv/httpsrv_task.c
+    - source: src/apps/httpsrv/httpsrv_tls.c
+    - source: src/apps/httpsrv/httpsrv_tls.h
+    - source: src/apps/httpsrv/httpsrv_utf8.c
+    - source: src/apps/httpsrv/httpsrv_utf8.h
+    - source: src/apps/httpsrv/httpsrv_ws.c
+    - source: src/apps/httpsrv/httpsrv_ws.h
+    - source: src/apps/httpsrv/httpsrv_ws_api.c
+    - source: src/apps/httpsrv/httpsrv_ws_prv.h
+    - source: src/apps/httpsrv/mkfs/mkfs.pl
+      hidden: true
+      type: other
+    configuration:
+      cc-define:
+        USE_RTOS: 1
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTP Server Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTP Server
+    taxonomy:
+      csub: httpsrv
+      belong_to: lwip_app
+    display_name: lwIP_HTTP_srv
+  dependency:
+    allOf:
+    - middleware.lwip
+    - middleware.freertos-kernel
+middleware.lwip.apps.httpssrv:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/apps/httpsrv
+    files:
+      - source: README
+        type: doc
+        hidden: true
+        exclude: true
+    configuration:
+      cc-define:
+        MBEDTLS_THREADING_C: 
+        MBEDTLS_THREADING_ALT: 
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP HTTPS Server Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP HTTPS Server
+    taxonomy:
+      csub: httpssrv
+      belong_to: lwip_app
+    display_name: lwIP_HTTPS_srv
+  dependency:
+    allOf:
+    - middleware.lwip.apps.httpsrv
+    - middleware.mbedtls
+middleware.lwip.apps.mdns:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+    files:
+    - source: src/apps/mdns/**
+    - source: src/include/lwip/apps/mdns.h
+    - source: src/include/lwip/apps/mdns_domain.h
+    - source: src/include/lwip/apps/mdns_priv.h
+    - source: src/include/lwip/apps/mdns_opts.h
+    - source: src/include/lwip/apps/mdns_out.h
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP mDNS Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP mDNS
+    taxonomy:
+      csub: mdns
+      belong_to: lwip_app
+    display_name: lwIP_MDNS
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.apps.lwiperf:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+    files:
+    - source: src/apps/lwiperf/**
+    - source: src/include/lwip/apps/lwiperf.h
+    configuration:
+      cc-define:
+        SO_REUSE: 1
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP IPERF Implementation
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP IPERF
+    taxonomy:
+      csub: lwiperf
+      belong_to: lwip_app
+    display_name: lwIP_IPERF
+  dependency:
+    allOf:
+    - middleware.lwip
+    - anyOf:
+      - middleware.freertos-kernel
+      - middleware.baremetal
+middleware.lwip.apps.mqtt:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+    files:
+    - source: src/apps/mqtt/**
+    - source: src/include/lwip/apps/mqtt.h
+    - source: src/include/lwip/apps/mqtt_opts.h
+    - source: src/include/lwip/apps/mqtt_priv.h
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP MQTT Client
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP MQTT Client
+    taxonomy:
+      csub: mqtt
+      belong_to: lwip_app
+    display_name: lwIP_MQTT
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.apps.sntp:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    cc-include:
+    - repo_relative_path: src/include/lwip/apps
+    files:
+    - source: src/include/lwip/apps/sntp.h
+    - source: src/include/lwip/apps/sntp_opts.h
+    - source: src/apps/sntp/**
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP SNTP
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP SNTP
+    taxonomy:
+      csub: sntp
+      belong_to: lwip_app
+    display_name: lwIP_SNTP
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.contrib.ping:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: contrib/apps/ping/**
+    cc-include:
+    - repo_relative_path: contrib/apps/ping
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP Ping Sender contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP Ping Sender
+    taxonomy:
+      csub: ping
+      belong_to: lwip_app
+    display_name: lwIP_ping
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.contrib.tcpecho:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: contrib/apps/tcpecho/**
+    cc-include:
+    - repo_relative_path: contrib/apps/tcpecho
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP TCP Echo contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP TCP Echo
+    taxonomy:
+      csub: tcpecho
+      belong_to: lwip_app
+    display_name: lwIP_tcpecho
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.contrib.tcpecho_raw:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: contrib/apps/tcpecho_raw/**
+    cc-include:
+    - repo_relative_path: contrib/apps/tcpecho_raw
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP TCP Echo Raw API contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP TCP Echo Raw API
+    taxonomy:
+      csub: tcpecho_raw
+      belong_to: lwip_app
+    display_name: lwIP_tcpecho_raw
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.contrib.udpecho:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: contrib/apps/udpecho/**
+    cc-include:
+    - repo_relative_path: contrib/apps/udpecho
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP UDP Echo contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP UDP Echo
+    taxonomy:
+      csub: udpecho
+      belong_to: lwip_app
+    display_name: lwIP_udpecho
+  dependency:
+    allOf:
+    - middleware.lwip
+middleware.lwip.contrib.udpecho_raw:
+  section-type: component
+  contents:
+    repo_base_path: middleware/lwip
+    project_base_path: lwip
+    files:
+    - source: contrib/apps/udpecho_raw/**
+    cc-include:
+    - repo_relative_path: contrib/apps/udpecho_raw
+  belong_to: set.middleware.lwip
+  section_info:
+    description: lwIP UDP Echo Raw API contrib
+    version: 2.2.0_rev9
+    type: middleware
+    user_visible: always
+    full_name: lwIP UDP Echo Raw API
+    taxonomy:
+      csub: udpecho_raw
+      belong_to: lwip_app
+    display_name: lwIP_udpecho_raw
+  dependency:
+    allOf:
+    - middleware.lwip
+set.middleware.lwip:
+  section-type: set
+  belong_to: set.middleware.lwip
+  section_info:
+    fixed_id: adam_dunkels_lwip
+    version: 2.2.0_rev9
+    display_name: lwIP
+    description: TCP/IP Networking Stack
+    set_location:
+      repo_base_path: middleware/lwip
+    type: middleware
+    vendor: NXP
+    product:
+      kex_package:
+        kex_web_ui:
+          ui_control: true
+          ui_release_specific: true
+          ui_control_default: false
+          ui_category: Middleware
+        scr:
+        - scr.middleware.lwip
+      cmsis_pack:
+        vendor: NXP
+        supported: true
+        pack_root:
+          pack_type: SWP
+          pack_name: LWIP
+          pack_version: 1.0.0
+        scr:
+        - scr.middleware.lwip
+    component_taxonomy:
+      lwip:
+        cclass: Network
+        cgroup: lwIP TCPIP Networking Stack
+        cbundle: lwIP
+        cbundle_version: 2.2.0
+      lwip_app:
+        cclass: Network
+        cgroup: lwIP TCPIP Application protocols
+        cbundle: lwIP
+        cbundle_version: 2.2.0
+  dependency:
+    anyOf:
+    - ip:
+      - DriverType_ENET
+    - ip:
+      - DriverType_ENET_QOS
+    - ip:
+      - DriverType_NETC
+    - ip:
+      - DriverType_LPC_ENET
+    - ip:
+      - DriverType_MCX_ENET
+    - board:
+      - evkmimxrt595
+    - board:
+      - evkmimxrt685
+    - board:
+      - mimxrt685audevk
+license.lwip_license:
+  section-type: license
+  belong_to: set.middleware.lwip
+  contents:
+    repo_base_path: middleware/lwip
+    files:
+    - source: COPYING
+  section_info:
+    Outgoing License: BSD-3-Clause
+scr.middleware.lwip:
+  belong_to: set.middleware.lwip
+  section-type: scr
+  contents:
+    license:
+    - license.lwip_license
+    Name: lwIP TCP/IP Stack
+    Version: 'lwIP git repository (2023-01-03, branch: master, SHA-1: 3fe8d2fc43a9b69f7ed28c63d44a7744f9c0def9)'
+    Format: source code
+    Description: A light-weight TCP/IP stack
+    Location: middleware/lwip
+    Origin: NXP (BSD-3-Clause) Swedish Institute of Computer Science (BSD-3-Clause)
+      - http://savannah.nongnu.org/projects/lwip
