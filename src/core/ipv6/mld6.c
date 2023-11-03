@@ -244,17 +244,31 @@ static struct mld_group *
 mld6_new_group(struct netif *netif, const ip6_addr_t *addr)
 {
   struct mld_group *group;
-  struct mld_data *mld = mld6_get_data(netif);
+  struct mld_data *mld = mld6_get_or_alloc_data(netif);
 
-  group = (struct mld_group *)memp_malloc(MEMP_MLD6_GROUP);
-  if (group != NULL) {
-    ip6_addr_set(&(group->group_address), addr);
-    group->use                = 1;
-    group->next               = mld->groups;
-    group->to_report_next     = NULL;
-
-    mld->groups = group;
+  /* Try to find group in list to report */
+  for (group = mld->groups_to_report; group != NULL; group = group->to_report_next) {
+    if ((group->use == 0) && ip6_addr_eq(&(group->group_address), addr)) {
+      break;
+    }
   }
+
+  if (group == NULL) {
+    /* group not found - allocate new */
+    group = (struct mld_group *)memp_malloc(MEMP_MLD6_GROUP);
+
+    if (group == NULL) {
+	  return NULL;
+    }
+
+    ip6_addr_set(&(group->group_address), addr);
+    group->to_report_next = NULL;
+    group->chg_reps_to_send = 0;
+  }
+
+  group->use  = 1;
+  group->next = mld->groups;
+  mld->groups = group;
 
   return group;
 }
@@ -444,16 +458,6 @@ mld6_joingroup_netif(struct netif *netif, const ip6_addr_t *groupaddr)
 
   /* find group or create a new one if not found */
   group = mld6_lookfor_group(netif, groupaddr);
-
-  if (group == NULL) {
-    /* Recently left group may be in list of pending reports */
-    struct mld_data *mld = mld6_get_or_alloc_data(netif);
-    for (group = mld->groups_to_report; group != NULL; group = group->to_report_next) {
-      if ((group->use == 0) && ip6_addr_eq(&(group->group_address), groupaddr)) {
-        break;
-      }
-    }
-  }
 
   if (group == NULL) {
     /* Joining a new group. Create a new group entry. */
