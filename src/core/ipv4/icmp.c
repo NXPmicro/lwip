@@ -364,11 +364,13 @@ icmp_send_response(struct pbuf *p, u8_t type, u8_t code)
               (q->len >= (sizeof(struct icmp_hdr) + response_pkt_len)));
 
   iphdr = (struct ip_hdr *)p->payload;
+#if 0 /* Warnings.*/
   LWIP_DEBUGF(ICMP_DEBUG, ("icmp_send_response: Sending ICMP type %02X for packet from ", type));
   ip4_addr_debug_print_val(ICMP_DEBUG, iphdr->src);
   LWIP_DEBUGF(ICMP_DEBUG, (" to "));
   ip4_addr_debug_print_val(ICMP_DEBUG, iphdr->dest);
   LWIP_DEBUGF(ICMP_DEBUG, ("\n"));
+#endif
 
   icmphdr = (struct icmp_hdr *)q->payload;
   icmphdr->type = type;

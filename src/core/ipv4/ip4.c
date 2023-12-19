@@ -337,7 +337,7 @@ ip4_forward(struct pbuf *p, struct ip_hdr *iphdr, struct netif *inp)
   }
 
   /* Take care of setting checksums to 0 for checksum offload netifs */
-  if (CHECKSUM_GEN_IP || NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_IP)) {
+  if (!CHECKSUM_GEN_IP || (LWIP_CHECKSUM_CTRL_PER_NETIF && !NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_IP))) {
     IPH_CHKSUM_SET(iphdr, 0);
   }
   switch (IPH_PROTO(iphdr)) {
@@ -346,21 +346,21 @@ ip4_forward(struct pbuf *p, struct ip_hdr *iphdr, struct netif *inp)
   case IP_PROTO_UDPLITE:
 #endif
   case IP_PROTO_UDP:
-    if (CHECKSUM_GEN_UDP || NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_UDP)) {
+    if (!CHECKSUM_GEN_UDP || (LWIP_CHECKSUM_CTRL_PER_NETIF && !NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_UDP))) {
       ((struct udp_hdr *)((u8_t *)iphdr + IPH_HL_BYTES(iphdr)))->chksum = 0;
     }
     break;
 #endif
 #if LWIP_TCP
   case IP_PROTO_TCP:
-    if (CHECKSUM_GEN_TCP || NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_TCP)) {
+    if (!CHECKSUM_GEN_TCP || (LWIP_CHECKSUM_CTRL_PER_NETIF && !NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_TCP))) {
       ((struct tcp_hdr *)((u8_t *)iphdr + IPH_HL_BYTES(iphdr)))->chksum = 0;
     }
     break;
 #endif
 #if LWIP_ICMP
   case IP_PROTO_ICMP:
-    if (CHECKSUM_GEN_ICMP || NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_ICMP)) {
+    if (!CHECKSUM_GEN_ICMP || (LWIP_CHECKSUM_CTRL_PER_NETIF && !NETIF_CHECKSUM_ENABLED(inp, NETIF_CHECKSUM_GEN_ICMP))) {
       ((struct icmp_hdr *)((u8_t *)iphdr + IPH_HL_BYTES(iphdr)))->chksum = 0;
     }
     break;

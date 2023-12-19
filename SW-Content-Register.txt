@@ -1,0 +1,17 @@
+Release Name: lwIP TCP/IP Stack
+Release Version: 2.2.0_revX
+Package License: BSD-3-Clause
+
+lwip       Name: lwIP TCP/IP Stack                           
+           Version: lwIP git repository (2023-01-03, branch: 
+           master, SHA-1:                                    
+           3fe8d2fc43a9b69f7ed28c63d44a7744f9c0def9)         
+           Outgoing License: BSD-3-Clause                    
+           License File: ./COPYING                           
+           Format: source code                               
+           Description: A light-weight TCP/IP stack          
+           Release Location: https://github.com/nxpmicro/lwip
+           Location: ./                                      
+           Origin:
+               NXP (BSD-3-Clause)
+               Swedish Institute of Computer Science and community (BSD-3-Clause) - http://savannah.nongnu.org/projects/lwip
