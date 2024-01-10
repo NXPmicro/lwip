@@ -62,6 +62,8 @@
 #include "netif/slipif.h"
 #include "lwip/opt.h"
 
+#if LWIP_HAVE_SLIPIF
+
 #include "lwip/def.h"
 #include "lwip/pbuf.h"
 #include "lwip/stats.h"
@@ -556,3 +558,4 @@ slipif_received_bytes(struct netif *netif, u8_t *data, u8_t len)
   }
 }
 #endif /* SLIP_RX_FROM_ISR */
+#endif /* LWIP_HAVE_SLIPIF */

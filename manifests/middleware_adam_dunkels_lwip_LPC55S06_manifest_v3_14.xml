@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ksdk:manifest xmlns:ksdk="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="SDK_2.x_middleware_adam_dunkels_lwip_LPC55S06_manifest_v3_14" name="lwIP" brief="Lightweight IP open-source TCP/IP stack" format_version="3.14" api_version="2.0.0" xsi:schemaLocation="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd http://nxp.com/mcuxpresso/sdk/sdk_manifest_v3.14.xsd">
+
+  <externalDefinitions>
+    <definition extID="LPC55S06"/>
+    <definition extID="armgcc"/>
+  </externalDefinitions>
+  <ksdk id="MCUXpressoSDK2150_middleware_adam_dunkels_lwip_LPC55S06_manifest_v3_14" name="MCUXpressoSDK2150_middleware_adam_dunkels_lwip_LPC55S06_manifest_v3_14" version="2.15.0" revision="2.15.0"/>
+  <components>
+    <component id="middleware.lwip.template.LPC55S06" name="lwIP_template" brief="lwIP Template" version="2.2.0" revision="10" full_name="lwIP Template Application" category="Network/lwIP TCPIP Networking Stack" user_visible="false" type="project_template" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <device_dependency value="LPC55S06"/>
+      </dependencies>
+      <source relative_path="./template" project_relative_path="template" config="true" type="c_include">
+        <files mask="lwipopts.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_template.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./template" project_relative_path="template" type="c_include"/>
+      </include_paths>
+    </component>
+    <!--<component id="middleware.lwip.unused_files.LPC55S06" name="lwIP_unused_files" version="2.2.0" package_base_path=".././" project_base_path="lwip">
+  <source exclude="true" relative_path="./" type="other">
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="Filelists.mk" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="lwipcfg.h.ci" hidden="true"/>
+    <files mask="lwipcfg.h.example" hidden="true"/>
+    <files mask="ssi.shtml" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="setup-tapif" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="build_coverity.cmd" hidden="true"/>
+    <files mask="libcheck.vcxproj" hidden="true"/>
+    <files mask="libcheck.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP.vcxproj" hidden="true"/>
+    <files mask="lwIP.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP_Test.sln" hidden="true"/>
+    <files mask="lwIP_Test.vcxproj" hidden="true"/>
+    <files mask="lwIP_Test.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP_pcapif.vcxproj" hidden="true"/>
+    <files mask="lwIP_pcapif.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP_unittests.sln" hidden="true"/>
+    <files mask="lwip_unittests.vcxproj" hidden="true"/>
+    <files mask="lwip_unittests.vcxproj.filters" hidden="true"/>
+    <files mask="makefsdata.vcxproj" hidden="true"/>
+    <files mask="makefsdata.vcxproj.filters" hidden="true"/>
+    <files mask="init.h.cmake.in" hidden="true"/>
+    <files mask="FILES" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="c_include">
+    <files mask="config.h" hidden="true"/>
+    <files mask="fuzz_common.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="sockets_stresstest.h" hidden="true"/>
+    <files mask="test_sockets.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="test_def.h" hidden="true"/>
+    <files mask="test_dns.h" hidden="true"/>
+    <files mask="test_mem.h" hidden="true"/>
+    <files mask="test_netif.h" hidden="true"/>
+    <files mask="test_pbuf.h" hidden="true"/>
+    <files mask="test_timers.h" hidden="true"/>
+    <files mask="test_dhcp.h" hidden="true"/>
+    <files mask="test_dhcp6.h" hidden="true"/>
+    <files mask="test_etharp.h" hidden="true"/>
+    <files mask="test_ip4.h" hidden="true"/>
+    <files mask="test_ip6.h" hidden="true"/>
+    <files mask="lwip_check.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="test_mdns.h" hidden="true"/>
+    <files mask="test_mqtt.h" hidden="true"/>
+    <files mask="test_pppos.h" hidden="true"/>
+    <files mask="tcp_helper.h" hidden="true"/>
+    <files mask="test_tcp.h" hidden="true"/>
+    <files mask="test_tcp_oos.h" hidden="true"/>
+    <files mask="test_tcp_state.h" hidden="true"/>
+    <files mask="test_udp.h" hidden="true"/>
+    <files mask="dhcp_extra_opts.h" hidden="true"/>
+    <files mask="ip6_route_table.h" hidden="true"/>
+    <files mask="dnssd.h" hidden="true"/>
+    <files mask="tcp_isn.h" hidden="true"/>
+    <files mask="tcp_md5.h" hidden="true"/>
+    <files mask="chargen.h" hidden="true"/>
+    <files mask="httpserver-netconn.h" hidden="true"/>
+    <files mask="netio.h" hidden="true"/>
+    <files mask="rtp.h" hidden="true"/>
+    <files mask="rtpdata.h" hidden="true"/>
+    <files mask="shell.h" hidden="true"/>
+    <files mask="socket_examples.h" hidden="true"/>
+    <files mask="default_netif.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="lwippools.h" hidden="true"/>
+    <files mask="ppp_settings.h" hidden="true"/>
+    <files mask="opt_default.h" hidden="true"/>
+    <files mask="opt_dualstack.h" hidden="true"/>
+    <files mask="opt_ipv4only.h" hidden="true"/>
+    <files mask="opt_ipv6only.h" hidden="true"/>
+    <files mask="opt_no_tcp_dualstack.h" hidden="true"/>
+    <files mask="opt_no_tcp_ipv4only.h" hidden="true"/>
+    <files mask="opt_no_tcp_ipv6only.h" hidden="true"/>
+    <files mask="opt_no_udp_dualstack.h" hidden="true"/>
+    <files mask="opt_no_udp_ipv4only.h" hidden="true"/>
+    <files mask="opt_no_udp_ipv6only.h" hidden="true"/>
+    <files mask="opt_none.h" hidden="true"/>
+    <files mask="opt_nosys_dual.h" hidden="true"/>
+    <files mask="opt_nosys_ipv4.h" hidden="true"/>
+    <files mask="opt_nosys_ipv6.h" hidden="true"/>
+    <files mask="cgi_example.h" hidden="true"/>
+    <files mask="fs_example.h" hidden="true"/>
+    <files mask="genfiles_example.h" hidden="true"/>
+    <files mask="https_example.h" hidden="true"/>
+    <files mask="ssi_example.h" hidden="true"/>
+    <files mask="lwiperf_example.h" hidden="true"/>
+    <files mask="mdns_example.h" hidden="true"/>
+    <files mask="mqtt_example.h" hidden="true"/>
+    <files mask="pppos_example.h" hidden="true"/>
+    <files mask="snmp_example.h" hidden="true"/>
+    <files mask="private_mib.h" hidden="true"/>
+    <files mask="snmpv3_dummy.h" hidden="true"/>
+    <files mask="sntp_example.h" hidden="true"/>
+    <files mask="tftp_example.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="config.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="cc.h" hidden="true"/>
+    <files mask="perf.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="fifo.h" hidden="true"/>
+    <files mask="list.h" hidden="true"/>
+    <files mask="pcapif.h" hidden="true"/>
+    <files mask="sio.h" hidden="true"/>
+    <files mask="tapif.h" hidden="true"/>
+    <files mask="vdeif.h" hidden="true"/>
+    <files mask="inet.h" hidden="true"/>
+    <files mask="sockets.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="check_stdint.h" hidden="true"/>
+    <files mask="config.h" hidden="true"/>
+    <files mask="stdbool.h" hidden="true"/>
+    <files mask="time.h" hidden="true"/>
+    <files mask="unistd.h" hidden="true"/>
+    <files mask="bpstruct.h" hidden="true"/>
+    <files mask="cc.h" hidden="true"/>
+    <files mask="epstruct.h" hidden="true"/>
+    <files mask="perf.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="pcapif.h" hidden="true"/>
+    <files mask="pcapif_helper.h" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_mem.h" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_structs.h" hidden="true"/>
+    <files mask="snmp_asn1.h" hidden="true"/>
+    <files mask="snmp_core_priv.h" hidden="true"/>
+    <files mask="snmp_msg.h" hidden="true"/>
+    <files mask="snmp_pbuf_stream.h" hidden="true"/>
+    <files mask="snmpv3_priv.h" hidden="true"/>
+    <files mask="altcp_proxyconnect.h" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_opts.h" hidden="true"/>
+    <files mask="http_client.h" hidden="true"/>
+    <files mask="netbiosns.h" hidden="true"/>
+    <files mask="netbiosns_opts.h" hidden="true"/>
+    <files mask="smtp.h" hidden="true"/>
+    <files mask="smtp_opts.h" hidden="true"/>
+    <files mask="snmp.h" hidden="true"/>
+    <files mask="snmpv3.h" hidden="true"/>
+    <files mask="snmp_core.h" hidden="true"/>
+    <files mask="snmp_mib2.h" hidden="true"/>
+    <files mask="snmp_opts.h" hidden="true"/>
+    <files mask="snmp_scalar.h" hidden="true"/>
+    <files mask="snmp_snmpv2_framework.h" hidden="true"/>
+    <files mask="snmp_snmpv2_usm.h" hidden="true"/>
+    <files mask="snmp_table.h" hidden="true"/>
+    <files mask="snmp_threadsync.h" hidden="true"/>
+    <files mask="tftp_client.h" hidden="true"/>
+    <files mask="tftp_common.h" hidden="true"/>
+    <files mask="tftp_opts.h" hidden="true"/>
+    <files mask="tftp_server.h" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="src">
+    <files mask="fuzz.c" hidden="true"/>
+    <files mask="fuzz2.c" hidden="true"/>
+    <files mask="fuzz3.c" hidden="true"/>
+    <files mask="fuzz_common.c" hidden="true"/>
+    <files mask="sockets_stresstest.c" hidden="true"/>
+    <files mask="test_sockets.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="test_def.c" hidden="true"/>
+    <files mask="test_dns.c" hidden="true"/>
+    <files mask="test_mem.c" hidden="true"/>
+    <files mask="test_netif.c" hidden="true"/>
+    <files mask="test_pbuf.c" hidden="true"/>
+    <files mask="test_timers.c" hidden="true"/>
+    <files mask="test_dhcp.c" hidden="true"/>
+    <files mask="test_dhcp6.c" hidden="true"/>
+    <files mask="test_etharp.c" hidden="true"/>
+    <files mask="test_ip4.c" hidden="true"/>
+    <files mask="test_ip6.c" hidden="true"/>
+    <files mask="lwip_unittests.c" hidden="true"/>
+    <files mask="test_mdns.c" hidden="true"/>
+    <files mask="test_mqtt.c" hidden="true"/>
+    <files mask="test_pppos.c" hidden="true"/>
+    <files mask="tcp_helper.c" hidden="true"/>
+    <files mask="test_tcp.c" hidden="true"/>
+    <files mask="test_tcp_oos.c" hidden="true"/>
+    <files mask="test_tcp_state.c" hidden="true"/>
+    <files mask="test_udp.c" hidden="true"/>
+    <files mask="dhcp_extra_opts.c" hidden="true"/>
+    <files mask="ip6_route_table.c" hidden="true"/>
+    <files mask="dnssd.c" hidden="true"/>
+    <files mask="tcp_isn.c" hidden="true"/>
+    <files mask="tcp_md5.c" hidden="true"/>
+    <files mask="chargen.c" hidden="true"/>
+    <files mask="httpserver-netconn.c" hidden="true"/>
+    <files mask="netio.c" hidden="true"/>
+    <files mask="rtp.c" hidden="true"/>
+    <files mask="shell.c" hidden="true"/>
+    <files mask="socket_examples.c" hidden="true"/>
+    <files mask="coverity.c" hidden="true"/>
+    <files mask="ethernetif.c" hidden="true"/>
+    <files mask="test.c" hidden="true"/>
+    <files mask="cgi_example.c" hidden="true"/>
+    <files mask="examples_fsdata.c" hidden="true"/>
+    <files mask="fs_example.c" hidden="true"/>
+    <files mask="genfiles_example.c" hidden="true"/>
+    <files mask="https_example.c" hidden="true"/>
+    <files mask="post_example.c" hidden="true"/>
+    <files mask="ssi_example.c" hidden="true"/>
+    <files mask="lwiperf_example.c" hidden="true"/>
+    <files mask="mdns_example.c" hidden="true"/>
+    <files mask="mqtt_example.c" hidden="true"/>
+    <files mask="pppos_example.c" hidden="true"/>
+    <files mask="snmp_example.c" hidden="true"/>
+    <files mask="lwip_prvmib.c" hidden="true"/>
+    <files mask="snmpv3_dummy.c" hidden="true"/>
+    <files mask="sntp_example.c" hidden="true"/>
+    <files mask="tftp_example.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="default_netif.c" hidden="true"/>
+    <files mask="fifo.c" hidden="true"/>
+    <files mask="list.c" hidden="true"/>
+    <files mask="pcapif.c" hidden="true"/>
+    <files mask="sio.c" hidden="true"/>
+    <files mask="tapif.c" hidden="true"/>
+    <files mask="vdeif.c" hidden="true"/>
+    <files mask="perf.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="time.c" hidden="true"/>
+    <files mask="default_netif.c" hidden="true"/>
+    <files mask="pcapif.c" hidden="true"/>
+    <files mask="pcapif_helper.c" hidden="true"/>
+    <files mask="sio.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="altcp_tls_mbedtls.c" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_mem.c" hidden="true"/>
+    <files mask="altcp_proxyconnect.c" hidden="true"/>
+    <files mask="http_client.c" hidden="true"/>
+    <files mask="netbiosns.c" hidden="true"/>
+    <files mask="smtp.c" hidden="true"/>
+    <files mask="snmp_asn1.c" hidden="true"/>
+    <files mask="snmp_core.c" hidden="true"/>
+    <files mask="snmp_mib2.c" hidden="true"/>
+    <files mask="snmp_mib2_icmp.c" hidden="true"/>
+    <files mask="snmp_mib2_interfaces.c" hidden="true"/>
+    <files mask="snmp_mib2_ip.c" hidden="true"/>
+    <files mask="snmp_mib2_snmp.c" hidden="true"/>
+    <files mask="snmp_mib2_system.c" hidden="true"/>
+    <files mask="snmp_mib2_tcp.c" hidden="true"/>
+    <files mask="snmp_mib2_udp.c" hidden="true"/>
+    <files mask="snmp_msg.c" hidden="true"/>
+    <files mask="snmp_netconn.c" hidden="true"/>
+    <files mask="snmp_pbuf_stream.c" hidden="true"/>
+    <files mask="snmp_raw.c" hidden="true"/>
+    <files mask="snmp_scalar.c" hidden="true"/>
+    <files mask="snmp_snmpv2_framework.c" hidden="true"/>
+    <files mask="snmp_snmpv2_usm.c" hidden="true"/>
+    <files mask="snmp_table.c" hidden="true"/>
+    <files mask="snmp_threadsync.c" hidden="true"/>
+    <files mask="snmp_traps.c" hidden="true"/>
+    <files mask="snmpv3.c" hidden="true"/>
+    <files mask="snmpv3_mbedtls.c" hidden="true"/>
+    <files mask="tftp.c" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="binary">
+    <files mask="arp_req.bin" hidden="true"/>
+    <files mask="icmp_ping.bin" hidden="true"/>
+    <files mask="neighbor_solicitation.bin" hidden="true"/>
+    <files mask="router_adv.bin" hidden="true"/>
+    <files mask="tcp_syn.bin" hidden="true"/>
+    <files mask="udp_port_5000.bin" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="script">
+    <files mask="output_to_pcap.sh" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="Filelists.mk" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="Filelists.mk" hidden="true"/>
+    <files mask="CMakeCommon.cmake" hidden="true"/>
+    <files mask="Common.allports.mk" hidden="true"/>
+    <files mask="Common.mk" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="iteropts.sh" hidden="true"/>
+    <files mask="Uninstall.cmake" hidden="true"/>
+    <files mask="Common.mk" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="doc">
+    <files mask="404.html" hidden="true"/>
+    <files mask="index.html" hidden="true"/>
+    <files mask="login.html" hidden="true"/>
+    <files mask="loginfail.html" hidden="true"/>
+    <files mask="session.html" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="readme.txt" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="image">
+    <files mask="sics.gif" hidden="true"/>
+  </source>
+</component>-->
+  </components>
+</ksdk:manifest>

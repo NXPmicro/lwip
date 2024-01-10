@@ -352,4 +352,69 @@ ip6addr_ntoa_r(const ip6_addr_t *addr, char *buf, int buflen)
   return buf;
 }
 
+/**
+ * Copy address but set network bits to zero according mask.
+ *
+ * @param addr ip6 address in network order
+ * @param buf destination address (may be same as addr)
+ * @param mask network mask (0-128)
+ */
+void ip6_addr_net_by_mask(const ip6_addr_t *addr, ip6_addr_t *net_addr, uint8_t mask)
+{
+  uint8_t wildcard = 128-mask;
+  int i = 0;
+
+  for(; i<4; i++) {
+    const u8_t ia = 3-i;
+    if(wildcard >= ((i+1)*32)) {
+      net_addr->addr[ia] = 0;
+    }
+    else {
+      net_addr->addr[ia] = addr->addr[ia] & PP_HTONL(~((1<<(wildcard-i*32))-1));
+      break;
+    }
+  }
+
+  for(i++; i<4; i++) {
+    const u8_t ia = 3-i;
+    net_addr->addr[ia] = addr->addr[ia];
+  }
+}
+
+/**
+ * Determine if two IPv6 addresses have same prefix.
+ *
+ * @param addr1 IPv6 address 1
+ * @param addr2 IPv6 address 2
+ * @prefix_len length of the prefix
+ * @return 1 if the prefixes of both addresses match, 0 if not
+ */
+int ip6_addr_prefix_eq(const ip6_addr_t *addr1, const ip6_addr_t *addr2, uint8_t prefix_len)
+{
+  const u8_t *bytes1;
+  const u8_t *bytes2;
+  int i = 0;
+  u32_t mask;
+
+  LWIP_ASSERT("prefix_len", prefix_len <= 128);
+
+  if (!ip6_addr_zone_eq(addr1, addr2)) {
+    return 0;
+  }
+
+  bytes1 = (const u8_t *)addr1->addr;
+  bytes2 = (const u8_t *)addr2->addr;
+
+  while (prefix_len >= 8U) {
+    if (bytes1[i] != bytes2[i]) {
+      return 0;
+    }
+    prefix_len -= 8U;
+    i++;
+  }
+
+  mask = (0xFFU << (8U - prefix_len)) & 0xFFU;
+  return ((bytes1[i] & mask) == (bytes2[i] & mask));
+}
+
 #endif /* LWIP_IPV6 */
