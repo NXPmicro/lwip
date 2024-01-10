@@ -6,6 +6,7 @@
 
 /*
  * Copyright (c) 2010 Inico Technologies Ltd.
+ * Copyright 2023 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -123,12 +124,17 @@ icmp6_input(struct pbuf *p, struct netif *inp)
   case ICMP6_TYPE_RS:
 #if LWIP_IPV6_FORWARD
     /* @todo implement router functionality */
-#endif
+  #if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+    nd6_input(p, inp);
+    return;
+  #else
     break;
+  #endif
+#else /* LWIP_IPV6_FORWARD */
+    break;
+#endif
 #if LWIP_IPV6_MLD
   case ICMP6_TYPE_MLQ:
-  case ICMP6_TYPE_MLR:
-  case ICMP6_TYPE_MLD:
     mld6_input(p, inp);
     return;
 #endif

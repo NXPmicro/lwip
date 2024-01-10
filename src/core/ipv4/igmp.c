@@ -336,11 +336,13 @@ igmp_input(struct pbuf *p, struct netif *inp, const ip4_addr_t *dest)
     return;
   }
 
+#if 0 /* Disabled cause of compiler warnings.*/
   LWIP_DEBUGF(IGMP_DEBUG, ("igmp_input: message from "));
   ip4_addr_debug_print_val(IGMP_DEBUG, ip4_current_header()->src);
   LWIP_DEBUGF(IGMP_DEBUG, (" to address "));
   ip4_addr_debug_print_val(IGMP_DEBUG, ip4_current_header()->dest);
   LWIP_DEBUGF(IGMP_DEBUG, (" on if %p\n", (void *)inp));
+#endif
 
   /* Now calculate and check the checksum */
   igmp = (struct igmp_msg *)p->payload;
@@ -393,8 +395,10 @@ igmp_input(struct pbuf *p, struct netif *inp, const ip4_addr_t *dest)
       } else {
         /* IGMP_MEMB_QUERY to a specific group ? */
         if (!ip4_addr_isany(&igmp->igmp_group_address)) {
+#if 0 /* Disabled cause of compiler warnings.*/
           LWIP_DEBUGF(IGMP_DEBUG, ("igmp_input: IGMP_MEMB_QUERY to a specific group "));
           ip4_addr_debug_print_val(IGMP_DEBUG, igmp->igmp_group_address);
+#endif
           if (ip4_addr_eq(dest, &allsystems)) {
             ip4_addr_t groupaddr;
             LWIP_DEBUGF(IGMP_DEBUG, (" using \"ALL SYSTEMS\" address (224.0.0.1) [igmp_maxresp=%i]\n", (int)(igmp->igmp_maxresp)));
