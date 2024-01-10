@@ -5,6 +5,7 @@
 
 /*
  * Copyright (c) 2001-2003 Swedish Institute of Computer Science.
+ * Copyright 2019 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -43,6 +44,7 @@
 
 #include "lwip/opt.h"
 #include "lwip/prot/iana.h"
+#include "lwip/altcp.h"
 
 /**
  * @defgroup httpd_opts Options

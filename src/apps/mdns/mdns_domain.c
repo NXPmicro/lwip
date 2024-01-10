@@ -5,6 +5,7 @@
 
 /*
  * Copyright (c) 2015 Verisure Innovation AB
+ * Copyright 2020 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -347,8 +348,9 @@ mdns_build_reverse_v4_domain(struct mdns_domain *domain, const ip4_addr_t *addr)
   int i;
   err_t res;
   const u8_t *ptr;
-
+#if 0 /* Caused compiler warning. */
   LWIP_UNUSED_ARG(res);
+#endif
   if (!domain || !addr) {
     return ERR_ARG;
   }
@@ -387,7 +389,9 @@ mdns_build_reverse_v6_domain(struct mdns_domain *domain, const ip6_addr_t *addr)
   int i;
   err_t res;
   const u8_t *ptr;
+#if 0 /* Caused compiler warning. */
   LWIP_UNUSED_ARG(res);
+#endif
   if (!domain || !addr) {
     return ERR_ARG;
   }
@@ -439,7 +443,9 @@ err_t
 mdns_build_host_domain(struct mdns_domain *domain, struct mdns_host *mdns)
 {
   err_t res;
+#if 0 /* Caused compiler warning. */
   LWIP_UNUSED_ARG(res);
+#endif
   memset(domain, 0, sizeof(struct mdns_domain));
   LWIP_ERROR("mdns_build_host_domain: mdns != NULL", (mdns != NULL), return ERR_VAL);
   res = mdns_domain_add_label(domain, mdns->name, (u8_t)strlen(mdns->name));
@@ -456,7 +462,9 @@ err_t
 mdns_build_dnssd_domain(struct mdns_domain *domain)
 {
   err_t res;
+#if 0 /* Caused compiler warning. */
   LWIP_UNUSED_ARG(res);
+#endif
   memset(domain, 0, sizeof(struct mdns_domain));
   res = mdns_domain_add_label(domain, "_services", (u8_t)(sizeof("_services") - 1));
   LWIP_ERROR("mdns_build_dnssd_domain: Failed to add label", (res == ERR_OK), return res);
@@ -480,7 +488,9 @@ err_t
 mdns_build_service_domain(struct mdns_domain *domain, struct mdns_service *service, int include_name)
 {
   err_t res;
+#if 0 /* Caused compiler warning. */
   LWIP_UNUSED_ARG(res);
+#endif
   memset(domain, 0, sizeof(struct mdns_domain));
   if (include_name) {
     res = mdns_domain_add_label(domain, service->name, (u8_t)strlen(service->name));

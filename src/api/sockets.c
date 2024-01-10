@@ -5,6 +5,8 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+ * Copyright 2015 Freescale Semiconductor, Inc.
+ * Copyright 2019-2020 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -3138,6 +3140,14 @@ lwip_getsockopt_impl(int s, int level, int optname, void *optval, socklen_t *opt
           LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_getsockopt(%d, IPPROTO_TCP, TCP_KEEPALIVE) = %d\n",
                                       s, *(int *)optval));
           break;
+#if LWIP_TCP_USER_TIMEOUT  
+        case TCP_USER_TIMEOUT:
+          /* User timeout is saved as multiple of the 500ms */  
+          *(int *)optval = (int)sock->conn->pcb.tcp->user_timeout * 500;
+          LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_getsockopt(%d, IPPROTO_TCP, TCP_USER_TIMEOUT) = %d\n",
+                                      s, *(int *)optval));
+          break;
+#endif
 
 #if LWIP_TCP_KEEPALIVE
         case TCP_KEEPIDLE:
@@ -3615,7 +3625,20 @@ lwip_setsockopt_impl(int s, int level, int optname, const void *optval, socklen_
           LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_TCP, TCP_KEEPALIVE) -> %"U32_F"\n",
                                       s, sock->conn->pcb.tcp->keep_idle));
           break;
-
+#if LWIP_TCP_USER_TIMEOUT  
+        case TCP_USER_TIMEOUT: {
+          /* User timeout is saved as multiple of the 500ms */
+          uint32_t timeout_ms = (u32_t)(*(const int *)optval);
+          if(timeout_ms < 500)
+              sock->conn->pcb.tcp->user_timeout = 1;
+          else
+              sock->conn->pcb.tcp->user_timeout = timeout_ms/500;
+          
+          LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_TCP, TCP_USER_TIMEOUT) -> %"U32_F"\n",
+                                      s, sock->conn->pcb.tcp->user_timeout));
+          }
+          break;
+#endif
 #if LWIP_TCP_KEEPALIVE
         case TCP_KEEPIDLE:
           sock->conn->pcb.tcp->keep_idle = 1000 * (u32_t)(*(const int *)optval);
@@ -3792,7 +3815,7 @@ lwip_ioctl(int s, long cmd, void *argp)
 #if LWIP_SO_RCVBUF
   int recv_avail;
 #endif /* LWIP_SO_RCVBUF */
-
+  
   if (!sock) {
     return -1;
   }
@@ -3863,6 +3886,21 @@ lwip_ioctl(int s, long cmd, void *argp)
       done_socket(sock);
       return 0;
 
+#if LWIP_SIOCOUTQ
+  /* Get count of (not sent + not acked) data */
+  case SIOCOUTQ:
+      if (!argp)
+        return -1;
+      if(sock->conn == NULL)
+          return -1;
+      if(sock->conn->pcb.tcp == NULL)
+          return -1;
+      
+      *((int *)argp) =  tcp_seg_get_unacked_count(sock->conn->pcb.tcp);
+      
+      return 0;
+#endif /* LWIP_SIOCOUTQ */
+      
     default:
       break;
   } /* switch (cmd) */

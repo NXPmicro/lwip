@@ -5,6 +5,7 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+ * Copyright 2019 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -145,6 +146,10 @@ err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 
 #ifndef  TCP_KEEPCNT_DEFAULT
 #define  TCP_KEEPCNT_DEFAULT      9U        /* Default Counter for KEEPALIVE probes */
+#endif
+
+#ifndef  TCP_USER_TIMEOUT_DEFAULT
+#define  TCP_USER_TIMEOUT_DEFAULT 0U        /* Default of the socket TCP_USER_TIMEOUT option */
 #endif
 
 #define  TCP_MAXIDLE              TCP_KEEPCNT_DEFAULT * TCP_KEEPINTVL_DEFAULT  /* Maximum KEEPALIVE probe time */

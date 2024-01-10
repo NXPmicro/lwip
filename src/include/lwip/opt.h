@@ -6,6 +6,7 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+ * Copyright 2019, 2021-2023 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -934,7 +935,8 @@
  * LWIP_DHCP_DOES_ACD_CHECK==1: Perform address conflict detection on the dhcp address.
  */
 #if !defined LWIP_DHCP_DOES_ACD_CHECK || defined __DOXYGEN__
-#define LWIP_DHCP_DOES_ACD_CHECK        LWIP_DHCP
+/* NXP changed default to 0 even if DHCP is on */
+#define LWIP_DHCP_DOES_ACD_CHECK        0
 #endif
 
 /**
@@ -2065,6 +2067,16 @@
 #endif
 
 /**
+ * LWIP_TCP_USER_TIMEOUT==1: Enable socket send timeout.
+ * It specifies the maximum amount of time in milliseconds 
+ * that transmitted data may remain unacknowledged before 
+ * TCP will forcibly close.
+ */
+#if !defined LWIP_TCP_USER_TIMEOUT || defined __DOXYGEN__
+#define LWIP_TCP_USER_TIMEOUT           0
+#endif
+
+/**
  * LWIP_SO_SNDRCVTIMEO_NONSTANDARD==1: SO_RCVTIMEO/SO_SNDTIMEO take an int
  * (milliseconds, much like winsock does) instead of a struct timeval (default).
  */
@@ -2079,6 +2091,14 @@
 #define LWIP_SO_RCVBUF                  0
 #endif
 
+/**
+ * LWIP_SIOCOUTQ==1: Enable LWIP_SIOCOUTQ reading.
+ * It returns count of (not sent + not acked) data bytes in send buffer.
+ */
+#if !defined LWIP_SIOCOUTQ || defined __DOXYGEN__
+#define LWIP_SIOCOUTQ                  0
+#endif
+     
 /**
  * LWIP_SO_LINGER==1: Enable SO_LINGER processing.
  */
@@ -2509,11 +2529,27 @@
 #endif
 
 /**
+ * LWIP_IPV6_RA_NUM_ROUTE_INFOS: Maximal count of route information options
+ * sent in router advertisements.
+ */
+#if !defined LWIP_IPV6_RA_NUM_ROUTE_INFOS || defined __DOXYGEN__
+#define LWIP_IPV6_RA_NUM_ROUTE_INFOS  0
+#endif
+
+/**
  * LWIP_IPV6_SEND_ROUTER_SOLICIT==1: Send router solicitation messages during
  * network startup.
  */
 #if !defined LWIP_IPV6_SEND_ROUTER_SOLICIT || defined __DOXYGEN__
 #define LWIP_IPV6_SEND_ROUTER_SOLICIT   LWIP_IPV6
+#endif
+
+/**
+ * LWIP_IPV6_SEND_ROUTER_ADVERTISE==1: Enable sending router advertisement capability.
+ * Sending must be the enabled for each desired netif by @ref nd6_enable_ra_send().
+ */
+#if !defined LWIP_IPV6_SEND_ROUTER_ADVERTISE || defined __DOXYGEN__
+#define LWIP_IPV6_SEND_ROUTER_ADVERTISE  0
 #endif
 
 /**
@@ -2645,10 +2681,10 @@
 #endif
 
 /**
- * LWIP_ND6_NUM_ROUTERS: number of entries in IPv6 default router cache
+ * LWIP_ND6_NUM_ROUTES: number of entries in IPv6 route list.
  */
-#if !defined LWIP_ND6_NUM_ROUTERS || defined __DOXYGEN__
-#define LWIP_ND6_NUM_ROUTERS            3
+#if !defined LWIP_ND6_NUM_ROUTES || defined __DOXYGEN__
+#define LWIP_ND6_NUM_ROUTES             8
 #endif
 
 /**
@@ -2746,11 +2782,19 @@
 #endif
 
 /**
+ * LWIP_IPV6_DHCP6_PD==1: enable DHCPv6 stateful prefix delgation.
+ *  (enables state full and stateless too)
+ */
+#if !defined LWIP_IPV6_DHCP6_PD || defined __DOXYGEN__
+#define LWIP_IPV6_DHCP6_PD        0
+#endif
+
+/**
  * LWIP_IPV6_DHCP6_STATEFUL==1: enable DHCPv6 stateful address autoconfiguration.
- * (not supported, yet!)
+ *  (enables stateless too)
  */
 #if !defined LWIP_IPV6_DHCP6_STATEFUL || defined __DOXYGEN__
-#define LWIP_IPV6_DHCP6_STATEFUL        0
+#define LWIP_IPV6_DHCP6_STATEFUL        LWIP_IPV6_DHCP6_PD
 #endif
 
 /**
@@ -3023,6 +3067,27 @@
  */
 #ifdef __DOXYGEN__
 #define LWIP_HOOK_IP6_INPUT(pbuf, input_netif)
+#endif
+
+/**
+ * LWIP_HOOK_IP6_CANFORWARD(src, dest, p, netif):
+ * Check if an IPv6 packet can be forwarded - called from:
+ * ip6_input() -> ip6_forward() (IPv6)
+ * - calling an output function in this context (e.g. multicast router) is allowed
+ * Signature: \code{.c}
+ *   int my_hook(ip6_addr_t* src, ip6_addr_t* dest, struct pbuf* p, struct netif* netif);
+ * \endcode
+ * Arguments:
+ * - src: source IPv6 address
+ * - dest: destination IPv6 address
+ * - p: packet to forward
+ * - netif: the netif from which the packet was received
+ * Returns values:
+ * - 1: forward
+ * - 0: don't forward - unsuitable or packet consumed
+ */
+#ifdef __DOXYGEN__
+#define LWIP_HOOK_IP6_CANFORWARD(src, dest, p, netif)
 #endif
 
 /**
@@ -3559,6 +3624,23 @@
  */
 #if !defined DHCP6_DEBUG || defined __DOXYGEN__
 #define DHCP6_DEBUG                     LWIP_DBG_OFF
+#endif
+
+/**
+ * ND6_DEBUG: Enable debugging of neighbor discovery.
+ */
+#if !defined ND6_DEBUG || defined __DOXYGEN__
+#define ND6_DEBUG                     LWIP_DBG_OFF
+#endif
+/**
+ * @}
+ */
+
+/**
+ * MLD6_DEBUG: Enable debugging of multicast listener discovery.
+ */
+#if !defined MLD6_DEBUG || defined __DOXYGEN__
+#define MLD6_DEBUG                     LWIP_DBG_OFF
 #endif
 /**
  * @}
