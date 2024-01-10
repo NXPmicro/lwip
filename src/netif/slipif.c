@@ -6,6 +6,7 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+ * Copyright 2016, 2022 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,6 +62,8 @@
 
 #include "netif/slipif.h"
 #include "lwip/opt.h"
+
+#if LWIP_HAVE_SLIPIF
 
 #include "lwip/def.h"
 #include "lwip/pbuf.h"
@@ -556,3 +559,4 @@ slipif_received_bytes(struct netif *netif, u8_t *data, u8_t len)
   }
 }
 #endif /* SLIP_RX_FROM_ISR */
+#endif /* LWIP_HAVE_SLIPIF */

@@ -5,6 +5,9 @@
  */
 
 /*
+ * Copyright 2019, 2022-2023 NXP
+ * All rights reserved.
+ *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
@@ -120,7 +123,11 @@ ping_prepare_echo( struct icmp_echo_hdr *iecho, u16_t len)
     ((char*)iecho)[sizeof(struct icmp_echo_hdr) + i] = (char)i;
   }
 
+#if CHECKSUM_GEN_ICMP == 1
   iecho->chksum = inet_chksum(iecho, len);
+#else
+  iecho->chksum = 0;
+#endif
 }
 
 #if PING_USE_SOCKETS
@@ -314,7 +321,8 @@ ping_recv(void *arg, struct raw_pcb *pcb, struct pbuf *p, const ip_addr_t *addr)
       return 1; /* eat the packet */
     }
     /* not eaten, restore original packet */
-    pbuf_add_header(p, PBUF_IP_HLEN);
+    /* Changed to the "_force" version because of LPC zerocopy pbufs */
+    pbuf_add_header_force(p, PBUF_IP_HLEN);
   }
 
   return 0; /* don't eat the packet */

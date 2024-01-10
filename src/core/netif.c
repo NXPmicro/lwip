@@ -19,6 +19,7 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+ * Copyright 2023 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -345,7 +346,16 @@ netif_add(struct netif *netif,
   /* IPv6 address autoconfiguration should be enabled by default */
   netif->ip6_autoconfig_enabled = 1;
 #endif /* LWIP_IPV6_AUTOCONFIG */
-  nd6_restart_netif(netif);
+#if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+  /* Don't send router advertisements on this interface by default */
+  netif->ra_prefix_idx = -1;
+#if LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0
+  for(i=0; i < LWIP_IPV6_RA_NUM_ROUTE_INFOS; i++) {
+    netif->ra_rio_enabled[i] = 0;
+  }
+#endif /* LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0 */
+#endif
+    nd6_restart_netif(netif);
 #endif /* LWIP_IPV6 */
 #if LWIP_NETIF_STATUS_CALLBACK
   netif->status_callback = NULL;
@@ -1555,6 +1565,7 @@ netif_create_ip6_linklocal_address(struct netif *netif, u8_t from_mac_48bit)
   LWIP_ASSERT_CORE_LOCKED();
 
   LWIP_ASSERT("netif_create_ip6_linklocal_address: invalid netif", netif != NULL);
+  LWIP_ASSERT("netif_create_ip6_linklocal_address: hwaddr_len too short", netif->hwaddr_len >= 6U);
 
   /* Link-local prefix. */
   ip_2_ip6(&netif->ip6_addr[0])->addr[0] = PP_HTONL(0xfe800000ul);

@@ -30,6 +30,7 @@
 /*
  * Copyright (c) 2001-2004 Leon Woestenberg <leon.woestenberg@gmx.net>
  * Copyright (c) 2001-2004 Axon Digital Design B.V., The Netherlands.
+ * Copyright 2020, 2022-2023 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -1028,7 +1029,7 @@ dhcp_discover(struct netif *netif)
   LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE, ("dhcp_discover()\n"));
 
 #if LWIP_DHCP_AUTOIP_COOP
-  if (dhcp->tries >= LWIP_DHCP_AUTOIP_COOP_TRIES) {
+  if (dhcp->tries == LWIP_DHCP_AUTOIP_COOP_TRIES) {
     autoip_start(netif);
   }
 #endif /* LWIP_DHCP_AUTOIP_COOP */

@@ -10,6 +10,7 @@
  * Copyright (c) 2001-2003 Swedish Institute of Computer Science.
  * Copyright (c) 2003-2004 Leon Woestenberg <leon.woestenberg@axon.tv>
  * Copyright (c) 2003-2004 Axon Digital Design B.V., The Netherlands.
+ * Copyright 2023 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -299,7 +300,7 @@ ethernet_output(struct netif * netif, struct pbuf * p,
   } else
 #endif /* ETHARP_SUPPORT_VLAN && (defined(LWIP_HOOK_VLAN_SET) || LWIP_VLAN_PCP) */
   {
-    if (pbuf_add_header(p, SIZEOF_ETH_HDR) != 0) {
+    if (pbuf_add_header_force(p, SIZEOF_ETH_HDR) != 0) {
       goto pbuf_header_failed;
     }
   }

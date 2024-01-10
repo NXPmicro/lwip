@@ -6,6 +6,7 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+ * Copyright 2019-2020, 2022 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -386,6 +387,10 @@ struct tcp_pcb {
   u8_t snd_scale;
   u8_t rcv_scale;
 #endif
+#if LWIP_TCP_USER_TIMEOUT  
+  /* Socket TCP_USER_TIMEOUT in ms */
+  u32_t user_timeout;
+#endif
 };
 
 #if LWIP_EVENT_API
@@ -474,7 +479,9 @@ err_t            tcp_write   (struct tcp_pcb *pcb, const void *dataptr, u16_t le
                               u8_t apiflags);
 
 void             tcp_setprio (struct tcp_pcb *pcb, u8_t prio);
-
+#if LWIP_SIOCOUTQ
+int              tcp_seg_get_unacked_count(struct tcp_pcb *pcb);
+#endif /* LWIP_SIOCOUTQ */
 err_t            tcp_output  (struct tcp_pcb *pcb);
 
 err_t            tcp_tcp_get_tcp_addrinfo(struct tcp_pcb *pcb, int local, ip_addr_t *addr, u16_t *port);

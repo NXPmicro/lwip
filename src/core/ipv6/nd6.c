@@ -2,12 +2,14 @@
  * @file
  *
  * Neighbor discovery and stateless address autoconfiguration for IPv6.
- * Aims to be compliant with RFC 4861 (Neighbor discovery) and RFC 4862
- * (Address autoconfiguration).
+ * Aims to be compliant with RFC 4861 (Neighbor discovery), RFC 4862
+ * (Address autoconfiguration) and RFC 4191 (Router Preferences and More-Specific
+ * Routes).
  */
 
 /*
  * Copyright (c) 2010 Inico Technologies Ltd.
+ * Copyright 2023 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -81,15 +83,24 @@
 #if LWIP_ND6_NUM_PREFIXES > 127
 #error LWIP_ND6_NUM_PREFIXES must fit into an s8_t (max value: 127)
 #endif
-#if LWIP_ND6_NUM_ROUTERS > 127
-#error LWIP_ND6_NUM_ROUTERS must fit into an s8_t (max value: 127)
+#if LWIP_ND6_NUM_ROUTES > 127
+#error LWIP_ND6_NUM_ROUTES must fit into an s8_t (max value: 127)
 #endif
+#ifdef LWIP_ND6_NUM_ROUTERS
+#warning It looks like the option LWIP_ND6_NUM_ROUTERS is overriden (in lwipopts.h or other location), \
+but this option has been removed as the default router list has been replaced by the routing table. \
+Please replace LWIP_ND6_NUM_ROUTERS with LWIP_ND6_NUM_ROUTES in your options. \
+Note the LWIP_ND6_NUM_ROUTES may need to be set higher than what LWIP_ND6_NUM_ROUTERS was, \
+since the routing table contains records for default routes and also for routes learned from \
+incoming route information options.
+#endif
+
 
 /* Router tables. */
 struct nd6_neighbor_cache_entry neighbor_cache[LWIP_ND6_NUM_NEIGHBORS];
 struct nd6_destination_cache_entry destination_cache[LWIP_ND6_NUM_DESTINATIONS];
 struct nd6_prefix_list_entry prefix_list[LWIP_ND6_NUM_PREFIXES];
-struct nd6_router_list_entry default_router_list[LWIP_ND6_NUM_ROUTERS];
+struct nd6_route_list_entry route_list[LWIP_ND6_NUM_ROUTES];
 
 /* Default values, can be updated by a RA message. */
 u32_t reachable_time = LWIP_ND6_REACHABLE_TIME;
@@ -125,13 +136,15 @@ static void nd6_free_neighbor_cache_entry(s8_t i);
 static s16_t nd6_find_destination_cache_entry(const ip6_addr_t *ip6addr);
 static s16_t nd6_new_destination_cache_entry(void);
 static int nd6_is_prefix_in_netif(const ip6_addr_t *ip6addr, struct netif *netif);
-static s8_t nd6_select_router(const ip6_addr_t *ip6addr, struct netif *netif);
-static s8_t nd6_get_router(const ip6_addr_t *router_addr, struct netif *netif);
-static s8_t nd6_new_router(const ip6_addr_t *router_addr, struct netif *netif);
+static s8_t nd6_better_route(s8_t route1, s8_t route2);
+static s8_t nd6_select_route(const ip6_addr_t *ip6addr, struct netif *netif);
 static s8_t nd6_get_onlink_prefix(const ip6_addr_t *prefix, struct netif *netif);
 static s8_t nd6_new_onlink_prefix(const ip6_addr_t *prefix, struct netif *netif);
 static s8_t nd6_get_next_hop_entry(const ip6_addr_t *ip6addr, struct netif *netif);
 static err_t nd6_queue_packet(s8_t neighbor_index, struct pbuf *q);
+static s8_t nd6_get_route(const ip6_addr_t *prefix, const u8_t prefix_len, const ip6_addr_t *router_addr, struct netif *netif);
+static s8_t nd6_new_route(const ip6_addr_t *prefix, const u8_t prefix_len, const ip6_addr_t *router_addr, struct netif *netif);
+static void nd6_free_route(s8_t i);
 
 #define ND6_SEND_FLAG_MULTICAST_DEST 0x01
 #define ND6_SEND_FLAG_ALLNODES_DEST 0x02
@@ -142,6 +155,10 @@ static void nd6_send_neighbor_cache_probe(struct nd6_neighbor_cache_entry *entry
 #if LWIP_IPV6_SEND_ROUTER_SOLICIT
 static err_t nd6_send_rs(struct netif *netif);
 #endif /* LWIP_IPV6_SEND_ROUTER_SOLICIT */
+
+#if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+static err_t nd6_send_ra(struct netif *netif, ip6_addr_t *target_addr);
+#endif /* LWIP_IPV6_SEND_ROUTER_ADVERTISE */
 
 #if LWIP_ND6_QUEUEING
 static void nd6_free_q(struct nd6_q_entry *q);
@@ -374,7 +391,8 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
       lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct na_header));
 
-      if (p->len < (sizeof(struct na_header) + (lladdr_opt->length << 3))) {
+      if ((p->len < (sizeof(struct na_header) + (lladdr_opt->length << 3))) ||
+          ((lladdr_opt->length << 3) < inp->hwaddr_len)) {
         /* @todo debug message */
         pbuf_free(p);
         ND6_STATS_INC(nd6.lenerr);
@@ -416,7 +434,8 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
         lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct na_header));
 
-        if (p->len < (sizeof(struct na_header) + (lladdr_opt->length << 3))) {
+        if ((p->len < (sizeof(struct na_header) + (lladdr_opt->length << 3))) ||
+            ((lladdr_opt->length << 3) < inp->hwaddr_len)) {
           /* @todo debug message */
           pbuf_free(p);
           ND6_STATS_INC(nd6.lenerr);
@@ -477,7 +496,8 @@ nd6_input(struct pbuf *p, struct netif *inp)
     /* Check if there is a link-layer address provided. Only point to it if in this buffer. */
     if (p->len >= (sizeof(struct ns_header) + 2)) {
       lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct ns_header));
-      if (p->len < (sizeof(struct ns_header) + (lladdr_opt->length << 3))) {
+      if ((p->len < (sizeof(struct ns_header) + (lladdr_opt->length << 3))) ||
+          ((lladdr_opt->length << 3) < inp->hwaddr_len)) {
         lladdr_opt = NULL;
       }
     } else {
@@ -566,8 +586,36 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
     break; /* ICMP6_TYPE_NS */
   }
+#if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+  case ICMP6_TYPE_RS: /* Router Solicitation. */
+  {
+    /* Check that RS header fits in packet. */
+    if (p->len < sizeof(struct rs_header)) {
+      /* @todo debug message */
+      pbuf_free(p);
+      ND6_STATS_INC(nd6.lenerr);
+      ND6_STATS_INC(nd6.drop);
+      return;
+    }
+
+    /* Just skip the link layer address option for simple. */
+    if(netif_ip6_ra_send_enabled(inp)) {
+      if (!ip6_addr_isany(ip6_current_src_addr())) {
+        nd6_send_ra(inp, ip6_current_src_addr());
+      } else {
+        nd6_send_ra(inp, NULL);
+      }
+      LWIP_DEBUGF(ND6_DEBUG, ("nd6(%c%c): send solicited ra, target addr %s\n",
+      inp->name[0], inp->name[1], ip6addr_ntoa(ip6_current_src_addr())));
+    }
+
+    break;
+  }
+#endif /* LWIP_IPV6_SEND_ROUTER_ADVERTISE */
   case ICMP6_TYPE_RA: /* Router Advertisement. */
   {
+    u8_t routing_table_changed = 0;
+    u8_t old_preference;
     struct ra_header *ra_hdr;
     u8_t *buffer; /* Used to copy options. */
     u16_t offset;
@@ -609,22 +657,40 @@ nd6_input(struct pbuf *p, struct netif *inp)
     }
 #endif /* LWIP_IPV6_SEND_ROUTER_SOLICIT */
 
-    /* Get the matching default router entry. */
-    i = nd6_get_router(ip6_current_src_addr(), inp);
+    /* Get the matching default route entry. */
+    i = nd6_get_route(IP6_ADDR_ANY6, 0, ip6_current_src_addr(), inp);
     if (i < 0) {
-      /* Create a new router entry. */
-      i = nd6_new_router(ip6_current_src_addr(), inp);
+      /* Create a new default route entry. */
+      i = nd6_new_route(IP6_ADDR_ANY6, 0, ip6_current_src_addr(), inp);
+      routing_table_changed = 1;
     }
 
     if (i < 0) {
-      /* Could not create a new router entry. */
+      /* Could not create a new route entry. */
       pbuf_free(p);
       ND6_STATS_INC(nd6.memerr);
       return;
     }
 
+    /* TODO: In case there are many options and route advertisment is split into multiple messages,
+     * and the default route is sent as a route information option but not in the last message:
+     * its preference and lifetime could be overwritten unintentionally by the router's preference
+     * and lifetime from router advertisement. */
+
     /* Re-set invalidation timer. */
-    default_router_list[i].invalidation_timer = lwip_htons(ra_hdr->router_lifetime);
+    route_list[i].invalidation_timer = lwip_htons(ra_hdr->router_lifetime);
+    /* Re-set default router preference. */
+    old_preference = route_list[i].preference;
+    route_list[i].preference = ra_hdr->flags & ND6_RA_PREFERENCE_MASK;
+    if ((route_list[i].invalidation_timer == 0) ||
+        (route_list[i].preference == ND6_RA_PREFERENCE_DISABLED)) {
+      route_list[i].preference = ND6_RA_PREFERENCE_MEDIUM;
+    }
+    if (old_preference != route_list[i].preference) {
+      /* TODO: the flag may be needlessly set in case default route is sent also in route
+       * information option with different preference, causing needless flush of destination cache */
+      routing_table_changed = 1;
+    }
 
     /* Re-set default timer values. */
 #if LWIP_ND6_ALLOW_RA_UPDATES
@@ -638,9 +704,6 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
     /* @todo set default hop limit... */
     /* ra_hdr->current_hop_limit;*/
-
-    /* Update flags in local entry (incl. preference). */
-    default_router_list[i].flags = ra_hdr->flags;
 
 #if LWIP_IPV6_DHCP6
     /* Trigger DHCPv6 if enabled */
@@ -687,15 +750,20 @@ nd6_input(struct pbuf *p, struct netif *inp)
       case ND6_OPTION_TYPE_SOURCE_LLADDR:
       {
         struct lladdr_option *lladdr_opt;
-        if (option_len < sizeof(struct lladdr_option)) {
+        /* Option must accommodate its header and lladdr */
+        if (option_len < (inp->hwaddr_len + 2)) {
           goto lenerr_drop_free_return;
         }
         lladdr_opt = (struct lladdr_option *)buffer;
-        if ((default_router_list[i].neighbor_entry != NULL) &&
-            (default_router_list[i].neighbor_entry->state == ND6_INCOMPLETE)) {
-          SMEMCPY(default_router_list[i].neighbor_entry->lladdr, lladdr_opt->addr, inp->hwaddr_len);
-          default_router_list[i].neighbor_entry->state = ND6_REACHABLE;
-          default_router_list[i].neighbor_entry->counter.reachable_time = reachable_time;
+        /* Update router's link-layer address. As this router's routes point to the same neighbor entry,
+         * the link-layer address will be used also for the subsequently added routes. */
+        /* TODO: according to RFC 4861 section 7.3.3, if link-layer address changes by
+         * unsolicited NA, RA, etc., it should be updated and its state set to STALE. */
+        if ((route_list[i].neighbor_entry != NULL) &&
+            (route_list[i].neighbor_entry->state == ND6_INCOMPLETE)) {
+          SMEMCPY(route_list[i].neighbor_entry->lladdr, lladdr_opt->addr, inp->hwaddr_len);
+          route_list[i].neighbor_entry->state = ND6_REACHABLE;
+          route_list[i].neighbor_entry->counter.reachable_time = reachable_time;
         }
         break;
       }
@@ -763,12 +831,57 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
         break;
       }
-      case ND6_OPTION_TYPE_ROUTE_INFO:
-        /* @todo implement preferred routes.
-        struct route_option * route_opt;
-        route_opt = (struct route_option *)buffer;*/
+      case ND6_OPTION_TYPE_ROUTE_INFO: {
+        struct route_option *route_opt;
+        uint32_t route_lifetime;
+        uint8_t prefix_length;
+        uint8_t preference;
+        ip6_addr_t prefix;
+        ip6_addr_p_t packed_prefix;
+        int idx;
+        size_t addr_bytes;
 
+        if (option_len < (sizeof(struct route_option) - sizeof(route_opt->prefix))) {
+          goto lenerr_drop_free_return;
+        }
+        route_opt = (struct route_option *)buffer;
+        prefix_length = route_opt->prefix_length;
+        preference = route_opt->preference;
+        route_lifetime = lwip_ntohl(route_opt->route_lifetime);
+
+        /* The struct definition contains only the first byte of the address.
+           The option should have enough bytes to encode prefix_length bits
+           of the address. */
+        addr_bytes = (prefix_length + 7) >> 3;
+        if (addr_bytes > sizeof(ip6_addr_p_t) ||
+            option_len < sizeof(struct route_option) - sizeof(route_opt->prefix) + addr_bytes) {
+          goto lenerr_drop_free_return;
+        }
+        memset(&packed_prefix, 0, sizeof(packed_prefix));
+        memcpy(&packed_prefix, &route_opt->prefix, addr_bytes);
+        ip6_addr_copy_from_packed(prefix, packed_prefix);
+        /* Link-local, any address prefix (with the exception of default route ::/0)
+         * and multicast should not have defined routes set through RIO options.
+         * If we got one of these, disregard it. */
+        if ((ip6_addr_isany(&prefix) && prefix_length > 0) || ip6_addr_islinklocal(&prefix) ||
+            ip6_addr_ismulticast(&prefix)) {
+          break;
+        }
+        idx = nd6_get_route(&prefix, prefix_length, ip6_current_src_addr(), inp);
+        if (idx < 0 && route_lifetime > 0) {
+          /* Create a new cache entry */
+          idx = nd6_new_route(&prefix, prefix_length, ip6_current_src_addr(), inp);
+          routing_table_changed = 1;
+        }
+        if (idx >= 0) {
+          route_list[idx].invalidation_timer = route_lifetime;
+          if (route_list[idx].preference != preference) {
+            routing_table_changed = 1;
+          }
+          route_list[idx].preference = preference;
+        }
         break;
+      }
 #if LWIP_ND6_RDNSS_MAX_DNS_SERVERS
       case ND6_OPTION_TYPE_RDNSS:
       {
@@ -816,6 +929,12 @@ nd6_input(struct pbuf *p, struct netif *inp)
       offset += 8 * (u8_t)option_len8;
     }
 
+    if (routing_table_changed) {
+      /* RFC 4191 section 3.3 - invalidate destination cache entries affected by
+       * the routing table changes. Simply clearing whole cache here. */
+      nd6_clear_destination_cache();
+    }
+
     break; /* ICMP6_TYPE_RA */
   }
   case ICMP6_TYPE_RD: /* Redirect */
@@ -855,7 +974,9 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
     if (p->len >= (sizeof(struct redirect_header) + 2)) {
       lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct redirect_header));
-      if (p->len < (sizeof(struct redirect_header) + (lladdr_opt->length << 3))) {
+      if ((p->len < (sizeof(struct redirect_header) + (lladdr_opt->length << 3))) ||
+          ((lladdr_opt->length << 3) < inp->hwaddr_len)) {
+
         lladdr_opt = NULL;
       }
     } else {
@@ -1038,30 +1159,6 @@ nd6_tmr(void)
     destination_cache[i].age++;
   }
 
-  /* Process router entries. */
-  for (i = 0; i < LWIP_ND6_NUM_ROUTERS; i++) {
-    if (default_router_list[i].neighbor_entry != NULL) {
-      /* Active entry. */
-      if (default_router_list[i].invalidation_timer <= ND6_TMR_INTERVAL / 1000) {
-        /* No more than 1 second remaining. Clear this entry. Also clear any of
-         * its destination cache entries, as per RFC 4861 Sec. 5.3 and 6.3.5. */
-        s8_t j;
-        for (j = 0; j < LWIP_ND6_NUM_DESTINATIONS; j++) {
-          if (ip6_addr_eq(&destination_cache[j].next_hop_addr,
-               &default_router_list[i].neighbor_entry->next_hop_address)) {
-             ip6_addr_set_any(&destination_cache[j].destination_addr);
-          }
-        }
-        default_router_list[i].neighbor_entry->isrouter = 0;
-        default_router_list[i].neighbor_entry = NULL;
-        default_router_list[i].invalidation_timer = 0;
-        default_router_list[i].flags = 0;
-      } else {
-        default_router_list[i].invalidation_timer -= ND6_TMR_INTERVAL / 1000;
-      }
-    }
-  }
-
   /* Process prefix entries. */
   for (i = 0; i < LWIP_ND6_NUM_PREFIXES; i++) {
     if (prefix_list[i].netif != NULL) {
@@ -1071,6 +1168,18 @@ nd6_tmr(void)
         prefix_list[i].netif = NULL;
       } else {
         prefix_list[i].invalidation_timer -= ND6_TMR_INTERVAL / 1000;
+      }
+    }
+  }
+
+  /* Process route entries. */
+  for (i = 0; i < LWIP_ND6_NUM_ROUTES; ++i) {
+    if (route_list[i].neighbor_entry != NULL) {
+      if (route_list[i].invalidation_timer < ND6_TMR_INTERVAL / 1000) {
+        /* No more than 1 second remaining. Clear this entry and related data. */
+    	nd6_free_route(i);
+      } else {
+        route_list[i].invalidation_timer -= ND6_TMR_INTERVAL / 1000;
       }
     }
   }
@@ -1160,6 +1269,9 @@ nd6_tmr(void)
     NETIF_FOREACH(netif) {
       if ((netif->rs_count > 0) && netif_is_up(netif) &&
           netif_is_link_up(netif) &&
+#if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+          (!netif_ip6_ra_send_enabled(netif)) &&
+#endif
           !ip6_addr_isinvalid(netif_ip6_addr_state(netif, 0)) &&
           !ip6_addr_isduplicated(netif_ip6_addr_state(netif, 0))) {
         if (nd6_send_rs(netif) == ERR_OK) {
@@ -1171,6 +1283,68 @@ nd6_tmr(void)
     nd6_tmr_rs_reduction--;
   }
 #endif /* LWIP_IPV6_SEND_ROUTER_SOLICIT */
+
+#if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+  /*   When a netif is up, ra will be sent LWIP_ND6_MAX_INITIAL_RA times 
+           after every LWIP_ND6_INITIAL_RA_INTERVAL seconds,
+	   then, each ra will be sent after every LWIP_ND6_NORMAL_RA_INTERVAL seconds.
+	   The procedure of ra sending is in nd6_tmr which is called every 1 seconds.
+	   RFC4861 suggests random ra interval to reduce the probability 
+	   of synchronization with ra from other routers on the same link.
+	   In our case, there is only one router on one link, so random is unnecessary.
+   */
+  for (netif = netif_list; netif != NULL; netif = netif->next)
+  {
+      if ((netif->flags & NETIF_FLAG_UP) &&
+          netif_ip6_ra_send_enabled(netif) &&
+          (!ip6_addr_isinvalid(netif_ip6_addr_state(netif, netif->ra_prefix_idx))))
+      {
+          if (netif->ra_is_initial)
+          {
+              if (netif->ra_initial_count > 0)
+              {
+                  if (netif->ra_timer > 0)
+                  {
+                      netif->ra_timer--;
+                  }
+                  else
+                  { /* Initial timer is expired, send ra, decrease the inital count, reset the timer */
+                      if(nd6_send_ra(netif, NULL) == ERR_OK)
+                      {
+                          netif->ra_initial_count--;
+                          LWIP_DEBUGF(ND6_DEBUG, ("nd6(%c%c): send inital ra, left %d, interval %d\n", netif->name[0],
+                                                  netif->name[1], netif->ra_initial_count, netif->ra_timer));
+                      }
+                      else
+                      {
+                          LWIP_DEBUGF(ND6_DEBUG, ("nd6(%c%c): send inital ra failed\n", netif->name[0], netif->name[1]));
+                      }
+                      netif->ra_timer = LWIP_ND6_INITIAL_RA_INTERVAL;
+                  }
+              }
+              else
+              { /* Initial ra have been sent, set is_inital to false and reset the timer to normal ra interval */
+                  netif->ra_is_initial = 0;
+                  netif->ra_timer      = LWIP_ND6_NORMAL_RA_INTERVAL;
+              }
+          }
+          else
+          {
+              if (netif->ra_timer > 0)
+              {
+                  netif->ra_timer--;
+              }
+              else
+              { /* Normal ra timer is expired, send ra, reset the timer */
+                  nd6_send_ra(netif, NULL);
+                  netif->ra_timer = LWIP_ND6_NORMAL_RA_INTERVAL;
+                  LWIP_DEBUGF(ND6_DEBUG, ("nd6(%c%c): send normal ra, interval %d\n", netif->name[0], netif->name[1],
+                                          netif->ra_timer));
+              }
+          }
+      }
+  }
+#endif /* LWIP_IPV6_SEND_ROUTER_ADVERTISE */
 
 }
 
@@ -1416,6 +1590,269 @@ nd6_send_rs(struct netif *netif)
   return err;
 }
 #endif /* LWIP_IPV6_SEND_ROUTER_SOLICIT */
+
+#if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+/**
+ * Send a router advertisement message
+ *
+ * @param netif the netif on which to send the message
+ * @param target_addr when ra is sent solicited this is the source address of rs
+ * while should be NULL when is sent periodically
+ */
+static err_t
+nd6_send_ra(struct netif *netif, ip6_addr_t *target_addr)
+{
+  struct ra_header *ra_hdr;
+  struct prefix_option *prefix_opt;
+  struct pbuf *p;
+  const ip6_addr_t *src_addr;
+  err_t err;
+  u32_t ra_prefix[2];
+  u16_t opts_len;
+  int i;
+#if LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0
+  struct route_option *route_opt;
+  /* Length of route information option without part carrying prefix [bytes] */
+  const u8_t rio_fixed_part_len = sizeof(*route_opt) - sizeof(route_opt->prefix);
+  u8_t rio_opt_len[LWIP_IPV6_RA_NUM_ROUTE_INFOS];
+#endif
+
+  /* Get prefix */
+  if (ip6_addr_isvalid(netif_ip6_addr_state(netif, netif->ra_prefix_idx))) {
+    ra_prefix[0] = netif_ip6_addr(netif, netif->ra_prefix_idx)->addr[0];
+	   ra_prefix[1] = netif_ip6_addr(netif, netif->ra_prefix_idx)->addr[1];
+  } else {
+    return ERR_IF;
+  }
+
+  /* The source address must be link-local address */
+  if (ip6_addr_isvalid(netif_ip6_addr_state(netif, 0))) {
+    src_addr = netif_ip6_addr(netif, 0);
+  } else {
+    return ERR_IF;
+  }
+
+  /* The dest address should be the source of rs or the all routers target address. */
+  if (target_addr == NULL) {
+    ip6_addr_set_allnodes_linklocal(&multicast_address);
+  }
+
+  /* Allocate a packet, we only send prefix option. */
+  opts_len = sizeof(struct prefix_option);
+
+#if LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0
+  for(i=0; i<LWIP_IPV6_RA_NUM_ROUTE_INFOS; i++) {
+    if (netif->ra_rio_enabled[i]) {
+      const u8_t pr_len = netif->ra_rio_prefix_length[i];
+      rio_opt_len[i] =
+          rio_fixed_part_len + (pr_len/(8*8) + (pr_len%(8*8) ? 1 : 0))*8; /* Must be rounded to 8 bytes */
+      opts_len += rio_opt_len[i];
+    }
+  }
+#endif
+
+  p = pbuf_alloc(PBUF_IP, sizeof(struct ra_header) + opts_len, PBUF_RAM);
+  if (p == NULL) {
+    ND6_STATS_INC(nd6.memerr);
+    return ERR_BUF;
+  }
+
+  /* Set fields. */
+  ra_hdr = (struct ra_header *)p->payload;
+
+  ra_hdr->type = ICMP6_TYPE_RA;
+  ra_hdr->code = 0;
+  ra_hdr->chksum = 0;
+  ra_hdr->current_hop_limit = 0;	/* 0 means unspecified */
+  ra_hdr->flags = 0;				/* M and O flag, 0 means not managed by DHCPv6 or Other */
+  ra_hdr->router_lifetime = netif->ra_router_lifetime;		/* 0 means will not appear on the default router list */
+  ra_hdr->reachable_time = 0;		/* 0 means unspecified, used by nbr unreachability detection */
+  ra_hdr->retrans_timer = 0;  		/* 0 means unspecified, used by address resolution and nbr unreach detect */
+
+  prefix_opt = (struct prefix_option *)((u8_t *)p->payload + sizeof(struct ra_header));
+  
+  prefix_opt->type = ND6_OPTION_TYPE_PREFIX_INFO;
+  prefix_opt->length = 4;			/* in units of 8 byte, so 32 byte */
+  prefix_opt->prefix_length = 64;	/* prefix length */
+  prefix_opt->flags = ND6_PREFIX_FLAG_ON_LINK | ND6_PREFIX_FLAG_AUTONOMOUS;	/* on-link and autonomous */
+  prefix_opt->valid_lifetime = lwip_htonl(604800);
+  prefix_opt->preferred_lifetime = lwip_htonl(86400);
+  prefix_opt->reserved2[0] = 0;
+  prefix_opt->reserved2[1] = 0;
+  prefix_opt->reserved2[2] = 0;
+  prefix_opt->site_prefix_length = 0;			/* rfc4861 does not have this field */
+  prefix_opt->prefix.addr[0] = ra_prefix[0];
+  prefix_opt->prefix.addr[1] = ra_prefix[1];
+  prefix_opt->prefix.addr[2] = 0;
+  prefix_opt->prefix.addr[3] = 0;
+
+#if LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0
+  route_opt = (struct route_option *)((u8_t *)prefix_opt + sizeof(struct prefix_option));
+
+  for(i=0; i<LWIP_IPV6_RA_NUM_ROUTE_INFOS; i++) {
+    if(netif->ra_rio_enabled[i]) {
+      route_opt->type = ND6_OPTION_TYPE_ROUTE_INFO;
+      route_opt->length = rio_opt_len[i] / 8; /* in units of 8 byte */
+      route_opt->prefix_length = netif->ra_rio_prefix_length[i];
+      route_opt->preference = ND6_RA_PREFERENCE_HIGH;
+      route_opt->route_lifetime = lwip_htonl(netif->ra_rio_route_lifetime[i]);
+
+      memcpy(&route_opt->prefix, &netif->ra_rio_prefix[i], rio_opt_len[i] - rio_fixed_part_len);
+
+      route_opt = (struct route_option *)((u8_t *)route_opt + rio_opt_len[i]);
+    }
+  }
+#endif /* LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0 */
+
+#if CHECKSUM_GEN_ICMP6
+  IF__NETIF_CHECKSUM_ENABLED(netif, NETIF_CHECKSUM_GEN_ICMP6) {
+    ra_hdr->chksum = ip6_chksum_pseudo(p, IP6_NEXTH_ICMP6, p->len, src_addr,
+      (target_addr == NULL) ? &multicast_address : target_addr);
+  }
+#endif /* CHECKSUM_GEN_ICMP6 */
+
+  /* Send the packet out. */
+  ND6_STATS_INC(nd6.xmit);
+
+  err = ip6_output_if(p, src_addr, (target_addr == NULL) ? &multicast_address : target_addr, 
+  	  LWIP_ICMP6_HL, 0, IP6_NEXTH_ICMP6, netif);
+  pbuf_free(p);
+
+  return err;
+}
+
+/**
+ * Enable send of a router advertisement message
+ *
+ * @param netif the netif on which to send the message
+ * @param ipv6_add_idx Index of address used as /64 prefix
+ * @param router_lifetime For how long will be valid default route via us.
+ * IP6_RA_RT_LIFETIME_NO_DEFAULT_ROUTE (0) means we will never be default router.
+ * According RFC4861 should not exceed 9000 but nodes shall accept any value.
+ *
+ * When sending of RA is enabled sending Router solicitation is disabled.
+ * Is possible to call this function multiple times. RA is only send when
+ * specified address is valid. This is check before each send.
+ * @see ip6_addr_isvalid()
+ */
+void
+nd6_enable_ra_send(struct netif *netif, s8_t ipv6_add_idx, u16_t router_lifetime)
+{
+#if LWIP_IPV6_MLD
+  int old_state;
+#endif
+
+  LWIP_ASSERT_CORE_LOCKED();
+  LWIP_ASSERT("Invalid address index", ipv6_add_idx < LWIP_IPV6_NUM_ADDRESSES);
+
+#if LWIP_IPV6_MLD
+  old_state = netif_ip6_ra_send_enabled(netif);
+#endif
+
+  netif->ra_prefix_idx = ipv6_add_idx;
+  netif->ra_is_initial = 1;
+  netif->ra_initial_count = LWIP_ND6_MAX_INITIAL_RA;
+  netif->ra_timer = LWIP_ND6_INITIAL_RA_INTERVAL;
+  netif->ra_router_lifetime = router_lifetime;
+
+#if LWIP_IPV6_MLD
+  if ((old_state != netif_ip6_ra_send_enabled(netif)) && (netif->mld_mac_filter != NULL))
+  {
+    ip6_addr_t ip6_allrouters_ll;
+    ip6_addr_set_allrouters_linklocal(&ip6_allrouters_ll);
+    if (netif_ip6_ra_send_enabled(netif)) {
+      const err_t err = mld6_joingroup_netif(netif, &ip6_allrouters_ll);
+      LWIP_ASSERT("Can't join group", err == ERR_OK);
+    } else {
+      const err_t err = mld6_leavegroup_netif(netif, &ip6_allrouters_ll);
+      LWIP_ASSERT("Can't leave group", err == ERR_OK);
+    }
+  }
+#endif
+}
+
+#if LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0
+/**
+ * Add router information option sent in Router Advertisement.
+ *
+ * @param netif the netif on which to send RA with option
+ * @param prefix Route prefix. Zone field is ignored and not ever read.
+ * @param prefix_len The number of valid leading bits in the prefix.
+ * @param lifetime The length of time in seconds (relative to the time the RA is sent)
+ *                 that the prefix is valid for route determination. A value of all one
+ *                 bits (0xffffffff) represents infinity.
+ *
+ * @return 0 On success -1 if ther is no space.
+ *
+ * You can add up to LWIP_IPV6_RA_NUM_ROUTE_INFOS routes
+ */
+int
+nd6_ra_rio_add(struct netif *netif, const ip6_addr_t *prefix, u8_t prefix_len, u16_t lifetime)
+{
+  LWIP_ASSERT_CORE_LOCKED();
+  int i;
+
+  for (i = 0; i < LWIP_IPV6_RA_NUM_ROUTE_INFOS; i++) {
+    if(!netif->ra_rio_enabled[i]) {
+      netif->ra_rio_enabled[i] = 1;
+      netif->ra_rio_route_lifetime[i] = lifetime;
+      netif->ra_rio_prefix_length[i] = prefix_len;
+      ip6_addr_net_by_mask(prefix, &netif->ra_rio_prefix[i], prefix_len);
+      return 0;
+    }
+  }
+
+  return -1;
+}
+
+/**
+ * Remove router information option sent in Router Advertisement.
+ *
+ * @param netif the netif on which to send RA with option
+ * @param prefix Route prefix. Zone field is ignored and not ever read.
+ * @param prefix_len The number of valid leading bits in the prefix.
+ *
+ * @return 0 If prefix & len was matched -1 if prefix was not found.
+ */
+int
+nd6_ra_rio_remove(struct netif *netif, const ip6_addr_t *prefix, u8_t prefix_len)
+{
+  LWIP_ASSERT_CORE_LOCKED();
+  int i;
+
+  ip6_addr_t net_prefix;
+  ip6_addr_net_by_mask(prefix, &net_prefix, prefix_len);
+
+  for (i = 0; i < LWIP_IPV6_RA_NUM_ROUTE_INFOS; i++) {
+    if(netif->ra_rio_enabled[i] && prefix_len &&
+        ip6_addr_zoneless_eq(&netif->ra_rio_prefix[i], &net_prefix)) {
+      netif->ra_rio_enabled[i] = 0;
+      return 0;
+    }
+  }
+
+  return -1;
+}
+
+/**
+ * Remove all router information option sent in Router Advertisement.
+ *
+ * @param netif the netif on which to send RA with option
+ */
+void
+nd6_ra_rio_remove_all(struct netif *netif)
+{
+  LWIP_ASSERT_CORE_LOCKED();
+  int i;
+
+  for (i = 0; i < LWIP_IPV6_RA_NUM_ROUTE_INFOS; i++) {
+    netif->ra_rio_enabled[i] = 0;
+  }
+}
+#endif /* LWIP_IPV6_RA_NUM_ROUTE_INFOS > 0 */
+
+#endif /* LWIP_IPV6_SEND_ROUTER_ADVERTISE */
+
 
 /**
  * Search for a neighbor cache entry
@@ -1677,87 +2114,132 @@ nd6_is_prefix_in_netif(const ip6_addr_t *ip6addr, struct netif *netif)
       return 1;
     }
   }
+
   return 0;
 }
 
 /**
- * Select a default router for a destination.
+ * Finds better route of the given two, based on prefix length and/or preference.
+ *
+ * If one of the routes is -1 (not set), returns the other one.
+ * Does not take other data like prefix itself or reachability status into account.
+ *
+ * @param route1 route_list index of the first route
+ * @param route2 route_list index of the second route
+ * @return route1 or route2, whichever is better
+ */
+static s8_t nd6_better_route(s8_t route1, s8_t route2)
+{
+  if (route1 == -1) {
+    return route2;
+  }
+
+  if (route2 == -1) {
+    return route1;
+  }
+
+  if (route_list[route1].prefix_len > route_list[route2].prefix_len) {
+    /* route1 matches with longer prefix */
+    return route1;
+  } else if (route_list[route1].prefix_len == route_list[route2].prefix_len) {
+    /* same prefix length, decide by preference */
+    if ((route_list[route1].preference == ND6_RA_PREFERENCE_HIGH) &&
+        (route_list[route2].preference != ND6_RA_PREFERENCE_HIGH)) {
+      return route1;
+    } else if ((route_list[route1].preference == ND6_RA_PREFERENCE_MEDIUM) &&
+               (route_list[route2].preference == ND6_RA_PREFERENCE_LOW)) {
+      return route1;
+    } else if (route_list[route1].preference == route_list[route2].preference) {
+      /* Same prefix length and same preference, return the first route */
+      return route1;
+    } else {
+      /* route2 has higher preference */
+      return route2;
+    }
+  } else {
+    /* route2 matches with longer prefix */
+    return route2;
+  }
+}
+
+/**
+ * Select route for a destination.
  *
  * This function is used both for routing and for finding a next-hop target for
  * a packet. In the former case, the given netif is NULL, and the returned
- * router entry must be for a netif suitable for sending packets (up, link up).
- * In the latter case, the given netif is not NULL and restricts router choice.
+ * route entry must be for a netif suitable for sending packets (up, link up).
+ * In the latter case, the given netif is not NULL and restricts route choice.
  *
  * @param ip6addr the destination address
  * @param netif the netif for the outgoing packet, if known
- * @return the default router entry index, or -1 if no suitable
- *         router is found
+ * @return the route entry index, or -1 if no suitable
+ *         route is found
  */
-static s8_t
-nd6_select_router(const ip6_addr_t *ip6addr, struct netif *netif)
+static s8_t nd6_select_route(const ip6_addr_t *ip6addr, struct netif *netif)
 {
-  struct netif *router_netif;
-  s8_t i, j, valid_router;
-  static s8_t last_router;
+  struct nd6_route_list_entry *route;
+  struct netif *route_netif;
+  s8_t i, best_route, best_reachable_route;
 
-  LWIP_UNUSED_ARG(ip6addr); /* @todo match preferred routes!! (must implement ND6_OPTION_TYPE_ROUTE_INFO) */
+  best_route = -1;
+  best_reachable_route = -1;
 
-  /* @todo: implement default router preference */
+  for (i = 0; i < LWIP_ND6_NUM_ROUTES; ++i) {
+    route = &route_list[i];
 
-  /* Look for valid routers. A reachable router is preferred. */
-  valid_router = -1;
-  for (i = 0; i < LWIP_ND6_NUM_ROUTERS; i++) {
-    /* Is the router netif both set and apppropriate? */
-    if (default_router_list[i].neighbor_entry != NULL) {
-      router_netif = default_router_list[i].neighbor_entry->netif;
-      if ((router_netif != NULL) && (netif != NULL ? netif == router_netif :
-          (netif_is_up(router_netif) && netif_is_link_up(router_netif)))) {
-        /* Is the router valid, i.e., reachable or probably reachable as per
-         * RFC 4861 Sec. 6.3.6? Note that we will never return a router that
-         * has no neighbor cache entry, due to the netif association tests. */
-        if (default_router_list[i].neighbor_entry->state != ND6_INCOMPLETE) {
-          /* Is the router known to be reachable? */
-          if (default_router_list[i].neighbor_entry->state == ND6_REACHABLE) {
-            return i; /* valid and reachable - done! */
-          } else if (valid_router < 0) {
-            valid_router = i; /* valid but not known to be reachable */
-          }
-        }
+	if (route->neighbor_entry == NULL) {
+      /* route not set on this position */
+      continue;
+    }
+
+    route_netif = route->neighbor_entry->netif;
+    if ((netif != NULL) && (route_netif != netif)) {
+      /* route netif does not match the desired one */
+      continue;
+    }
+
+    if (!netif_is_up(route_netif) || !netif_is_link_up(route_netif)) {
+      /* netif or link not up */
+      continue;
+    }
+
+    if (!ip6_addr_prefix_eq(&route->prefix, ip6addr, route->prefix_len)) {
+      /* route prefix does not match address */
+      continue;
+    }
+
+    /* route is ok for the address, find if it is better than the previous matching route */
+    best_route = nd6_better_route(best_route, i);
+
+    if (route->neighbor_entry->state != ND6_INCOMPLETE) {
+      /* route is considered reachable, find if it is the best reachable route so far */
+      if (best_route == i) {
+        /* just found best route so far and it is reachable, set it also as best reachable route */
+        best_reachable_route = i;
+      } else {
+        best_reachable_route = nd6_better_route(best_reachable_route, i);
       }
     }
   }
-  if (valid_router >= 0) {
-    return valid_router;
-  }
 
-  /* Look for any router for which we have any information at all. */
-  /* last_router is used for round-robin selection of incomplete routers, as
-   * recommended in RFC 4861 Sec. 6.3.6 point (2). Advance only when picking a
-   * route, to select the same router as next-hop target in the common case. */
-  if ((netif == NULL) && (++last_router >= LWIP_ND6_NUM_ROUTERS)) {
-    last_router = 0;
+  if ((best_route != -1) &&
+      (route_list[best_route].neighbor_entry->state == ND6_INCOMPLETE) &&
+      (best_reachable_route != -1)) {
+	  /* best route is not reachable, return reachable matching route instead */
+      return best_reachable_route;
+      /* According to RFC 4191 section 3.5, single neighbor solicitation should be sent
+       * to better routers which were not reachable. This is done in nd6_tmr().
+       * TODO: Send NS only when traffic would be send there and max once per minute
+       * as written in RFC 4191 section 3.5. */
+  } else {
+    /* return best matching route (or -1: route not found), no matter if it is reachable or not */
+    return best_route;
   }
-  i = last_router;
-  for (j = 0; j < LWIP_ND6_NUM_ROUTERS; j++) {
-    if (default_router_list[i].neighbor_entry != NULL) {
-      router_netif = default_router_list[i].neighbor_entry->netif;
-      if ((router_netif != NULL) && (netif != NULL ? netif == router_netif :
-          (netif_is_up(router_netif) && netif_is_link_up(router_netif)))) {
-        return i;
-      }
-    }
-    if (++i >= LWIP_ND6_NUM_ROUTERS) {
-      i = 0;
-    }
-  }
-
-  /* no suitable router found. */
-  return -1;
 }
 
 /**
  * Find a router-announced route to the given destination. This route may be
- * based on an on-link prefix or a default router.
+ * based on an on-link prefix or derived from router advertisments.
  *
  * If a suitable route is found, the returned netif is guaranteed to be in a
  * suitable state (up, link up) to be used for packet transmission.
@@ -1770,7 +2252,6 @@ nd6_find_route(const ip6_addr_t *ip6addr)
 {
   struct netif *netif;
   s8_t i;
-
   /* @todo decide if it makes sense to check the destination cache first */
 
   /* Check if there is a matching on-link prefix. There may be multiple
@@ -1783,105 +2264,13 @@ nd6_find_route(const ip6_addr_t *ip6addr)
     }
   }
 
-  /* No on-link prefix match. Find a router that can forward the packet. */
-  i = nd6_select_router(ip6addr, NULL);
+  /* No on-link prefix match. Check routing table if there is a route for the packet. */
+  i = nd6_select_route(ip6addr, NULL);
   if (i >= 0) {
-    LWIP_ASSERT("selected router must have a neighbor entry",
-      default_router_list[i].neighbor_entry != NULL);
-    return default_router_list[i].neighbor_entry->netif;
+    return route_list[i].neighbor_entry->netif;
   }
 
   return NULL;
-}
-
-/**
- * Find an entry for a default router.
- *
- * @param router_addr the IPv6 address of the router
- * @param netif the netif on which the router is found, if known
- * @return the index of the router entry, or -1 if not found
- */
-static s8_t
-nd6_get_router(const ip6_addr_t *router_addr, struct netif *netif)
-{
-  s8_t i;
-
-  IP6_ADDR_ZONECHECK_NETIF(router_addr, netif);
-
-  /* Look for router. */
-  for (i = 0; i < LWIP_ND6_NUM_ROUTERS; i++) {
-    if ((default_router_list[i].neighbor_entry != NULL) &&
-        ((netif != NULL) ? netif == default_router_list[i].neighbor_entry->netif : 1) &&
-        ip6_addr_eq(router_addr, &(default_router_list[i].neighbor_entry->next_hop_address))) {
-      return i;
-    }
-  }
-
-  /* router not found. */
-  return -1;
-}
-
-/**
- * Create a new entry for a default router.
- *
- * @param router_addr the IPv6 address of the router
- * @param netif the netif on which the router is connected, if known
- * @return the index on the router table, or -1 if could not be created
- */
-static s8_t
-nd6_new_router(const ip6_addr_t *router_addr, struct netif *netif)
-{
-  s8_t router_index;
-  s8_t free_router_index;
-  s8_t neighbor_index;
-
-  IP6_ADDR_ZONECHECK_NETIF(router_addr, netif);
-
-  /* Do we have a neighbor entry for this router? */
-  neighbor_index = nd6_find_neighbor_cache_entry(router_addr);
-  if (neighbor_index < 0) {
-    /* Create a neighbor entry for this router. */
-    neighbor_index = nd6_new_neighbor_cache_entry();
-    if (neighbor_index < 0) {
-      /* Could not create neighbor entry for this router. */
-      return -1;
-    }
-    ip6_addr_set(&(neighbor_cache[neighbor_index].next_hop_address), router_addr);
-    neighbor_cache[neighbor_index].netif = netif;
-    neighbor_cache[neighbor_index].q = NULL;
-    neighbor_cache[neighbor_index].state = ND6_INCOMPLETE;
-    neighbor_cache[neighbor_index].counter.probes_sent = 1;
-    nd6_send_neighbor_cache_probe(&neighbor_cache[neighbor_index], ND6_SEND_FLAG_MULTICAST_DEST);
-  }
-
-  /* Mark neighbor as router. */
-  neighbor_cache[neighbor_index].isrouter = 1;
-
-  /* Look for empty entry. */
-  free_router_index = LWIP_ND6_NUM_ROUTERS;
-  for (router_index = LWIP_ND6_NUM_ROUTERS - 1; router_index >= 0; router_index--) {
-    /* check if router already exists (this is a special case for 2 netifs on the same subnet
-       - e.g. wifi and cable) */
-    if(default_router_list[router_index].neighbor_entry == &(neighbor_cache[neighbor_index])){
-      return router_index;
-    }
-    if (default_router_list[router_index].neighbor_entry == NULL) {
-      /* remember lowest free index to create a new entry */
-      free_router_index = router_index;
-    }
-  }
-  if (free_router_index < LWIP_ND6_NUM_ROUTERS) {
-    default_router_list[free_router_index].neighbor_entry = &(neighbor_cache[neighbor_index]);
-    return free_router_index;
-  }
-
-  /* Could not create a router entry. */
-
-  /* Mark neighbor entry as not-router. Entry might be useful as neighbor still. */
-  neighbor_cache[neighbor_index].isrouter = 0;
-
-  /* router not found. */
-  return -1;
 }
 
 /**
@@ -1933,6 +2322,132 @@ nd6_new_onlink_prefix(const ip6_addr_t *prefix, struct netif *netif)
 
   /* Entry not available. */
   return -1;
+}
+
+/**
+ * Find the cached entry for an RIO configured route.
+ *
+ * @param prefix the IPv6 prefix for the route.
+ * @param prefix_len the length of the prefix
+ * @param router_addr next hop address for the route
+ * @param netif the netif on which the router is connected, if known
+ * @return the index on the route table, or -1 if not found
+ */
+static s8_t
+nd6_get_route(const ip6_addr_t *prefix, const u8_t prefix_len, const ip6_addr_t *router_addr, struct netif *netif)
+{
+  s8_t i;
+
+  /* Look for prefix in list. */
+  for (i = 0; i < LWIP_ND6_NUM_ROUTES; ++i) {
+    if ((route_list[i].neighbor_entry != NULL) &&
+        (route_list[i].prefix_len == prefix_len) &&
+        ip6_addr_prefix_eq(&route_list[i].prefix, prefix, prefix_len) &&
+		((netif != NULL) ? netif == route_list[i].neighbor_entry->netif : 1) &&
+        ip6_addr_eq(router_addr, &route_list[i].neighbor_entry->next_hop_address)) {
+      return i;
+    }
+  }
+
+  /* Entry not available. */
+  return -1;
+}
+
+/**
+ * Creates a new entry for an on-link prefix.
+ *
+ * @param prefix the IPv6 prefix for the route.
+ * @param prefix_len the length of the prefix
+ * @param router_addr next hop address for the route
+ * @param netif the netif on which the router is connected, if known
+ * @return the index on the prefix table, or -1 if not created
+ */
+static s8_t
+nd6_new_route(const ip6_addr_t *prefix, const u8_t prefix_len, const ip6_addr_t *router_addr, struct netif *netif)
+{
+  s8_t i;
+  s8_t neighbor_index;
+
+  IP6_ADDR_ZONECHECK_NETIF(router_addr, netif);
+
+  /* Do we have a neighbor entry for this router? */
+  neighbor_index = nd6_find_neighbor_cache_entry(router_addr);
+  if (neighbor_index < 0) {
+    /* Create a neighbor entry for this router. */
+    neighbor_index = nd6_new_neighbor_cache_entry();
+    if (neighbor_index < 0) {
+	  /* Could not create neighbor entry for this router. */
+	  return -1;
+    }
+    ip6_addr_set(&(neighbor_cache[neighbor_index].next_hop_address), router_addr);
+    neighbor_cache[neighbor_index].netif = netif;
+    neighbor_cache[neighbor_index].q = NULL;
+    neighbor_cache[neighbor_index].state = ND6_INCOMPLETE;
+    /* Mark the new neighbor entry as not-router. If route via this neighbor would
+     * fail to be created below, entry could still be useful as a neighbor. */
+    neighbor_cache[neighbor_index].isrouter = 0;
+    neighbor_cache[neighbor_index].counter.probes_sent = 1;
+    nd6_send_neighbor_cache_probe(&neighbor_cache[neighbor_index], ND6_SEND_FLAG_MULTICAST_DEST);
+  }
+
+  /* Create new entry. */
+  for (i = 0; i < LWIP_ND6_NUM_ROUTES; ++i) {
+    if ((route_list[i].neighbor_entry == NULL) || (route_list[i].invalidation_timer == 0)) {
+      if (route_list[i].neighbor_entry != NULL) {
+        nd6_free_route(i);
+      }
+      ip6_addr_set(&(route_list[i].prefix), prefix);
+      route_list[i].prefix_len = prefix_len;
+      route_list[i].neighbor_entry = &(neighbor_cache[neighbor_index]);
+      /* Mark neighbor entry as router. */
+      neighbor_cache[neighbor_index].isrouter = 1;
+      return i;
+    }
+  }
+
+  /* Could not create a route entry. */
+  return -1;
+}
+
+/**
+ * Clears the route entry,
+ * clears the destination cache entries pointing to the route's next-hop address,
+ * clears the route's neighbor cache entry isrouter status if not referenced by other routes.
+ *
+ * @param i the index of the route to clear
+ */
+static void nd6_free_route(s8_t i)
+{
+  s8_t j;
+  s8_t found = 0;
+
+  /* Clean any destination cache entries referencing the route */
+  for (j = 0; j < LWIP_ND6_NUM_DESTINATIONS; j++) {
+    if (ip6_addr_eq(&destination_cache[j].next_hop_addr,
+        &route_list[i].neighbor_entry->next_hop_address)) {
+      ip6_addr_set_any(&destination_cache[j].destination_addr);
+    }
+  }
+
+  /* Search if the route's neighbor entry is referenced by other routes. */
+  for (j = 0; j < LWIP_ND6_NUM_ROUTES; j++) {
+    if ((i != j) && route_list[i].neighbor_entry == route_list[j].neighbor_entry) {
+      found = 1;
+      break;
+    }
+  }
+
+  if (!found) {
+    /* Neighbor entry not referenced by other routes, reset its isrouter status. */
+    route_list[i].neighbor_entry->isrouter = 0;
+  }
+
+  /* Clean the route entry */
+  route_list[i].neighbor_entry = NULL;
+  ip6_addr_set_any(&route_list[i].prefix);
+  route_list[i].prefix_len = 0;
+  route_list[i].preference = ND6_RA_PREFERENCE_MEDIUM;
+  route_list[i].invalidation_timer = 0;
 }
 
 /**
@@ -2014,15 +2529,16 @@ nd6_get_next_hop_entry(const ip6_addr_t *ip6addr, struct netif *netif)
         ip6_addr_set(&dest->next_hop_addr, next_hop_addr);
 #endif /* LWIP_HOOK_ND6_GET_GW */
       } else {
-        /* We need to select a router. */
-        i = nd6_select_router(ip6addr, netif);
-        if (i < 0) {
-          /* No router found. */
+        /* Try to select a route. */
+        i = nd6_select_route(ip6addr, netif);
+        if (i >= 0) {
+          dest->pmtu = netif_mtu6(netif); /* Start with netif mtu, correct through ICMPv6 if necessary */
+          ip6_addr_copy(dest->next_hop_addr, route_list[i].neighbor_entry->next_hop_address);
+        } else {
+          /* No route found. */
           ip6_addr_set_any(&dest->destination_addr);
           return ERR_RTE;
         }
-        dest->pmtu = netif_mtu6(netif); /* Start with netif mtu, correct through ICMPv6 if necessary */
-        ip6_addr_copy(dest->next_hop_addr, default_router_list[i].neighbor_entry->next_hop_address);
       }
     }
 #if LWIP_NETIF_HWADDRHINT
@@ -2394,7 +2910,7 @@ nd6_reachability_hint(const ip6_addr_t *ip6addr)
 #endif /* LWIP_ND6_TCP_REACHABILITY_HINTS */
 
 /**
- * Remove all prefix, neighbor_cache and router entries of the specified netif.
+ * Remove all prefix, neighbor_cache, route and router entries of the specified netif.
  *
  * @param netif points to a network interface
  */
@@ -2402,24 +2918,32 @@ void
 nd6_cleanup_netif(struct netif *netif)
 {
   u8_t i;
-  s8_t router_index;
+
   for (i = 0; i < LWIP_ND6_NUM_PREFIXES; i++) {
     if (prefix_list[i].netif == netif) {
       prefix_list[i].netif = NULL;
     }
   }
+
+  for (i = 0; i < LWIP_ND6_NUM_ROUTES; i++) {
+    if ((route_list[i].neighbor_entry != NULL) &&
+    	(route_list[i].neighbor_entry->netif == netif)) {
+      /* Remove the whole route - if this netif is not up, this is invalid */
+      ip6_addr_set_any(&route_list[i].prefix);
+      route_list[i].prefix_len = 0;
+      route_list[i].preference = ND6_RA_PREFERENCE_MEDIUM;
+      route_list[i].invalidation_timer = 0;
+      route_list[i].neighbor_entry = NULL;
+    }
+  }
+
   for (i = 0; i < LWIP_ND6_NUM_NEIGHBORS; i++) {
     if (neighbor_cache[i].netif == netif) {
-      for (router_index = 0; router_index < LWIP_ND6_NUM_ROUTERS; router_index++) {
-        if (default_router_list[router_index].neighbor_entry == &neighbor_cache[i]) {
-          default_router_list[router_index].neighbor_entry = NULL;
-          default_router_list[router_index].flags = 0;
-        }
-      }
       neighbor_cache[i].isrouter = 0;
       nd6_free_neighbor_cache_entry(i);
     }
   }
+
   /* Clear the destination cache, since many entries may now have become
    * invalid for one of several reasons. As destination cache entries have no
    * netif association, use a sledgehammer approach (this can be improved). */
@@ -2469,6 +2993,12 @@ nd6_restart_netif(struct netif *netif)
   /* Send Router Solicitation messages (see RFC 4861, ch. 6.3.7). */
   netif->rs_count = LWIP_ND6_MAX_MULTICAST_SOLICIT;
 #endif /* LWIP_IPV6_SEND_ROUTER_SOLICIT */
+
+#if LWIP_IPV6_SEND_ROUTER_ADVERTISE
+  netif->ra_is_initial = 1;
+  netif->ra_initial_count = LWIP_ND6_MAX_INITIAL_RA;
+  netif->ra_timer = LWIP_ND6_INITIAL_RA_INTERVAL;
+#endif /* LWIP_IPV6_SEND_ROUTER_ADVERTISE */
 }
 
 #endif /* LWIP_IPV6 */
