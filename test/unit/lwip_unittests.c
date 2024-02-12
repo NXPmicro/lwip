@@ -14,6 +14,7 @@
 #include "core/test_timers.h"
 #include "etharp/test_etharp.h"
 #include "dhcp/test_dhcp.h"
+#include "dhcp6/test_dhcp6.h"
 #include "mdns/test_mdns.h"
 #include "mqtt/test_mqtt.h"
 #include "api/test_sockets.h"
@@ -75,6 +76,7 @@ int main(void)
   SRunner *sr;
   size_t i;
   suite_getter_fn* suites[] = {
+    dhcp6_suite,
     ip4_suite,
     ip6_suite,
     udp_suite,

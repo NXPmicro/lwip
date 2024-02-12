@@ -299,7 +299,7 @@ ethernet_output(struct netif * netif, struct pbuf * p,
   } else
 #endif /* ETHARP_SUPPORT_VLAN && (defined(LWIP_HOOK_VLAN_SET) || LWIP_VLAN_PCP) */
   {
-    if (pbuf_add_header(p, SIZEOF_ETH_HDR) != 0) {
+    if (pbuf_add_header_force(p, SIZEOF_ETH_HDR) != 0) {
       goto pbuf_header_failed;
     }
   }

@@ -1028,7 +1028,7 @@ dhcp_discover(struct netif *netif)
   LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE, ("dhcp_discover()\n"));
 
 #if LWIP_DHCP_AUTOIP_COOP
-  if (dhcp->tries >= LWIP_DHCP_AUTOIP_COOP_TRIES) {
+  if (dhcp->tries == LWIP_DHCP_AUTOIP_COOP_TRIES) {
     autoip_start(netif);
   }
 #endif /* LWIP_DHCP_AUTOIP_COOP */
