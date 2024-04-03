@@ -695,7 +695,9 @@ usb_status_t USB_HostCdcRndisEvent(usb_device_handle deviceHandle,
                               uint32_t event_code)
 {
     usb_status_t status;
-    uint8_t id;
+    uint8_t classId;
+    uint8_t subclassId;
+    uint8_t protocolId;
     usb_host_configuration_t *configuration;
     uint8_t interface_index;
     usb_host_interface_t *hostInterface;
@@ -712,56 +714,36 @@ usb_status_t USB_HostCdcRndisEvent(usb_device_handle deviceHandle,
             for (interface_index = 0; interface_index < configuration->interfaceCount; ++interface_index)
             {
                 hostInterface = &configuration->interfaceList[interface_index];
-                id = hostInterface->interfaceDesc->bInterfaceClass;
-                if (id != USB_HOST_CDC_RNDIS_CLASS_CODE)
+                classId = hostInterface->interfaceDesc->bInterfaceClass;
+                subclassId = hostInterface->interfaceDesc->bInterfaceSubClass;
+                protocolId = hostInterface->interfaceDesc->bInterfaceProtocol;
+
+                if ((classId == USB_HOST_CDC_RNDIS_CLASS_CODE) && (subclassId == USB_HOST_CDC_RNDIS_SUBCLASS_CODE) && (protocolId == USB_HOST_CDC_RNDIS_PROTOCOL_CODE))
                 {
-                    continue;
-                }
-                id = hostInterface->interfaceDesc->bInterfaceSubClass;
-                if (id != USB_HOST_CDC_RNDIS_SUBCLASS_CODE)
-                {
-                    continue;
-                }
-                id = hostInterface->interfaceDesc->bInterfaceProtocol;
-                if (id != USB_HOST_CDC_RNDIS_PROTOCOL_CODE)
-                {
-                    continue;
-                }
-                else
-                {
-                    /* the interface is supported by the application */
                     g_RndisInstance.controlInterfaceHandle = hostInterface;
-
                 }
-            }
-            for (interface_index = 0; interface_index < configuration->interfaceCount; ++interface_index)
-            {
-                hostInterface = &configuration->interfaceList[interface_index];
-                id = hostInterface->interfaceDesc->bInterfaceClass;
-
-                if (id != USB_HOST_CDC_DATA_CLASS_CODE)
+                else if ((classId == USB_HOST_WC_RNDIS_CLASS_CODE) && (subclassId == USB_HOST_WC_RNDIS_SUBCLASS_CODE) && (protocolId == USB_HOST_WC_RNDIS_PROTOCOL_CODE))
                 {
-                    continue;
+                    g_RndisInstance.controlInterfaceHandle = hostInterface;
                 }
-                id = hostInterface->interfaceDesc->bInterfaceSubClass;
-                if (id != USB_HOST_CDC_DATA_SUBCLASS_CODE)
+                else if ((classId == USB_HOST_MISC_RNDIS_CLASS_CODE) && (subclassId == USB_HOST_MISC_RNDIS_SUBCLASS_CODE) && (protocolId == USB_HOST_MISC_RNDIS_PROTOCOL_CODE))
                 {
-                    continue;
+                    g_RndisInstance.controlInterfaceHandle = hostInterface;
                 }
-                id = hostInterface->interfaceDesc->bInterfaceProtocol;
-                if (id != USB_HOST_CDC_DATA_PROTOCOL_CODE)
-                {
-                    continue;
-                }
-                else
+                else if ((classId == USB_HOST_CDC_DATA_CLASS_CODE) && (subclassId == USB_HOST_CDC_DATA_SUBCLASS_CODE) && (protocolId == USB_HOST_CDC_DATA_PROTOCOL_CODE))
                 {
                     g_RndisInstance.dataInterfaceHandle = hostInterface;
-
+                }
+                else
+                {
+                   /* no action */
                 }
             }
-            g_RndisInstance.deviceHandle = deviceHandle;
+
             if ((NULL != g_RndisInstance.dataInterfaceHandle) && (NULL != g_RndisInstance.controlInterfaceHandle))
             {
+                /* The interface is supported by the application */
+                g_RndisInstance.deviceHandle = deviceHandle;
                 status = kStatus_USB_Success;
             }
             else

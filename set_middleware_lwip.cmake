@@ -146,7 +146,7 @@ if (CONFIG_USE_middleware_lwip_kinetis_ethernetif)
 
 message("middleware_lwip_kinetis_ethernetif component is included from ${CMAKE_CURRENT_LIST_FILE}.")
 
-if(CONFIG_USE_middleware_lwip AND CONFIG_USE_middleware_lwip_template AND CONFIG_USE_driver_phy-common AND CONFIG_USE_driver_enet AND (CONFIG_USE_component_lpc_gpio_adapter))
+if(CONFIG_USE_middleware_lwip AND CONFIG_USE_middleware_lwip_template AND CONFIG_USE_driver_phy-common AND CONFIG_USE_driver_enet AND (CONFIG_USE_component_lpc_gpio_adapter OR CONFIG_USE_component_gpio_adapter))
 
 target_sources(${MCUX_SDK_PROJECT_NAME} PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/./port/enet_ethernetif.c
