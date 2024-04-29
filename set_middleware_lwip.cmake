@@ -221,7 +221,7 @@ if (CONFIG_USE_middleware_lwip_usb_ethernetif)
 
 message("middleware_lwip_usb_ethernetif component is included from ${CMAKE_CURRENT_LIST_FILE}.")
 
-if(CONFIG_USE_middleware_lwip AND CONFIG_USE_middleware_usb_host_cdc AND CONFIG_USE_middleware_usb_host_cdc_rndis AND (CONFIG_USE_middleware_usb_host_ehci))
+if(CONFIG_USE_middleware_lwip AND CONFIG_USE_middleware_usb_host_cdc AND (CONFIG_USE_middleware_usb_host_cdc_rndis) AND (CONFIG_USE_middleware_usb_host_ehci))
 
 if(CONFIG_USE_middleware_baremetal)
   target_sources(${MCUX_SDK_PROJECT_NAME} PRIVATE
