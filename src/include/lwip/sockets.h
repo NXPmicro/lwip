@@ -5,6 +5,7 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
+ * Copyright 2019 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -285,11 +286,12 @@ struct linger {
 /*
  * Options for level IPPROTO_TCP
  */
-#define TCP_NODELAY    0x01    /* don't delay send to coalesce packets */
-#define TCP_KEEPALIVE  0x02    /* send KEEPALIVE probes when idle for pcb->keep_idle milliseconds */
-#define TCP_KEEPIDLE   0x03    /* set pcb->keep_idle  - Same as TCP_KEEPALIVE, but use seconds for get/setsockopt */
-#define TCP_KEEPINTVL  0x04    /* set pcb->keep_intvl - Use seconds for get/setsockopt */
-#define TCP_KEEPCNT    0x05    /* set pcb->keep_cnt   - Use number of probes sent for get/setsockopt */
+#define TCP_NODELAY       0x01    /* don't delay send to coalesce packets */
+#define TCP_KEEPALIVE     0x02    /* send KEEPALIVE probes when idle for pcb->keep_idle milliseconds */
+#define TCP_KEEPIDLE      0x03    /* set pcb->keep_idle  - Same as TCP_KEEPALIVE, but use seconds for get/setsockopt */
+#define TCP_KEEPINTVL     0x04    /* set pcb->keep_intvl - Use seconds for get/setsockopt */
+#define TCP_KEEPCNT       0x05    /* set pcb->keep_cnt   - Use number of probes sent for get/setsockopt */
+#define TCP_USER_TIMEOUT  0x12    /* set pcb->user_timeout - How long for loss retry before timeout */	
 #endif /* LWIP_TCP */
 
 #if LWIP_IPV6
@@ -422,6 +424,9 @@ typedef struct ipv6_mreq {
 
 #define _IOW(x,y,t)     ((long)(IOC_IN|((sizeof(t)&IOCPARM_MASK)<<16)|((x)<<8)|(y)))
 #endif /* !defined(FIONREAD) || !defined(FIONBIO) */
+                                               
+/* Get (not sent + not acked) data bytes in send buffer. */
+#define SIOCOUTQ    _IOR('s', 115, unsigned long)  
 
 #ifndef FIONREAD
 #define FIONREAD    _IOR('f', 127, unsigned long) /* get # bytes to read */

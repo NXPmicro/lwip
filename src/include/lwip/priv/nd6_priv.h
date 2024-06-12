@@ -8,6 +8,7 @@
 
 /*
  * Copyright (c) 2010 Inico Technologies Ltd.
+ * Copyright 2023 NXP
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -104,10 +105,14 @@ struct nd6_prefix_list_entry {
   u32_t invalidation_timer; /* in seconds */
 };
 
-struct nd6_router_list_entry {
-  struct nd6_neighbor_cache_entry *neighbor_entry;
-  u32_t invalidation_timer; /* in seconds */
-  u8_t flags;
+struct nd6_route_list_entry {
+    ip6_addr_t prefix;
+    u8_t prefix_len;
+    u8_t preference;
+    /* Outgoing messages with this prefix should be sent via
+       the neighbour entry's next hop address */
+    struct nd6_neighbor_cache_entry *neighbor_entry;
+    u32_t invalidation_timer;
 };
 
 enum nd6_neighbor_cache_entry_state {
@@ -128,7 +133,8 @@ enum nd6_neighbor_cache_entry_state {
 extern struct nd6_neighbor_cache_entry neighbor_cache[];
 extern struct nd6_destination_cache_entry destination_cache[];
 extern struct nd6_prefix_list_entry prefix_list[];
-extern struct nd6_router_list_entry default_router_list[];
+extern struct nd6_route_list_entry route_list[];
+
 
 /* Default values, can be updated by a RA message. */
 extern u32_t reachable_time;

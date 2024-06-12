@@ -1,0 +1,1170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ksdk:manifest xmlns:ksdk="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="SDK_2.x_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_14" name="lwIP" brief="Lightweight IP open-source TCP/IP stack" format_version="3.14" api_version="2.0.0" xsi:schemaLocation="http://nxp.com/ksdk/2.0/ksdk_manifest_v3.0.xsd http://nxp.com/mcuxpresso/sdk/sdk_manifest_v3.14.xsd">
+
+  <externalDefinitions>
+    <definition extID="MIMXRT1062xxxxA"/>
+    <definition extID="MIMXRT1062xxxxB"/>
+    <definition extID="armgcc"/>
+    <definition extID="middleware.wifi.MIMXRT1062"/>
+    <definition extID="driver.phy-common.MIMXRT1062"/>
+    <definition extID="platform.drivers.enet.MIMXRT1062"/>
+    <definition extID="component.igpio_adapter.MIMXRT1062"/>
+    <definition extID="middleware.freertos-kernel.MIMXRT1062"/>
+    <definition extID="middleware.usb.host_cdc.MIMXRT1062"/>
+    <definition extID="middleware.usb.host_cdc_ecm.MIMXRT1062"/>
+    <definition extID="middleware.usb.host_cdc_rndis.MIMXRT1062"/>
+    <definition extID="middleware.usb.host_controller_ehci.MIMXRT1062"/>
+    <definition extID="middleware.baremetal.MIMXRT1062"/>
+    <definition extID="middleware.mbedtls.MIMXRT1062"/>
+  </externalDefinitions>
+  <ksdk id="MCUXpressoSDK216000_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_14" name="MCUXpressoSDK216000_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_14" version="2.16.000" revision="2.16.000"/>
+  <components>
+    <component id="middleware.lwip.template.MIMXRT1062" name="lwIP_template" brief="lwIP Template" version="2.2.1" revision="1" full_name="lwIP Template Application" category="Network/lwIP TCPIP Networking Stack" user_visible="false" type="project_template" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <any_of>
+          <device_dependency value="MIMXRT1062xxxxA"/>
+          <device_dependency value="MIMXRT1062xxxxB"/>
+        </any_of>
+      </dependencies>
+      <source relative_path="./template" project_relative_path="template" config="true" type="c_include">
+        <files mask="lwipopts.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_template.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./template" project_relative_path="template" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.empty_ethernetif.MIMXRT1062" name="Empty ethernet interface" brief="Empty ethernet interface" version="2.2.1" revision="1" full_name="Empty ethernet interface" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <any_of>
+          <device_dependency value="MIMXRT1062xxxxA"/>
+          <device_dependency value="MIMXRT1062xxxxB"/>
+        </any_of>
+      </dependencies>
+      <source relative_path="./" type="doc">
+        <files mask="README" hidden="true"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_empty_ethernetif.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
+      </include_paths>
+    </component>
+    <!--<component id="middleware.lwip.unused_files.MIMXRT1062" name="lwIP_unused_files" version="2.2.1" package_base_path=".././" project_base_path="lwip">
+  <source exclude="true" relative_path="./" type="other">
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="Filelists.mk" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="lwipcfg.h.ci" hidden="true"/>
+    <files mask="lwipcfg.h.example" hidden="true"/>
+    <files mask="ssi.shtml" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="README" hidden="true"/>
+    <files mask="setup-tapif" hidden="true"/>
+    <files mask="Makefile" hidden="true"/>
+    <files mask="build_coverity.cmd" hidden="true"/>
+    <files mask="libcheck.vcxproj" hidden="true"/>
+    <files mask="libcheck.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP.vcxproj" hidden="true"/>
+    <files mask="lwIP.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP_Test.sln" hidden="true"/>
+    <files mask="lwIP_Test.vcxproj" hidden="true"/>
+    <files mask="lwIP_Test.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP_fuzz.sln" hidden="true"/>
+    <files mask="lwIP_pcapif.vcxproj" hidden="true"/>
+    <files mask="lwIP_pcapif.vcxproj.filters" hidden="true"/>
+    <files mask="lwIP_unittests.sln" hidden="true"/>
+    <files mask="lwip_fuzz.vcxproj" hidden="true"/>
+    <files mask="lwip_unittests.vcxproj" hidden="true"/>
+    <files mask="lwip_unittests.vcxproj.filters" hidden="true"/>
+    <files mask="makefsdata.vcxproj" hidden="true"/>
+    <files mask="makefsdata.vcxproj.filters" hidden="true"/>
+    <files mask="init.h.cmake.in" hidden="true"/>
+    <files mask="FILES" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="c_include">
+    <files mask="config.h" hidden="true"/>
+    <files mask="fuzz_common.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="sockets_stresstest.h" hidden="true"/>
+    <files mask="test_sockets.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="test_def.h" hidden="true"/>
+    <files mask="test_dns.h" hidden="true"/>
+    <files mask="test_mem.h" hidden="true"/>
+    <files mask="test_netif.h" hidden="true"/>
+    <files mask="test_pbuf.h" hidden="true"/>
+    <files mask="test_timers.h" hidden="true"/>
+    <files mask="test_dhcp.h" hidden="true"/>
+    <files mask="test_dhcp6.h" hidden="true"/>
+    <files mask="test_etharp.h" hidden="true"/>
+    <files mask="test_ip4.h" hidden="true"/>
+    <files mask="test_ip6.h" hidden="true"/>
+    <files mask="lwip_check.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="test_mdns.h" hidden="true"/>
+    <files mask="test_mqtt.h" hidden="true"/>
+    <files mask="test_pppos.h" hidden="true"/>
+    <files mask="tcp_helper.h" hidden="true"/>
+    <files mask="test_tcp.h" hidden="true"/>
+    <files mask="test_tcp_oos.h" hidden="true"/>
+    <files mask="test_tcp_state.h" hidden="true"/>
+    <files mask="test_udp.h" hidden="true"/>
+    <files mask="dhcp_extra_opts.h" hidden="true"/>
+    <files mask="ip6_route_table.h" hidden="true"/>
+    <files mask="dnssd.h" hidden="true"/>
+    <files mask="tcp_isn.h" hidden="true"/>
+    <files mask="tcp_md5.h" hidden="true"/>
+    <files mask="chargen.h" hidden="true"/>
+    <files mask="httpserver-netconn.h" hidden="true"/>
+    <files mask="netio.h" hidden="true"/>
+    <files mask="rtp.h" hidden="true"/>
+    <files mask="rtpdata.h" hidden="true"/>
+    <files mask="shell.h" hidden="true"/>
+    <files mask="socket_examples.h" hidden="true"/>
+    <files mask="default_netif.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="lwippools.h" hidden="true"/>
+    <files mask="ppp_settings.h" hidden="true"/>
+    <files mask="opt_default.h" hidden="true"/>
+    <files mask="opt_dualstack.h" hidden="true"/>
+    <files mask="opt_ipv4only.h" hidden="true"/>
+    <files mask="opt_ipv6only.h" hidden="true"/>
+    <files mask="opt_no_tcp_dualstack.h" hidden="true"/>
+    <files mask="opt_no_tcp_ipv4only.h" hidden="true"/>
+    <files mask="opt_no_tcp_ipv6only.h" hidden="true"/>
+    <files mask="opt_no_udp_dualstack.h" hidden="true"/>
+    <files mask="opt_no_udp_ipv4only.h" hidden="true"/>
+    <files mask="opt_no_udp_ipv6only.h" hidden="true"/>
+    <files mask="opt_none.h" hidden="true"/>
+    <files mask="opt_nosys_dual.h" hidden="true"/>
+    <files mask="opt_nosys_ipv4.h" hidden="true"/>
+    <files mask="opt_nosys_ipv6.h" hidden="true"/>
+    <files mask="cgi_example.h" hidden="true"/>
+    <files mask="fs_example.h" hidden="true"/>
+    <files mask="genfiles_example.h" hidden="true"/>
+    <files mask="https_example.h" hidden="true"/>
+    <files mask="ssi_example.h" hidden="true"/>
+    <files mask="lwiperf_example.h" hidden="true"/>
+    <files mask="mdns_example.h" hidden="true"/>
+    <files mask="mqtt_example.h" hidden="true"/>
+    <files mask="pppos_example.h" hidden="true"/>
+    <files mask="snmp_example.h" hidden="true"/>
+    <files mask="private_mib.h" hidden="true"/>
+    <files mask="snmpv3_dummy.h" hidden="true"/>
+    <files mask="sntp_example.h" hidden="true"/>
+    <files mask="tftp_example.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="config.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="cc.h" hidden="true"/>
+    <files mask="perf.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="fifo.h" hidden="true"/>
+    <files mask="list.h" hidden="true"/>
+    <files mask="pcapif.h" hidden="true"/>
+    <files mask="sio.h" hidden="true"/>
+    <files mask="tapif.h" hidden="true"/>
+    <files mask="vdeif.h" hidden="true"/>
+    <files mask="inet.h" hidden="true"/>
+    <files mask="sockets.h" hidden="true"/>
+    <files mask="lwipopts.h" hidden="true"/>
+    <files mask="check_stdint.h" hidden="true"/>
+    <files mask="config.h" hidden="true"/>
+    <files mask="stdbool.h" hidden="true"/>
+    <files mask="time.h" hidden="true"/>
+    <files mask="unistd.h" hidden="true"/>
+    <files mask="bpstruct.h" hidden="true"/>
+    <files mask="cc.h" hidden="true"/>
+    <files mask="epstruct.h" hidden="true"/>
+    <files mask="perf.h" hidden="true"/>
+    <files mask="sys_arch.h" hidden="true"/>
+    <files mask="pcapif.h" hidden="true"/>
+    <files mask="pcapif_helper.h" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_mem.h" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_structs.h" hidden="true"/>
+    <files mask="snmp_asn1.h" hidden="true"/>
+    <files mask="snmp_core_priv.h" hidden="true"/>
+    <files mask="snmp_msg.h" hidden="true"/>
+    <files mask="snmp_pbuf_stream.h" hidden="true"/>
+    <files mask="snmpv3_priv.h" hidden="true"/>
+    <files mask="altcp_proxyconnect.h" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_opts.h" hidden="true"/>
+    <files mask="http_client.h" hidden="true"/>
+    <files mask="netbiosns.h" hidden="true"/>
+    <files mask="netbiosns_opts.h" hidden="true"/>
+    <files mask="smtp.h" hidden="true"/>
+    <files mask="smtp_opts.h" hidden="true"/>
+    <files mask="snmp.h" hidden="true"/>
+    <files mask="snmpv3.h" hidden="true"/>
+    <files mask="snmp_core.h" hidden="true"/>
+    <files mask="snmp_mib2.h" hidden="true"/>
+    <files mask="snmp_opts.h" hidden="true"/>
+    <files mask="snmp_scalar.h" hidden="true"/>
+    <files mask="snmp_snmpv2_framework.h" hidden="true"/>
+    <files mask="snmp_snmpv2_usm.h" hidden="true"/>
+    <files mask="snmp_table.h" hidden="true"/>
+    <files mask="snmp_threadsync.h" hidden="true"/>
+    <files mask="tftp_client.h" hidden="true"/>
+    <files mask="tftp_common.h" hidden="true"/>
+    <files mask="tftp_opts.h" hidden="true"/>
+    <files mask="tftp_server.h" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="src">
+    <files mask="fuzz.c" hidden="true"/>
+    <files mask="fuzz2.c" hidden="true"/>
+    <files mask="fuzz3.c" hidden="true"/>
+    <files mask="fuzz_common.c" hidden="true"/>
+    <files mask="sockets_stresstest.c" hidden="true"/>
+    <files mask="test_sockets.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="test_def.c" hidden="true"/>
+    <files mask="test_dns.c" hidden="true"/>
+    <files mask="test_mem.c" hidden="true"/>
+    <files mask="test_netif.c" hidden="true"/>
+    <files mask="test_pbuf.c" hidden="true"/>
+    <files mask="test_timers.c" hidden="true"/>
+    <files mask="test_dhcp.c" hidden="true"/>
+    <files mask="test_dhcp6.c" hidden="true"/>
+    <files mask="test_etharp.c" hidden="true"/>
+    <files mask="test_ip4.c" hidden="true"/>
+    <files mask="test_ip6.c" hidden="true"/>
+    <files mask="lwip_unittests.c" hidden="true"/>
+    <files mask="test_mdns.c" hidden="true"/>
+    <files mask="test_mqtt.c" hidden="true"/>
+    <files mask="test_pppos.c" hidden="true"/>
+    <files mask="tcp_helper.c" hidden="true"/>
+    <files mask="test_tcp.c" hidden="true"/>
+    <files mask="test_tcp_oos.c" hidden="true"/>
+    <files mask="test_tcp_state.c" hidden="true"/>
+    <files mask="test_udp.c" hidden="true"/>
+    <files mask="dhcp_extra_opts.c" hidden="true"/>
+    <files mask="ip6_route_table.c" hidden="true"/>
+    <files mask="dnssd.c" hidden="true"/>
+    <files mask="tcp_isn.c" hidden="true"/>
+    <files mask="tcp_md5.c" hidden="true"/>
+    <files mask="chargen.c" hidden="true"/>
+    <files mask="httpserver-netconn.c" hidden="true"/>
+    <files mask="netio.c" hidden="true"/>
+    <files mask="rtp.c" hidden="true"/>
+    <files mask="shell.c" hidden="true"/>
+    <files mask="socket_examples.c" hidden="true"/>
+    <files mask="coverity.c" hidden="true"/>
+    <files mask="ethernetif.c" hidden="true"/>
+    <files mask="test.c" hidden="true"/>
+    <files mask="cgi_example.c" hidden="true"/>
+    <files mask="examples_fsdata.c" hidden="true"/>
+    <files mask="fs_example.c" hidden="true"/>
+    <files mask="genfiles_example.c" hidden="true"/>
+    <files mask="https_example.c" hidden="true"/>
+    <files mask="post_example.c" hidden="true"/>
+    <files mask="ssi_example.c" hidden="true"/>
+    <files mask="lwiperf_example.c" hidden="true"/>
+    <files mask="mdns_example.c" hidden="true"/>
+    <files mask="mqtt_example.c" hidden="true"/>
+    <files mask="pppos_example.c" hidden="true"/>
+    <files mask="snmp_example.c" hidden="true"/>
+    <files mask="lwip_prvmib.c" hidden="true"/>
+    <files mask="snmpv3_dummy.c" hidden="true"/>
+    <files mask="sntp_example.c" hidden="true"/>
+    <files mask="tftp_example.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="default_netif.c" hidden="true"/>
+    <files mask="fifo.c" hidden="true"/>
+    <files mask="list.c" hidden="true"/>
+    <files mask="pcapif.c" hidden="true"/>
+    <files mask="sio.c" hidden="true"/>
+    <files mask="tapif.c" hidden="true"/>
+    <files mask="vdeif.c" hidden="true"/>
+    <files mask="perf.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="time.c" hidden="true"/>
+    <files mask="default_netif.c" hidden="true"/>
+    <files mask="pcapif.c" hidden="true"/>
+    <files mask="pcapif_helper.c" hidden="true"/>
+    <files mask="sio.c" hidden="true"/>
+    <files mask="sys_arch.c" hidden="true"/>
+    <files mask="altcp_tls_mbedtls.c" hidden="true"/>
+    <files mask="altcp_tls_mbedtls_mem.c" hidden="true"/>
+    <files mask="altcp_proxyconnect.c" hidden="true"/>
+    <files mask="http_client.c" hidden="true"/>
+    <files mask="netbiosns.c" hidden="true"/>
+    <files mask="smtp.c" hidden="true"/>
+    <files mask="snmp_asn1.c" hidden="true"/>
+    <files mask="snmp_core.c" hidden="true"/>
+    <files mask="snmp_mib2.c" hidden="true"/>
+    <files mask="snmp_mib2_icmp.c" hidden="true"/>
+    <files mask="snmp_mib2_interfaces.c" hidden="true"/>
+    <files mask="snmp_mib2_ip.c" hidden="true"/>
+    <files mask="snmp_mib2_snmp.c" hidden="true"/>
+    <files mask="snmp_mib2_system.c" hidden="true"/>
+    <files mask="snmp_mib2_tcp.c" hidden="true"/>
+    <files mask="snmp_mib2_udp.c" hidden="true"/>
+    <files mask="snmp_msg.c" hidden="true"/>
+    <files mask="snmp_netconn.c" hidden="true"/>
+    <files mask="snmp_pbuf_stream.c" hidden="true"/>
+    <files mask="snmp_raw.c" hidden="true"/>
+    <files mask="snmp_scalar.c" hidden="true"/>
+    <files mask="snmp_snmpv2_framework.c" hidden="true"/>
+    <files mask="snmp_snmpv2_usm.c" hidden="true"/>
+    <files mask="snmp_table.c" hidden="true"/>
+    <files mask="snmp_threadsync.c" hidden="true"/>
+    <files mask="snmp_traps.c" hidden="true"/>
+    <files mask="snmpv3.c" hidden="true"/>
+    <files mask="snmpv3_mbedtls.c" hidden="true"/>
+    <files mask="tftp.c" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="binary">
+    <files mask="arp_req.bin" hidden="true"/>
+    <files mask="icmp_ping.bin" hidden="true"/>
+    <files mask="neighbor_solicitation.bin" hidden="true"/>
+    <files mask="router_adv.bin" hidden="true"/>
+    <files mask="tcp_syn.bin" hidden="true"/>
+    <files mask="udp_port_5000.bin" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="script">
+    <files mask="output_to_pcap.sh" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="Filelists.mk" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="Filelists.mk" hidden="true"/>
+    <files mask="CMakeCommon.cmake" hidden="true"/>
+    <files mask="Common.allports.mk" hidden="true"/>
+    <files mask="Common.mk" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+    <files mask="iteropts.sh" hidden="true"/>
+    <files mask="Uninstall.cmake" hidden="true"/>
+    <files mask="Common.mk" hidden="true"/>
+    <files mask="Filelists.cmake" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="doc">
+    <files mask="404.html" hidden="true"/>
+    <files mask="index.html" hidden="true"/>
+    <files mask="login.html" hidden="true"/>
+    <files mask="loginfail.html" hidden="true"/>
+    <files mask="session.html" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="CMakeLists.txt" hidden="true"/>
+    <files mask="readme.txt" hidden="true"/>
+  </source>
+  <source exclude="true" relative_path="./" type="image">
+    <files mask="sics.gif" hidden="true"/>
+  </source>
+</component>-->
+    <component id="middleware.lwip.MIMXRT1062" name="lwIP" brief="lwIP - A Lightweight TCP/IP Stack" version="2.2.1" revision="1" full_name="lwIP" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <component_dependency value="middleware.lwip.usb_ethernetif.MIMXRT1062"/>
+            <component_dependency value="middleware.lwip.kinetis_ethernetif.MIMXRT1062"/>
+            <component_dependency value="middleware.lwip.empty_ethernetif.MIMXRT1062"/>
+            <component_dependency value="middleware.lwip.eoe_ethernetif.MIMXRT1062"/>
+            <component_dependency value="middleware.wifi.MIMXRT1062"/>
+          </any_of>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./" type="doc">
+        <files mask="BUILDING" hidden="true"/>
+        <files mask="CHANGELOG" hidden="true"/>
+        <files mask="COPYING" hidden="true"/>
+        <files mask="FEATURES" hidden="true"/>
+        <files mask="FILES" hidden="true"/>
+        <files mask="README" hidden="true"/>
+        <files mask="UPGRADING" hidden="true"/>
+        <files mask="ChangeLogKSDK.txt" hidden="true"/>
+      </source>
+      <source relative_path="./doc" project_relative_path="doc" type="doc">
+        <files mask="contrib.txt" hidden="true"/>
+        <files mask="mdns.txt" hidden="true"/>
+        <files mask="mqtt_client.txt" hidden="true"/>
+        <files mask="ppp.txt" hidden="true"/>
+        <files mask="savannah.txt" hidden="true"/>
+        <files mask="FILES" hidden="true"/>
+      </source>
+      <source exclude="true" relative_path="./doc" project_relative_path="doc" type="doc">
+        <files mask="NO_SYS_SampleCode.c" hidden="true"/>
+        <files mask="ZeroCopyRx.c" hidden="true"/>
+      </source>
+      <source relative_path="./doc/doxygen" project_relative_path="doc/doxygen" type="doc">
+        <files mask="generate.bat" hidden="true"/>
+        <files mask="generate.sh" hidden="true"/>
+        <files mask="lwip.Doxyfile" hidden="true"/>
+        <files mask="lwip.Doxyfile.cmake.in" hidden="true"/>
+        <files mask="main_page.h" hidden="true"/>
+      </source>
+      <source relative_path="./doc/doxygen/output" project_relative_path="doc/doxygen/output" type="doc">
+        <files mask="index.html" hidden="true"/>
+      </source>
+      <source relative_path="./port" project_relative_path="port" type="src">
+        <files mask="sys_arch.c"/>
+      </source>
+      <source relative_path="./port/arch" project_relative_path="port/arch" type="c_include">
+        <files mask="cc.h"/>
+        <files mask="perf.h"/>
+        <files mask="sys_arch.h"/>
+      </source>
+      <source relative_path="./src" project_relative_path="src" type="doc">
+        <files mask="FILES" hidden="true"/>
+      </source>
+      <source relative_path="./src/api" project_relative_path="src/api" type="src">
+        <files mask="api_lib.c"/>
+        <files mask="api_msg.c"/>
+        <files mask="err.c"/>
+        <files mask="if_api.c"/>
+        <files mask="netbuf.c"/>
+        <files mask="netdb.c"/>
+        <files mask="netifapi.c"/>
+        <files mask="sockets.c"/>
+        <files mask="tcpip.c"/>
+      </source>
+      <source relative_path="./src/core" project_relative_path="src/core" type="src">
+        <files mask="altcp.c"/>
+        <files mask="altcp_alloc.c"/>
+        <files mask="altcp_tcp.c"/>
+        <files mask="def.c"/>
+        <files mask="dns.c"/>
+        <files mask="inet_chksum.c"/>
+        <files mask="init.c"/>
+        <files mask="ip.c"/>
+        <files mask="mem.c"/>
+        <files mask="memp.c"/>
+        <files mask="netif.c"/>
+        <files mask="pbuf.c"/>
+        <files mask="raw.c"/>
+        <files mask="stats.c"/>
+        <files mask="sys.c"/>
+        <files mask="tcp.c"/>
+        <files mask="tcp_in.c"/>
+        <files mask="tcp_out.c"/>
+        <files mask="timeouts.c"/>
+        <files mask="udp.c"/>
+      </source>
+      <source relative_path="./src/core/ipv4" project_relative_path="src/core/ipv4" type="src">
+        <files mask="acd.c"/>
+        <files mask="autoip.c"/>
+        <files mask="dhcp.c"/>
+        <files mask="etharp.c"/>
+        <files mask="icmp.c"/>
+        <files mask="igmp.c"/>
+        <files mask="ip4.c"/>
+        <files mask="ip4_addr.c"/>
+        <files mask="ip4_frag.c"/>
+      </source>
+      <source relative_path="./src/core/ipv6" project_relative_path="src/core/ipv6" type="src">
+        <files mask="dhcp6.c"/>
+        <files mask="ethip6.c"/>
+        <files mask="icmp6.c"/>
+        <files mask="inet6.c"/>
+        <files mask="ip6.c"/>
+        <files mask="ip6_addr.c"/>
+        <files mask="ip6_frag.c"/>
+        <files mask="mld6.c"/>
+        <files mask="nd6.c"/>
+      </source>
+      <source relative_path="./src/include/compat/posix/arpa" project_relative_path="src/include/compat/posix/arpa" type="c_include">
+        <files mask="inet.h"/>
+      </source>
+      <source relative_path="./src/include/compat/posix/net" project_relative_path="src/include/compat/posix/net" type="c_include">
+        <files mask="if.h"/>
+      </source>
+      <source relative_path="./src/include/compat/posix" project_relative_path="src/include/compat/posix" type="c_include">
+        <files mask="netdb.h"/>
+      </source>
+      <source relative_path="./src/include/compat/posix/sys" project_relative_path="src/include/compat/posix/sys" type="c_include">
+        <files mask="socket.h"/>
+      </source>
+      <source relative_path="./src/include/compat/stdc" project_relative_path="src/include/compat/stdc" type="c_include">
+        <files mask="errno.h"/>
+      </source>
+      <source relative_path="./src/include/lwip" project_relative_path="src/include/lwip" type="c_include">
+        <files mask="acd.h"/>
+        <files mask="altcp.h"/>
+        <files mask="altcp_tcp.h"/>
+        <files mask="altcp_tls.h"/>
+        <files mask="api.h"/>
+        <files mask="arch.h"/>
+        <files mask="autoip.h"/>
+        <files mask="debug.h"/>
+        <files mask="def.h"/>
+        <files mask="dhcp.h"/>
+        <files mask="dhcp6.h"/>
+        <files mask="dns.h"/>
+        <files mask="err.h"/>
+        <files mask="errno.h"/>
+        <files mask="etharp.h"/>
+        <files mask="ethip6.h"/>
+        <files mask="icmp.h"/>
+        <files mask="icmp6.h"/>
+        <files mask="if_api.h"/>
+        <files mask="igmp.h"/>
+        <files mask="inet.h"/>
+        <files mask="inet_chksum.h"/>
+        <files mask="init.h"/>
+        <files mask="ip.h"/>
+        <files mask="ip4.h"/>
+        <files mask="ip4_addr.h"/>
+        <files mask="ip4_frag.h"/>
+        <files mask="ip6.h"/>
+        <files mask="ip6_addr.h"/>
+        <files mask="ip6_frag.h"/>
+        <files mask="ip6_zone.h"/>
+        <files mask="ip_addr.h"/>
+        <files mask="mem.h"/>
+        <files mask="memp.h"/>
+        <files mask="mld6.h"/>
+        <files mask="nd6.h"/>
+        <files mask="netbuf.h"/>
+        <files mask="netdb.h"/>
+        <files mask="netif.h"/>
+        <files mask="netifapi.h"/>
+        <files mask="opt.h"/>
+        <files mask="pbuf.h"/>
+        <files mask="raw.h"/>
+        <files mask="sio.h"/>
+        <files mask="snmp.h"/>
+        <files mask="sockets.h"/>
+        <files mask="stats.h"/>
+        <files mask="sys.h"/>
+        <files mask="tcp.h"/>
+        <files mask="tcpbase.h"/>
+        <files mask="tcpip.h"/>
+        <files mask="timeouts.h"/>
+        <files mask="udp.h"/>
+      </source>
+      <source relative_path="./src/include/lwip/priv" project_relative_path="src/include/lwip/priv" type="c_include">
+        <files mask="altcp_priv.h"/>
+        <files mask="api_msg.h"/>
+        <files mask="mem_priv.h"/>
+        <files mask="memp_priv.h"/>
+        <files mask="memp_std.h"/>
+        <files mask="nd6_priv.h"/>
+        <files mask="raw_priv.h"/>
+        <files mask="sockets_priv.h"/>
+        <files mask="tcp_priv.h"/>
+        <files mask="tcpip_priv.h"/>
+      </source>
+      <source relative_path="./src/include/lwip/prot" project_relative_path="src/include/lwip/prot" type="c_include">
+        <files mask="acd.h"/>
+        <files mask="autoip.h"/>
+        <files mask="dhcp.h"/>
+        <files mask="dhcp6.h"/>
+        <files mask="dns.h"/>
+        <files mask="etharp.h"/>
+        <files mask="ethernet.h"/>
+        <files mask="iana.h"/>
+        <files mask="icmp.h"/>
+        <files mask="icmp6.h"/>
+        <files mask="ieee.h"/>
+        <files mask="igmp.h"/>
+        <files mask="ip.h"/>
+        <files mask="ip4.h"/>
+        <files mask="ip6.h"/>
+        <files mask="mld6.h"/>
+        <files mask="nd6.h"/>
+        <files mask="tcp.h"/>
+        <files mask="udp.h"/>
+      </source>
+      <source relative_path="./src/include/netif" project_relative_path="src/include/netif" type="c_include">
+        <files mask="bridgeif.h"/>
+        <files mask="bridgeif_opts.h"/>
+        <files mask="etharp.h"/>
+        <files mask="ethernet.h"/>
+        <files mask="ieee802154.h"/>
+        <files mask="lowpan6.h"/>
+        <files mask="lowpan6_ble.h"/>
+        <files mask="lowpan6_common.h"/>
+        <files mask="lowpan6_opts.h"/>
+        <files mask="slipif.h"/>
+        <files mask="zepif.h"/>
+      </source>
+      <source relative_path="./src/include/netif/ppp" project_relative_path="src/include/netif/ppp" type="c_include">
+        <files mask="ccp.h"/>
+        <files mask="chap-md5.h"/>
+        <files mask="chap-new.h"/>
+        <files mask="chap_ms.h"/>
+        <files mask="eap.h"/>
+        <files mask="ecp.h"/>
+        <files mask="eui64.h"/>
+        <files mask="fsm.h"/>
+        <files mask="ipcp.h"/>
+        <files mask="ipv6cp.h"/>
+        <files mask="lcp.h"/>
+        <files mask="magic.h"/>
+        <files mask="mppe.h"/>
+        <files mask="ppp.h"/>
+        <files mask="ppp_impl.h"/>
+        <files mask="ppp_opts.h"/>
+        <files mask="pppapi.h"/>
+        <files mask="pppcrypt.h"/>
+        <files mask="pppdebug.h"/>
+        <files mask="pppoe.h"/>
+        <files mask="pppol2tp.h"/>
+        <files mask="pppos.h"/>
+        <files mask="upap.h"/>
+        <files mask="vj.h"/>
+      </source>
+      <source relative_path="./src/include/netif/ppp/polarssl" project_relative_path="src/include/netif/ppp/polarssl" type="c_include">
+        <files mask="arc4.h"/>
+        <files mask="des.h"/>
+        <files mask="md4.h"/>
+        <files mask="md5.h"/>
+        <files mask="sha1.h"/>
+      </source>
+      <source relative_path="./src/netif" project_relative_path="src/netif" type="src">
+        <files mask="bridgeif.c"/>
+        <files mask="bridgeif_fdb.c"/>
+        <files mask="ethernet.c"/>
+        <files mask="lowpan6.c"/>
+        <files mask="lowpan6_ble.c"/>
+        <files mask="lowpan6_common.c"/>
+        <files mask="slipif.c"/>
+        <files mask="zepif.c"/>
+      </source>
+      <source relative_path="./src/netif" project_relative_path="src/netif" type="doc">
+        <files mask="FILES" hidden="true"/>
+      </source>
+      <source relative_path="./src/netif/ppp" project_relative_path="src/netif/ppp" type="src">
+        <files mask="auth.c"/>
+        <files mask="ccp.c"/>
+        <files mask="chap-md5.c"/>
+        <files mask="chap-new.c"/>
+        <files mask="chap_ms.c"/>
+        <files mask="demand.c"/>
+        <files mask="eap.c"/>
+        <files mask="ecp.c"/>
+        <files mask="eui64.c"/>
+        <files mask="fsm.c"/>
+        <files mask="ipcp.c"/>
+        <files mask="ipv6cp.c"/>
+        <files mask="lcp.c"/>
+        <files mask="magic.c"/>
+        <files mask="mppe.c"/>
+        <files mask="multilink.c"/>
+        <files mask="ppp.c"/>
+        <files mask="pppapi.c"/>
+        <files mask="pppcrypt.c"/>
+        <files mask="pppoe.c"/>
+        <files mask="pppol2tp.c"/>
+        <files mask="pppos.c"/>
+        <files mask="upap.c"/>
+        <files mask="utils.c"/>
+        <files mask="vj.c"/>
+      </source>
+      <source relative_path="./src/netif/ppp" project_relative_path="src/netif/ppp" type="doc">
+        <files mask="PPPD_FOLLOWUP" hidden="true"/>
+      </source>
+      <source exclude="true" relative_path="./src/netif/ppp/polarssl" project_relative_path="src/netif/ppp/polarssl" type="src">
+        <files mask="arc4.c" hidden="true"/>
+        <files mask="des.c" hidden="true"/>
+        <files mask="md4.c" hidden="true"/>
+        <files mask="md5.c" hidden="true"/>
+        <files mask="sha1.c" hidden="true"/>
+      </source>
+      <source exclude="true" relative_path="./src/netif/ppp/polarssl" project_relative_path="src/netif/ppp/polarssl" type="doc">
+        <files mask="README" hidden="true"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
+        <include_path relative_path="./src" project_relative_path="src" type="c_include"/>
+        <include_path relative_path="./src/include" project_relative_path="src/include" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.kinetis_ethernetif.MIMXRT1062" name="Kinetis enet ethernet interface" brief="Kinetis ethernet interface" version="2.2.1" revision="1" full_name="Kinetis ethernet interface" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <defines>
+        <define name="LWIP_DISABLE_PBUF_POOL_SIZE_SANITY_CHECKS" value="1"/>
+        <define name="CHECKSUM_GEN_ICMP6" value="1"/>
+        <define name="CHECKSUM_CHECK_ICMP6" value="1"/>
+      </defines>
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
+          <component_dependency value="driver.phy-common.MIMXRT1062"/>
+          <component_dependency value="platform.drivers.enet.MIMXRT1062"/>
+          <component_dependency value="component.igpio_adapter.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./port" project_relative_path="port" type="src">
+        <files mask="enet_ethernetif.c"/>
+        <files mask="ethernetif.c"/>
+        <files mask="ethernetif_mmac.c"/>
+        <files mask="enet_ethernetif_kinetis.c"/>
+      </source>
+      <source relative_path="./port" project_relative_path="port" type="c_include">
+        <files mask="ethernetif.h"/>
+        <files mask="ethernetif_mmac.h"/>
+        <files mask="ethernetif_priv.h"/>
+        <files mask="kinetis_configchecks.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_kinetis_ethernetif.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.eoe_ethernetif.MIMXRT1062" name="EtherCAT EOE ethernet interface" brief="EtherCAT EOE ethernet interface" version="2.2.1" revision="1" full_name="EtherCAT EOE ethernet interface" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <defines>
+        <define name="CHECKSUM_GEN_IP" value="1"/>
+        <define name="CHECKSUM_GEN_UDP" value="1"/>
+        <define name="CHECKSUM_GEN_TCP" value="1"/>
+        <define name="CHECKSUM_GEN_ICMP" value="1"/>
+        <define name="CHECKSUM_CHECK_ICMP" value="1"/>
+      </defines>
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
+          <component_dependency value="middleware.freertos-kernel.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./port" project_relative_path="port" type="src">
+        <files mask="eoe_ethernetif.c"/>
+      </source>
+      <source relative_path="./port" project_relative_path="port" type="c_include">
+        <files mask="eoe_ethernetif.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_eoe_ethernetif.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.usb_ethernetif.MIMXRT1062" name="lwIP_usb_ethernetif" brief="USB network layer" version="2.2.1" revision="1" full_name="lwIP Adaptation for USB Network Layer" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <component_dependency value="middleware.usb.host_cdc_ecm.MIMXRT1062"/>
+            <component_dependency value="middleware.usb.host_cdc_rndis.MIMXRT1062"/>
+          </any_of>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.usb.host_cdc.MIMXRT1062"/>
+          <component_dependency value="middleware.usb.host_controller_ehci.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source condition="middleware.baremetal.MIMXRT1062" relative_path="./port" project_relative_path="port" type="src">
+        <files mask="usb_ethernetif_bm.c"/>
+      </source>
+      <source condition="middleware.freertos-kernel.MIMXRT1062" relative_path="./port" project_relative_path="port" type="src">
+        <files mask="usb_ethernetif_freertos.c"/>
+      </source>
+      <source relative_path="./port" project_relative_path="port" type="c_include">
+        <files mask="usb_ethernetif.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_usb_ethernetif.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.apps.httpd.support.MIMXRT1062" name="lwIP_HTTPD_support" brief="lwIP HTTP Daemon Implementation Support Files" version="2.2.1" revision="1" full_name="lwIP HTTP Daemon Implementation Support Files" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./src/apps/http" project_relative_path="src/apps/http" type="src">
+        <files mask="fs.c"/>
+      </source>
+      <source relative_path="./src/apps/http" project_relative_path="src/apps/http" type="c_include">
+        <files mask="fsdata.h"/>
+        <files mask="httpd_structs.h"/>
+      </source>
+      <source exclude="true" relative_path="./src/apps/http" project_relative_path="src/apps/http" type="src">
+        <files mask="fsdata.c" hidden="true"/>
+      </source>
+      <source relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include">
+        <files mask="fs.h"/>
+        <files mask="httpd.h"/>
+        <files mask="httpd_opts.h"/>
+      </source>
+      <source relative_path="./src/apps/http/fs" project_relative_path="src/apps/http/fs" type="other">
+        <files mask="404.html" hidden="true"/>
+        <files mask="index.html" hidden="true"/>
+      </source>
+      <source relative_path="./src/apps/http/fs/img" project_relative_path="src/apps/http/fs/img" type="other">
+        <files mask="sics.gif" hidden="true"/>
+      </source>
+      <source exclude="true" relative_path="./src/apps/http/makefsdata" project_relative_path="src/apps/http/makefsdata" type="c_include">
+        <files mask="tinydir.h" hidden="true"/>
+      </source>
+      <source exclude="true" relative_path="./src/apps/http/makefsdata" project_relative_path="src/apps/http/makefsdata" type="src">
+        <files mask="makefsdata.c" hidden="true"/>
+      </source>
+      <source relative_path="./src/apps/http/makefsdata" project_relative_path="src/apps/http/makefsdata" type="doc">
+        <files mask="readme.txt" hidden="true"/>
+      </source>
+      <source relative_path="./src/apps/http/makefsdata" project_relative_path="src/apps/http/makefsdata" type="other">
+        <files mask="makefsdata" hidden="true"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_httpd_support.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./src/apps/http" project_relative_path="src/apps/http" type="c_include"/>
+        <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.apps.httpd.MIMXRT1062" name="lwIP_HTTPD" brief="lwIP HTTP Daemon" version="2.2.1" revision="1" full_name="lwIP HTTP Daemon" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.apps.httpd.support.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./src/apps/http" project_relative_path="src/apps/http" type="src">
+        <files mask="httpd.c"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_httpd.cmake" hidden="true"/>
+      </source>
+    </component>
+    <component id="middleware.lwip.apps.httpsrv.MIMXRT1062" name="lwIP_HTTP_srv" brief="lwIP HTTP Server Implementation" version="2.2.1" revision="1" full_name="lwIP HTTP Server" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <defines>
+        <define name="USE_RTOS" value="1"/>
+      </defines>
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.freertos-kernel.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="src">
+        <files mask="httpsrv.c"/>
+        <files mask="httpsrv_base64.c"/>
+        <files mask="httpsrv_fs.c"/>
+        <files mask="httpsrv_script.c"/>
+        <files mask="httpsrv_sha1.c"/>
+        <files mask="httpsrv_supp.c"/>
+        <files mask="httpsrv_task.c"/>
+        <files mask="httpsrv_tls.c"/>
+        <files mask="httpsrv_utf8.c"/>
+        <files mask="httpsrv_ws.c"/>
+        <files mask="httpsrv_ws_api.c"/>
+      </source>
+      <source relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="c_include">
+        <files mask="httpsrv.h"/>
+        <files mask="httpsrv_base64.h"/>
+        <files mask="httpsrv_config.h"/>
+        <files mask="httpsrv_fs.h"/>
+        <files mask="httpsrv_port.h"/>
+        <files mask="httpsrv_prv.h"/>
+        <files mask="httpsrv_script.h"/>
+        <files mask="httpsrv_sha1.h"/>
+        <files mask="httpsrv_supp.h"/>
+        <files mask="httpsrv_tls.h"/>
+        <files mask="httpsrv_utf8.h"/>
+        <files mask="httpsrv_ws.h"/>
+        <files mask="httpsrv_ws_prv.h"/>
+      </source>
+      <source relative_path="./src/apps/httpsrv/mkfs" project_relative_path="src/apps/httpsrv/mkfs" type="other">
+        <files mask="mkfs.pl" hidden="true"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_httpsrv.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.apps.httpssrv.MIMXRT1062" name="lwIP_HTTPS_srv" brief="lwIP HTTPS Server Implementation" version="2.2.1" revision="1" full_name="lwIP HTTPS Server" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <defines>
+        <define name="MBEDTLS_THREADING_C" value=""/>
+        <define name="MBEDTLS_THREADING_ALT" value=""/>
+      </defines>
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.apps.httpsrv.MIMXRT1062"/>
+          <component_dependency value="middleware.mbedtls.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./" type="doc">
+        <files mask="README" hidden="true"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_httpssrv.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./src/apps/httpsrv" project_relative_path="src/apps/httpsrv" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.apps.mdns.MIMXRT1062" name="lwIP_MDNS" brief="lwIP mDNS Implementation" version="2.2.1" revision="1" full_name="lwIP mDNS" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./src/apps/mdns" project_relative_path="src/apps/mdns" type="src">
+        <files mask="mdns.c"/>
+        <files mask="mdns_domain.c"/>
+        <files mask="mdns_out.c"/>
+      </source>
+      <source relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include">
+        <files mask="mdns.h"/>
+        <files mask="mdns_domain.h"/>
+        <files mask="mdns_priv.h"/>
+        <files mask="mdns_opts.h"/>
+        <files mask="mdns_out.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_mdns.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.apps.lwiperf.MIMXRT1062" name="lwIP_IPERF" brief="lwIP IPERF Implementation" version="2.2.1" revision="1" full_name="lwIP IPERF" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <defines>
+        <define name="SO_REUSE" value="1"/>
+      </defines>
+      <dependencies>
+        <all>
+          <any_of>
+            <component_dependency value="middleware.freertos-kernel.MIMXRT1062"/>
+            <component_dependency value="middleware.baremetal.MIMXRT1062"/>
+          </any_of>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./src/apps/lwiperf" project_relative_path="src/apps/lwiperf" type="src">
+        <files mask="lwiperf.c"/>
+      </source>
+      <source relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include">
+        <files mask="lwiperf.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_lwiperf.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.apps.mqtt.MIMXRT1062" name="lwIP_MQTT" brief="lwIP MQTT Client" version="2.2.1" revision="1" full_name="lwIP MQTT Client" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./src/apps/mqtt" project_relative_path="src/apps/mqtt" type="src">
+        <files mask="mqtt.c"/>
+      </source>
+      <source relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include">
+        <files mask="mqtt.h"/>
+        <files mask="mqtt_opts.h"/>
+        <files mask="mqtt_priv.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_mqtt.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.apps.sntp.MIMXRT1062" name="lwIP_SNTP" brief="lwIP SNTP" version="2.2.1" revision="1" full_name="lwIP SNTP" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include">
+        <files mask="sntp.h"/>
+        <files mask="sntp_opts.h"/>
+      </source>
+      <source relative_path="./src/apps/sntp" project_relative_path="src/apps/sntp" type="src">
+        <files mask="sntp.c"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_apps_sntp.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./src/include/lwip/apps" project_relative_path="src/include/lwip/apps" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.contrib.ping.MIMXRT1062" name="lwIP_ping" brief="lwIP Ping Sender contrib" version="2.2.1" revision="1" full_name="lwIP Ping Sender" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./contrib/apps/ping" project_relative_path="contrib/apps/ping" type="src">
+        <files mask="ping.c"/>
+      </source>
+      <source relative_path="./contrib/apps/ping" project_relative_path="contrib/apps/ping" type="c_include">
+        <files mask="ping.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_contrib_ping.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./contrib/apps/ping" project_relative_path="contrib/apps/ping" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.contrib.tcpecho.MIMXRT1062" name="lwIP_tcpecho" brief="lwIP TCP Echo contrib" version="2.2.1" revision="1" full_name="lwIP TCP Echo" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./contrib/apps/tcpecho" project_relative_path="contrib/apps/tcpecho" type="src">
+        <files mask="tcpecho.c"/>
+      </source>
+      <source relative_path="./contrib/apps/tcpecho" project_relative_path="contrib/apps/tcpecho" type="c_include">
+        <files mask="tcpecho.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_contrib_tcpecho.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./contrib/apps/tcpecho" project_relative_path="contrib/apps/tcpecho" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.contrib.tcpecho_raw.MIMXRT1062" name="lwIP_tcpecho_raw" brief="lwIP TCP Echo Raw API contrib" version="2.2.1" revision="1" full_name="lwIP TCP Echo Raw API" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./contrib/apps/tcpecho_raw" project_relative_path="contrib/apps/tcpecho_raw" type="src">
+        <files mask="tcpecho_raw.c"/>
+      </source>
+      <source relative_path="./contrib/apps/tcpecho_raw" project_relative_path="contrib/apps/tcpecho_raw" type="c_include">
+        <files mask="tcpecho_raw.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_contrib_tcpecho_raw.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./contrib/apps/tcpecho_raw" project_relative_path="contrib/apps/tcpecho_raw" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.contrib.udpecho.MIMXRT1062" name="lwIP_udpecho" brief="lwIP UDP Echo contrib" version="2.2.1" revision="1" full_name="lwIP UDP Echo" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./contrib/apps/udpecho" project_relative_path="contrib/apps/udpecho" type="src">
+        <files mask="udpecho.c"/>
+      </source>
+      <source relative_path="./contrib/apps/udpecho" project_relative_path="contrib/apps/udpecho" type="c_include">
+        <files mask="udpecho.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_contrib_udpecho.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./contrib/apps/udpecho" project_relative_path="contrib/apps/udpecho" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.contrib.udpecho_raw.MIMXRT1062" name="lwIP_udpecho_raw" brief="lwIP UDP Echo Raw API contrib" version="2.2.1" revision="1" full_name="lwIP UDP Echo Raw API" category="Network/lwIP TCPIP Application protocols" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./contrib/apps/udpecho_raw" project_relative_path="contrib/apps/udpecho_raw" type="src">
+        <files mask="udpecho_raw.c"/>
+      </source>
+      <source relative_path="./contrib/apps/udpecho_raw" project_relative_path="contrib/apps/udpecho_raw" type="c_include">
+        <files mask="udpecho_raw.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_contrib_udpecho_raw.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./contrib/apps/udpecho_raw" project_relative_path="contrib/apps/udpecho_raw" type="c_include"/>
+      </include_paths>
+    </component>
+  </components>
+</ksdk:manifest>

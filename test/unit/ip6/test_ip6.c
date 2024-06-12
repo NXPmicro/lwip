@@ -1,3 +1,33 @@
+/*
+ * Copyright lwIP authors
+ * Copyright 2023 NXP
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. The name of the author may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+ * OF SUCH DAMAGE.
+ *
+ * This file is part of the lwIP TCP/IP stack.
+ */
+
 #include "test_ip6.h"
 
 #include "lwip/ethip6.h"
@@ -186,7 +216,7 @@ START_TEST(test_ip6_ll_addr)
 
   /* test with link-local address */
   netif_create_ip6_linklocal_address(&test_netif6, 1);
-  test_ip6_ll_addr_iter(3 + LWIP_IPV6_DUP_DETECT_ATTEMPTS + LWIP_IPV6_MLD, 3);
+  test_ip6_ll_addr_iter(3 + LWIP_IPV6_DUP_DETECT_ATTEMPTS, 3);
 }
 END_TEST
 
@@ -476,6 +506,7 @@ START_TEST(test_ip6_frag)
 }
 END_TEST
 
+
 static void test_ip6_reass_helper(u32_t ip_id, const u16_t *segments, size_t num_segs, u16_t seglen)
 {
   ip_addr_t my_addr = IPADDR6_INIT_HOST(0x20010db8, 0x0, 0x0, 0x1);
@@ -519,6 +550,73 @@ START_TEST(test_ip6_reass)
   test_ip6_reass_helper(130, t3, NUM_SEGS, 8);
   test_ip6_reass_helper(130, t4, NUM_SEGS, 1448);
 }
+END_TEST
+
+START_TEST(test_ip6_addr_prefix_eq)
+{
+  int ret;
+  u8_t prefix_len;
+  u8_t i;
+
+  ip_addr_t prefix1 = IPADDR6_INIT_HOST(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff);
+  ip_addr_t prefix2 = IPADDR6_INIT_HOST(0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff);
+  ip_addr_t prefix3 = IPADDR6_INIT_HOST(0x0, 0x0, 0x0, 0x0);
+  ip_addr_t prefix4 = IPADDR6_INIT_HOST(0xffffffff, 0xffffffff, 0x0, 0x0);
+
+  /* Test prefix of any length is equal to itself (identical pointers) */
+  for (prefix_len = 0U; prefix_len <= 128U; prefix_len++)
+  {
+    ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix1), ip_2_ip6(&prefix1), prefix_len);
+    fail_unless(ret == 1);
+  }
+
+  /* Test prefix of any length is equal to identical prefix (different pointers) */
+  for (prefix_len = 0U; prefix_len <= 128U; prefix_len++)
+  {
+    ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix1), ip_2_ip6(&prefix2), prefix_len);
+    fail_unless(ret == 1);
+  }
+
+  /* Test zero-length prefixes are equal for different addresses */
+  ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix1), ip_2_ip6(&prefix3), 0U);
+  fail_unless(ret == 1);
+
+  /* Test different prefixes are not equal for any non-zero length */
+  for (prefix_len = 1U; prefix_len <= 128U; prefix_len++)
+  {
+    ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix1), ip_2_ip6(&prefix3), prefix_len);
+    fail_unless(ret == 0);
+  }
+
+  /* Test prefixes with different zones are not equal */
+  prefix1.u_addr.ip6.zone = 1;
+  prefix2.u_addr.ip6.zone = 2;
+  ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix1), ip_2_ip6(&prefix2), 0U);
+  fail_unless(ret == 0);
+  prefix1.u_addr.ip6.zone = IP6_NO_ZONE;
+  prefix2.u_addr.ip6.zone = IP6_NO_ZONE;
+
+  /* Test 64-96 bit prefixes */
+  for (i = 0; i <= 32; i++)
+  {
+    prefix4.u_addr.ip6.addr[2] = PP_HTONL((u32_t)((((u64_t)0xffffffff) << (32 - i)) & 0xffffffff));
+    for (prefix_len = 64; prefix_len <= 64 + i; prefix_len++)
+    {
+      ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix4), ip_2_ip6(&prefix4), prefix_len);
+      fail_unless(ret == 1);
+      ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix4), ip_2_ip6(&prefix1), prefix_len);
+      fail_unless(ret == 1);
+      ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix4), ip_2_ip6(&prefix3), prefix_len);
+      fail_unless(ret == 0);
+    }
+    for (prefix_len = 65 + i; prefix_len <= 128; prefix_len++)
+    {
+      ret = ip6_addr_prefix_eq(ip_2_ip6(&prefix4), ip_2_ip6(&prefix1), prefix_len);
+      fail_unless(ret == 0);
+    }
+  }
+}
+END_TEST
 
 /** Create the suite including all tests for this module */
 Suite *
@@ -533,7 +631,8 @@ ip6_suite(void)
     TESTFUNC(test_ip6_dest_unreachable_chained_pbuf),
     TESTFUNC(test_ip6_frag_pbuf_len_assert),
     TESTFUNC(test_ip6_frag),
-    TESTFUNC(test_ip6_reass)
+    TESTFUNC(test_ip6_reass),
+    TESTFUNC(test_ip6_addr_prefix_eq)
   };
   return create_suite("IPv6", tests, sizeof(tests)/sizeof(testfunc), ip6_setup, ip6_teardown);
 }
