@@ -157,8 +157,6 @@ LwIP transmit over ethernet will not use zero-copy."
 
 #include "enet_configchecks.h"
 
-#define ENET_HW_CHKSUM (CHECKSUM_GEN_IP == 0)
-
 typedef uint8_t rx_buffer_t[SDK_SIZEALIGN(ETH_PAD_SIZE, FSL_ENET_BUFF_ALIGNMENT) +
                             SDK_SIZEALIGN(ENET_RXBUFF_SIZE, FSL_ENET_BUFF_ALIGNMENT)];
 
@@ -465,7 +463,8 @@ void ethernetif_plat_init(struct netif *netif,
     config.rxBuffAlloc   = ethernetif_rx_alloc;
     config.rxBuffFree    = ethernetif_rx_free;
 
-#if ENET_HW_CHKSUM == 1
+#if (CHECKSUM_CHECK_IP == 0) || (CHECKSUM_CHECK_TCP == 0) || (CHECKSUM_CHECK_UDP == 0) || \
+    (CHECKSUM_CHECK_ICMP == 0) || (CHECKSUM_CHECK_ICMP6 == 0)
     config.specialControl |= kENET_RxChecksumOffloadEnable;
 #endif
 
@@ -770,8 +769,13 @@ err_t ethernetif_linkoutput(struct netif *netif, struct pbuf *p)
     };
     status_t result;
 
-#if ENET_HW_CHKSUM == 1
+#if (CHECKSUM_GEN_IP == 0) && (CHECKSUM_GEN_TCP == 0) && (CHECKSUM_GEN_UDP == 0) && (CHECKSUM_GEN_ICMP == 0) && \
+    (CHECKSUM_GEN_ICMP6 == 0)
     txFrame.txConfig.txOffloadOps = kENET_TxOffloadAll;
+#elif (CHECKSUM_GEN_IP == 0)
+    txFrame.txConfig.txOffloadOps = kENET_TxOffloadIPHeader;
+#else
+    txFrame.txConfig.txOffloadOps = kENET_TxOffloadDisable;
 #endif
 
     LWIP_ASSERT("Output packet buffer empty", p);

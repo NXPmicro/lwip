@@ -127,7 +127,7 @@ typedef u32_t mem_ptr_t;
     } while (0)
 #endif /* LWIP_PLATFORM_DIAG */
 
-#include "sys_arch.h"
+#include "arch/sys_arch.h"
 
 // fatal, print message and abandon execution.
 #define LWIP_PLATFORM_ASSERT(x) sys_assert(x)

@@ -17,7 +17,7 @@
     <definition extID="middleware.baremetal.MIMXRT1062"/>
     <definition extID="middleware.mbedtls.MIMXRT1062"/>
   </externalDefinitions>
-  <ksdk id="MCUXpressoSDK216000_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_14" name="MCUXpressoSDK216000_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_14" version="2.16.000" revision="2.16.000"/>
+  <ksdk id="MCUXpressoSDK216100_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_14" name="MCUXpressoSDK216100_middleware_adam_dunkels_lwip_MIMXRT1062_manifest_v3_14" version="2.16.100" revision="2.16.100"/>
   <components>
     <component id="middleware.lwip.template.MIMXRT1062" name="lwIP_template" brief="lwIP Template" version="2.2.1" revision="1" full_name="lwIP Template Application" category="Network/lwIP TCPIP Networking Stack" user_visible="false" type="project_template" package_base_path=".././" project_base_path="lwip">
       <dependencies>
@@ -372,6 +372,29 @@
       <dependencies>
         <all>
           <any_of>
+            <all>
+              <not>
+                <component_dependency value="middleware.lwip.sys_arch_static.MIMXRT1062"/>
+              </not>
+              <component_dependency value="middleware.lwip.sys_arch_dynamic.MIMXRT1062"/>
+            </all>
+            <all>
+              <not>
+                <component_dependency value="middleware.lwip.sys_arch_dynamic.MIMXRT1062"/>
+              </not>
+              <not>
+                <component_dependency value="middleware.lwip.usb_ethernetif.MIMXRT1062"/>
+              </not>
+              <not>
+                <component_dependency value="middleware.lwip.kinetis_ethernetif.MIMXRT1062"/>
+              </not>
+              <not>
+                <component_dependency value="middleware.lwip.eoe_ethernetif.MIMXRT1062"/>
+              </not>
+              <component_dependency value="middleware.lwip.sys_arch_static.MIMXRT1062"/>
+            </all>
+          </any_of>
+          <any_of>
             <component_dependency value="middleware.lwip.usb_ethernetif.MIMXRT1062"/>
             <component_dependency value="middleware.lwip.kinetis_ethernetif.MIMXRT1062"/>
             <component_dependency value="middleware.lwip.empty_ethernetif.MIMXRT1062"/>
@@ -417,13 +440,9 @@
       <source relative_path="./doc/doxygen/output" project_relative_path="doc/doxygen/output" type="doc">
         <files mask="index.html" hidden="true"/>
       </source>
-      <source relative_path="./port" project_relative_path="port" type="src">
-        <files mask="sys_arch.c"/>
-      </source>
       <source relative_path="./port/arch" project_relative_path="port/arch" type="c_include">
         <files mask="cc.h"/>
         <files mask="perf.h"/>
-        <files mask="sys_arch.h"/>
       </source>
       <source relative_path="./src" project_relative_path="src" type="doc">
         <files mask="FILES" hidden="true"/>
@@ -694,10 +713,66 @@
         <include_path relative_path="./src/include" project_relative_path="src/include" type="c_include"/>
       </include_paths>
     </component>
+    <component id="middleware.lwip.sys_arch_dynamic.MIMXRT1062" name="Sys Arch Dynamic interface" brief="lwIP System Abstraction Layer using either FreeRTOS dynamic memory allocation APIs or bare-metal" version="2.2.1" revision="1" full_name="Sys Arch Dynamic interface" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./port/sys_arch/dynamic" project_relative_path="port/sys_arch/dynamic" type="src">
+        <files mask="sys_arch.c"/>
+      </source>
+      <source relative_path="./port/sys_arch/dynamic/arch" project_relative_path="port/sys_arch/dynamic/arch" type="c_include">
+        <files mask="sys_arch.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_sys_arch_dynamic.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
+        <include_path relative_path="./port/sys_arch/dynamic" project_relative_path="port/sys_arch/dynamic" type="c_include"/>
+      </include_paths>
+    </component>
+    <component id="middleware.lwip.sys_arch_static.MIMXRT1062" name="Sys Arch Static interface" brief="Experimental lwIP System Abstraction Layer using FreeRTOS static memory allocation APIs - it is not supported and not guaranteed to work, also might be removed in future" version="2.2.1" revision="1" full_name="Sys Arch Static interface - experimental" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
+      <dependencies>
+        <all>
+          <any_of>
+            <device_dependency value="MIMXRT1062xxxxA"/>
+            <device_dependency value="MIMXRT1062xxxxB"/>
+          </any_of>
+          <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
+        </all>
+      </dependencies>
+      <source relative_path="./port/sys_arch/static" project_relative_path="port/sys_arch/static" type="src">
+        <files mask="sys_arch.c"/>
+      </source>
+      <source relative_path="./port/sys_arch/static/arch" project_relative_path="port/sys_arch/static/arch" type="c_include">
+        <files mask="sys_arch.h"/>
+      </source>
+      <source toolchain="armgcc" relative_path="./" type="workspace">
+        <files mask="middleware_lwip_sys_arch_static.cmake" hidden="true"/>
+      </source>
+      <include_paths>
+        <include_path relative_path="./port" project_relative_path="port" type="c_include"/>
+        <include_path relative_path="./port/sys_arch/static" project_relative_path="port/sys_arch/static" type="c_include"/>
+      </include_paths>
+    </component>
     <component id="middleware.lwip.kinetis_ethernetif.MIMXRT1062" name="Kinetis enet ethernet interface" brief="Kinetis ethernet interface" version="2.2.1" revision="1" full_name="Kinetis ethernet interface" category="Network/lwIP TCPIP Networking Stack" user_visible="true" type="middleware" package_base_path=".././" project_base_path="lwip">
       <defines>
         <define name="LWIP_DISABLE_PBUF_POOL_SIZE_SANITY_CHECKS" value="1"/>
+        <define name="CHECKSUM_GEN_UDP" value="1"/>
+        <define name="CHECKSUM_GEN_TCP" value="1"/>
+        <define name="CHECKSUM_GEN_ICMP" value="1"/>
         <define name="CHECKSUM_GEN_ICMP6" value="1"/>
+        <define name="CHECKSUM_CHECK_UDP" value="1"/>
+        <define name="CHECKSUM_CHECK_TCP" value="1"/>
+        <define name="CHECKSUM_CHECK_ICMP" value="1"/>
         <define name="CHECKSUM_CHECK_ICMP6" value="1"/>
       </defines>
       <dependencies>
@@ -708,6 +783,7 @@
           </any_of>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
           <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.sys_arch_dynamic.MIMXRT1062"/>
           <component_dependency value="driver.phy-common.MIMXRT1062"/>
           <component_dependency value="platform.drivers.enet.MIMXRT1062"/>
           <component_dependency value="component.igpio_adapter.MIMXRT1062"/>
@@ -724,6 +800,9 @@
         <files mask="ethernetif_mmac.h"/>
         <files mask="ethernetif_priv.h"/>
         <files mask="kinetis_configchecks.h"/>
+      </source>
+      <source relative_path="./port" project_relative_path="port" type="doc">
+        <files mask="README.md" hidden="true"/>
       </source>
       <source toolchain="armgcc" relative_path="./" type="workspace">
         <files mask="middleware_lwip_kinetis_ethernetif.cmake" hidden="true"/>
@@ -748,6 +827,7 @@
           </any_of>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
           <component_dependency value="middleware.lwip.template.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.sys_arch_dynamic.MIMXRT1062"/>
           <component_dependency value="middleware.freertos-kernel.MIMXRT1062"/>
         </all>
       </dependencies>
@@ -776,6 +856,7 @@
             <device_dependency value="MIMXRT1062xxxxB"/>
           </any_of>
           <component_dependency value="middleware.lwip.MIMXRT1062"/>
+          <component_dependency value="middleware.lwip.sys_arch_dynamic.MIMXRT1062"/>
           <component_dependency value="middleware.usb.host_cdc.MIMXRT1062"/>
           <component_dependency value="middleware.usb.host_controller_ehci.MIMXRT1062"/>
         </all>
