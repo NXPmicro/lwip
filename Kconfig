@@ -1,0 +1,174 @@
+#
+# Copyright 2024 NXP
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+menuconfig MCUX_COMPONENT_middleware.lwip
+    bool "lwIP - Lightweight TCP/IP Stack"
+    default n
+    help
+        This option will enable lwIP TCP/IP networking and protocol suite.
+
+if MCUX_COMPONENT_middleware.lwip
+
+    choice MCUX_COMPONENT_middleware.lwip.sys_arch
+        prompt "System abstraction layer"
+        default MCUX_COMPONENT_middleware.lwip.sys_arch.dynamic
+        config MCUX_COMPONENT_middleware.lwip.sys_arch.dynamic
+            bool "FreeRTOS with dynamic memory allocation APIs or bare-metal"
+            help
+                Make lwIP system abstraction layer call the FreeRTOS APIs
+                versions that use dynamic memory allocation.
+                Use this implementation also for bare-metal projects.
+        config MCUX_COMPONENT_middleware.lwip.sys_arch.static
+            bool "FreeRTOS with static memory allocation APIs"
+            depends on MCUX_COMPONENT_middleware.freertos-kernel && \
+                (configSUPPORT_STATIC_ALLOCATION || \
+                !MCUX_MISC_middleware.freertos_generate_config)
+            depends on MCUX_COMPONENT_middleware.wifi
+            help
+                Make lwIP system abstraction layer call the FreeRTOS APIs
+                versions that use static memory allocation.
+    endchoice
+
+    config MCUX_COMPONENT_middleware.lwip.template
+        bool "Use lwIP application config template"
+        # TODO: some guard/anti-dependency for app provided lwipopts.h
+        help
+            This option will include default lwipopts.h template to the application.
+
+    config MCUX_COMPONENT_middleware.lwip.contrib.ping
+        bool "Ping Sender"
+
+    config MCUX_COMPONENT_middleware.lwip.apps.lwiperf
+        bool "iPerf"
+
+    config MCUX_COMPONENT_middleware.lwip.apps.httpsrv
+        bool "HTTP Server"
+        depends on MCUX_COMPONENT_middleware.freertos-kernel
+    if MCUX_COMPONENT_middleware.lwip.apps.httpsrv
+        config MCUX_COMPONENT_middleware.lwip.apps.httpssrv
+            bool "HTTPS Server"
+            select MCUX_COMPONENT_middleware.mbedtls
+    endif
+
+    config MCUX_COMPONENT_middleware.lwip.apps.mqtt
+        bool "MQTT Client"
+
+    config MCUX_COMPONENT_middleware.lwip.apps.httpd.support
+        bool "HTTP Daemon Implementation Support Files"
+
+    config MCUX_COMPONENT_middleware.lwip.apps.httpd
+        bool "HTTP Daemon"
+        select MCUX_COMPONENT_middleware.lwip.apps.httpd.support
+
+    config MCUX_COMPONENT_middleware.lwip.apps.mdns
+        bool "mDNS"
+
+    config MCUX_COMPONENT_middleware.lwip.apps.sntp
+        bool "SNTP"
+
+    config MCUX_COMPONENT_middleware.lwip.contrib.tcpecho
+        bool "TCP Echo"
+
+    config MCUX_COMPONENT_middleware.lwip.contrib.tcpecho_raw
+        bool "TCP Echo raw API"
+
+    config MCUX_COMPONENT_middleware.lwip.contrib.udpecho
+        bool "UDP Echo"
+
+    config MCUX_COMPONENT_middleware.lwip.contrib.udpecho_raw
+        bool "UDP Echo raw API"
+
+
+    menu "Ethernet Interface"
+        config MCUX_COMPONENT_middleware.lwip.kinetis_ethernetif
+            bool "Kinetis ethernet interface"
+            depends on MCUX_COMPONENT_component.eth_phy_common
+            depends on MCUX_HAS_COMPONENT_driver.enet
+            select MCUX_COMPONENT_driver.enet
+            depends on MCUX_COMPONENT_component.rt_gpio_adapter || \
+                       MCUX_COMPONENT_component.lpc_gpio_adapter || \
+                       MCUX_COMPONENT_component.igpio_adapter || \
+                       MCUX_COMPONENT_component.rgpio_adapter || \
+                       MCUX_COMPONENT_component.gpio_adapter
+            help
+                "Kinetis enet ethernet interface"
+
+        config MCUX_COMPONENT_middleware.lwip.enet_ethernetif
+            bool "Enet ethernet interface"
+            depends on MCUX_COMPONENT_component.eth_phy_common
+            depends on MCUX_HAS_COMPONENT_driver.lpc_enet || \
+                       MCUX_HAS_COMPONENT_driver.enet_qos
+            depends on MCUX_COMPONENT_component.rt_gpio_adapter || \
+                       MCUX_COMPONENT_component.lpc_gpio_adapter || \
+                       MCUX_COMPONENT_component.igpio_adapter || \
+                       MCUX_COMPONENT_component.rgpio_adapter || \
+                       MCUX_COMPONENT_component.gpio_adapter
+            help
+                "Enet ethernet interface"
+
+        config MCUX_COMPONENT_middleware.lwip.netc_ethernetif
+            bool "NETC ethernet interface"
+            depends on MCUX_COMPONENT_component.eth_phy_common
+            depends on MCUX_HAS_COMPONENT_driver.msgintr
+            depends on MCUX_HAS_COMPONENT_driver.netc
+            depends on MCUX_COMPONENT_component.rt_gpio_adapter || \
+                       MCUX_COMPONENT_component.lpc_gpio_adapter || \
+                       MCUX_COMPONENT_component.igpio_adapter || \
+                       MCUX_COMPONENT_component.rgpio_adapter || \
+                       MCUX_COMPONENT_component.gpio_adapter
+            help
+                NETC ethernet interface
+
+        config MCUX_COMPONENT_middleware.lwip.mcx_ethernetif
+            bool "MCX ethernet interface"
+            depends on MCUX_COMPONENT_component.eth_phy_common
+            depends on MCUX_HAS_COMPONENT_driver.mcx_enet
+            select MCUX_COMPONENT_driver.mcx_enet
+            depends on MCUX_COMPONENT_component.rt_gpio_adapter || \
+                       MCUX_COMPONENT_component.lpc_gpio_adapter || \
+                       MCUX_COMPONENT_component.igpio_adapter || \
+                       MCUX_COMPONENT_component.rgpio_adapter || \
+                       MCUX_COMPONENT_component.gpio_adapter
+            help
+                "MCX ethernet interface"
+
+        config MCUX_COMPONENT_middleware.lwip.eoe_ethernetif
+            bool "EtherCAT EOE ethernet interface"
+            depends on MCUX_COMPONENT_middleware.freertos-kernel
+            help
+                EtherCAT EOE ethernet interface
+
+        config MCUX_COMPONENT_middleware.lwip.empty_ethernetif
+            bool "Empty ethernet interface"
+            help
+                "Empty ethernet interface"
+
+        config MCUX_COMPONENT_middleware.lwip.usb_ethernetif
+            bool "USB ethernet interface"
+            depends on MCUX_COMPONENT_middleware.usb.common_header
+            depends on MCUX_COMPONENT_middleware.usb.host.common_header
+            depends on MCUX_COMPONENT_middleware.usb.host.cdc
+            depends on MCUX_COMPONENT_middleware.usb.host.cdc_ecm || \
+                       MCUX_COMPONENT_middleware.usb.host.cdc_rndis
+            help
+                "lwIP Adaptation for USB Network Layer"
+
+        config MCUX_COMPONENT_middleware.lwip.usb_ethernetif.freertos
+            bool
+            default y
+            depends on MCUX_COMPONENT_middleware.freertos-kernel && MCUX_COMPONENT_middleware.lwip.usb_ethernetif
+            help
+                "FreeRTOS port layer for USB ethernet"
+        config MCUX_COMPONENT_middleware.lwip.usb_ethernetif.bm
+            bool
+            default y
+            depends on !MCUX_COMPONENT_middleware.freertos-kernel && MCUX_COMPONENT_middleware.lwip.usb_ethernetif
+            help
+                "Baremetal port layer for USB ethernet"
+
+    endmenu
+
+endif
