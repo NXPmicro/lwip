@@ -14,6 +14,10 @@
         When the desired rate was high and datagram size small, the ideal delay between
         each transmitted datagram could be smaller than 1 microsecond. The value was
         truncated to zero and resulted in zero-division and/or no UDP transmitted at all.
+      - port/arch/cc.h: code which checks for the presence of Newlib standard C library
+        adds import of a standard header first so the __NEWLIB__ macro is always available
+        when Newlib is used. This prevents LWIP_TIMEVAL_PRIVATE from having different values
+        in one program.
 
   - 2.2.1_rev1
     - New features:
